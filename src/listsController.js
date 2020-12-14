@@ -1,13 +1,9 @@
-//addTaskList
-
-//renameTaskList
-
-//deleteTaskList
-
 const listsControllerFactory = function () {
     
     return {}
 }
+
+
 
 export {listsControllerFactory}
 
