@@ -1,11 +1,19 @@
-import {tasksViewFactory} from './tasksView';
-import {tasksModelFactory} from './tasksModel';
-import {tasksControllerFactory} from './tasksController';
+import {tasksViewFactory} from './view';
+import {tasksModelFactory} from './model';
+import {tasksControllerFactory} from './controller';
+import {itemsViewMixin} from './mixins';
 
-const targetElement = document.getElementById('taskContainer');
-const targetButton = document.getElementById('addTask');
-const targetField = document.getElementById('taskInput');
-const tasksView = tasksViewFactory(targetElement, targetButton, targetField);
+const tasksTargetElement = document.getElementById('tasks');
+const tasksTargetButton = document.getElementById('task-add');
+const tasksTargetField = document.getElementById('task-input');
+
+const listsTargetElement = document.getElementById('lists');
+const listsTargetButton = document.getElementById('list-add');
+const listsTargetField = document.getElementById('list-input');
+
+const tasksViewObject = tasksViewFactory(tasksTargetElement, tasksTargetButton, tasksTargetField);
+const createTasksMixin = itemsViewMixin ('task');
+const tasksView = Object.assign({}, tasksViewObject, createTasksMixin);
 
 const initialData = [];
 const tasksModel = tasksModelFactory(initialData);
@@ -117,9 +125,9 @@ TasksView.prototype.render = function render(viewModel) {
     addTask.addEventListener('click', this.onClickAddTask);
 }
 
-var targetElement = document.getElementById('taskContainer');
+var tasksTargetElement = document.getElementById('taskContainer');
 
-var taskView = new TasksView(targetElement);
+var taskView = new TasksView(tasksTargetElement);
 
 taskView.onClickAddTask
 

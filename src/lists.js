@@ -1,5 +1,0 @@
-//addTaskList
-
-//renameTaskList
-
-//deleteTaskList

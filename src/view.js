@@ -3,37 +3,9 @@
 //moveTask (inside a taskList and to another taskList)
 
 const tasksViewFactory = function (htmlElement, addButton, inputField) {
-    let newTaskText = null;
-    let onClickAddTask = null;
-    let onClickDeleteTask = null;
-    function initialize() {
-        this.addButton.addEventListener('click', this.onClickAddTask);
-    };
-    function setNewTaskText () {
-        this.newTaskText = this.inputField.value;
-    }
-    function renderExistingTasks(viewModel) {
-        this.inputField.value = '';
-        this.htmlElement.innerHTML = '';
-        viewModel.forEach(renderOneTask, this);
-    };
-    function renderOneTask(taskObject) {
-        const taskID = taskObject.id;
-        const p = document.createElement('p');
-        const deleteButton = document.createElement('button')
-
-        deleteButton.innerHTML = 'del';
-        deleteButton.dataset.taskid = taskID;
-        deleteButton.addEventListener('click', this.onClickDeleteTask);
-
-        p.innerHTML = taskObject.text;
-        p.appendChild(deleteButton);
-
-        this.htmlElement.appendChild(p);
-    };
+    
     return {
-        htmlElement, addButton, inputField, newTaskText, onClickAddTask, onClickDeleteTask,
-        initialize, renderExistingTasks, setNewTaskText
+        htmlElement, addButton, inputField
     }
 }
 
