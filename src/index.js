@@ -1,7 +1,7 @@
 import {tasksViewFactory} from './view';
 import {tasksModelFactory} from './model';
 import {tasksControllerFactory} from './controller';
-import {itemsViewMixin} from './mixins';
+import {itemsViewMixin, itemsControllerMixin, itemsModelMixin} from './mixins';
 
 const tasksTargetElement = document.getElementById('tasks');
 const tasksTargetButton = document.getElementById('task-add');
@@ -12,13 +12,17 @@ const listsTargetButton = document.getElementById('list-add');
 const listsTargetField = document.getElementById('list-input');
 
 const tasksViewObject = tasksViewFactory(tasksTargetElement, tasksTargetButton, tasksTargetField);
-const createTasksMixin = itemsViewMixin ('task');
-const tasksView = Object.assign({}, tasksViewObject, createTasksMixin);
+const tasksViewMixin = itemsViewMixin ('task');
+const tasksView = Object.assign({}, tasksViewObject, tasksViewMixin);
 
 const initialData = [];
-const tasksModel = tasksModelFactory(initialData);
+const tasksModelObject = tasksModelFactory();
+const tasksModelMixin = itemsModelMixin (initialData);
+const tasksModel = Object.assign({}, tasksModelObject, tasksModelMixin);
 
-const tasksController = tasksControllerFactory(tasksView, tasksModel);
+const tasksControllerObject = tasksControllerFactory();
+const tasksControllerMixin = itemsControllerMixin(tasksView, tasksModel);
+const tasksController = Object.assign({}, tasksControllerObject, tasksControllerMixin);
 tasksController.initialize();
 
 /*logic of todo app

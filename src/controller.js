@@ -1,22 +1,6 @@
-const tasksControllerFactory = function (tasksView, tasksModel) {
+const tasksControllerFactory = function () {
 
-    function onClickAddTask() {
-        tasksView.setNewItemText();
-        tasksModel.addTask(tasksView.newItemText);
-        tasksView.renderExistingItems(tasksModel.data);       
-    }
-    function onClickDeleteTask(event) {
-        const taskToDeleteID = event.target.dataset.itemid;
-        tasksModel.deleteTask(taskToDeleteID);
-        tasksView.renderExistingItems(tasksModel.data);
-        
-    }
-    function initialize() {
-        tasksView.onClickAddItem = onClickAddTask;
-        tasksView.onClickDeleteItem = onClickDeleteTask;
-        tasksView.initialize();
-    }
-    return { initialize }
+    return {}
 }
 
 export {tasksControllerFactory}

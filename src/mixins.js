@@ -34,4 +34,45 @@ const itemsViewMixin = function (itemName) {
     }
 }
 
-export {itemsViewMixin}
+const itemsControllerMixin = function (itemsView, itemsModel) {
+    function onClickAddItem() {
+        itemsView.setNewItemText();
+        itemsModel.addItem(itemsView.newItemText);
+        itemsView.renderExistingItems(itemsModel.data);       
+    }
+    function onClickDeleteItem(event) {
+        const itemToDeleteID = event.target.dataset.itemid;
+        itemsModel.deleteItem(itemToDeleteID);
+        itemsView.renderExistingItems(itemsModel.data);
+    }
+    function initialize() {
+        itemsView.onClickAddItem = onClickAddItem;
+        itemsView.onClickDeleteItem = onClickDeleteItem;
+        itemsView.initialize();
+    }
+    return {initialize}
+}
+
+const itemsModelMixin = function (data) {
+    let creationCounter = 0;
+    const addItem = function (itemText) {
+            const newItemObject = {
+                id :  this.creationCounter,
+                text: itemText
+            }
+            data.push(newItemObject);
+            this.creationCounter++;
+    }
+    const deleteItem = function (itemObjectID) {
+        itemObjectID = parseInt(itemObjectID);
+        const indexItemToDelete = data.findIndex(function(currentItem) {
+            if (currentItem.id === itemObjectID){
+                return true;
+            }
+        })
+        data.splice(indexItemToDelete, 1);
+    }
+    return {data, addItem, deleteItem, creationCounter}
+}
+
+export {itemsViewMixin, itemsControllerMixin, itemsModelMixin}
