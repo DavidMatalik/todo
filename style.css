@@ -5,3 +5,42 @@
     text-align: center;
     font-size: 20px; 
 }
+
+#list-container{
+    width: 200px;
+    height: 100vh;
+    background-color: yellow;
+    position: absolute;
+}
+
+#list-input {
+    width: 150px;
+    outline: none;
+    margin-bottom: 5px;
+}
+
+#task-container{
+    width: 540px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 5px;
+    background-color: pink;
+}
+
+#task-input {
+    width: 500px;
+    outline: none;
+    margin-bottom: 5px;
+}
+
+.task{
+    background-color: aqua;
+    margin-bottom: 5px;
+    text-align: left;
+    padding: 5px;
+}
+
+.delete-task-button {
+    float: right; 
+}
+
