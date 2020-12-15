@@ -21,6 +21,7 @@
 
 #task-container{
     width: 540px;
+    height: 100vh;
     margin-right: auto;
     margin-left: auto;
     margin-top: 5px;
@@ -33,14 +34,14 @@
     margin-bottom: 5px;
 }
 
-.task{
+.task, .list{
     background-color: aqua;
     margin-bottom: 5px;
     text-align: left;
     padding: 5px;
 }
 
-.delete-task-button {
+.delete-task-button, .delete-list-button {
     float: right; 
 }
 
