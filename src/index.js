@@ -1,15 +1,11 @@
-import {tasksViewFactory, itemsCreationView} from './view';
-import {tasksModelFactory, itemsCreationModel} from './model';
-import {tasksControllerFactory, itemsCreationController} from './controller';
+import {tasksViewFactory, listsViewFactory, itemsCreationView} from './view';
+import {tasksModelFactory, listsModelFactory, itemsCreationModel} from './model';
+import {tasksControllerFactory, listsControllerFactory, itemsCreationController} from './controller';
 
+//Everything for tasks
 const tasksTargetElement = document.getElementById('tasks');
 const tasksTargetButton = document.getElementById('task-add');
 const tasksTargetField = document.getElementById('task-input');
-const initialListsData = [];
-
-const listsTargetElement = document.getElementById('lists');
-const listsTargetButton = document.getElementById('list-add');
-const listsTargetField = document.getElementById('list-input');
 const initialTasksData = [];
 
 const tasksViewSpecifics = tasksViewFactory(tasksTargetElement, tasksTargetButton, tasksTargetField);
@@ -25,6 +21,27 @@ const tasksCreationController = itemsCreationController(tasksView, tasksModel);
 const tasksController = Object.assign({}, tasksControllerSpecifics, tasksCreationController);
 
 tasksController.initialize();
+
+//Everything for lists
+const listsTargetElement = document.getElementById('lists');
+const listsTargetButton = document.getElementById('list-add');
+const listsTargetField = document.getElementById('list-input');
+const initialListsData = [];
+
+const listsViewSpecifics = listsViewFactory(listsTargetElement, listsTargetButton, listsTargetField);
+const listsCreationView = itemsCreationView ('list');
+const listsView = Object.assign({}, listsViewSpecifics, listsCreationView);
+
+const listsModelSpecifics = listsModelFactory();
+const listsCreationModel = itemsCreationModel (initialListsData);
+const listsModel = Object.assign({}, listsModelSpecifics, listsCreationModel);
+
+const listsControllerSpecifics = listsControllerFactory();
+const listsCreationController = itemsCreationController(listsView, listsModel);
+const listsController = Object.assign({}, listsControllerSpecifics, listsCreationController);
+
+listsController.initialize();
+
 
 /*logic of todo app
 
