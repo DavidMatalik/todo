@@ -1,0 +1,10 @@
+title Add a Context
+
+participant View
+participant AppController
+participant Context
+
+View->AppController:addContext(text)
+AppController->Context:createContext(text)
+AppController<--Context:return newContext
+View<-AppController:renderContext(newContext)

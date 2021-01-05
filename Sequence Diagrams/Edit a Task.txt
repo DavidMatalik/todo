@@ -1,0 +1,12 @@
+title Edit a Task
+
+participant View
+participant AppController
+participant Task
+
+View->AppController:editTask(taskToEdit)
+AppController->Task:editTask(taskToEdit)
+AppController<--Task:return updatedTask
+View<-AppController:removeTask(taskToEdit)
+View<-AppController:renderTask(updatedTask)
+

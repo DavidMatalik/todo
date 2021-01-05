@@ -1,0 +1,12 @@
+title Add a Task
+
+participant View
+participant AppController
+participant Task
+participant Context(active)
+
+View->AppController:addTask(text)
+AppController->Task:createNewTask(text)
+AppController<--Task:return newTask
+AppController->Context(active):appendTask(newTask)
+View<-AppController:renderTask(newTask)

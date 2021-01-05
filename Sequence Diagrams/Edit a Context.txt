@@ -1,0 +1,13 @@
+title Edit a Context
+
+participant View
+participant AppController
+participant Context
+
+View->AppController:editContext(contextToEdit)
+AppController->Context:editContext(contextToEdit)
+AppController<--Context:return updatedContext
+View<-AppController:removeContext(contextToEdit)
+View<-AppController:renderContext(updatedContext)
+
+

@@ -1,0 +1,9 @@
+title Delete a Task
+
+participant View
+participant AppController
+participant contextList(active)
+
+View->AppController:deleteTask(task)
+AppController->contextList(active):removeTask(task)
+View<-AppController:removeTask(deletedTask)

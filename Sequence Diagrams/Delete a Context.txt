@@ -1,0 +1,9 @@
+title Delete a Context
+
+participant View
+participant AppController
+participant ContextList
+
+View->AppController:deleteContext(context)
+AppController->ContextList:removeContext(context)
+View<-AppController:removeContext(deletedContext)
