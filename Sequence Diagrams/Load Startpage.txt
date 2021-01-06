@@ -1,0 +1,10 @@
+title Load Startpage
+
+participant View
+participant AppController
+participant Context (Active)
+
+AppController->Context (Active):loadContext(activeContext)
+AppController<--Context (Active):return activeContext
+View<-AppController:renderContextTasks(activeContext)
+View<-AppController:highlightContextTab(activeContext)

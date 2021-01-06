@@ -1,0 +1,14 @@
+title Change a Context
+
+participant View
+participant AppController
+participant Context (Chosen)
+participant Context (Active)
+
+View->AppController:changeContext(chosenContext)
+AppController->Context (Chosen):loadContext(chosenContext)
+AppController<--Context (Chosen):return activeContext
+AppController->Context (Active):changeStatus(passive)
+AppController->Context (Chosen):changeStatus(active)
+View<-AppController:renderContextTasks(activeContext)
+View<-AppController:highlightContextTab(activeContext)

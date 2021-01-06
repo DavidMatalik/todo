@@ -1,0 +1,11 @@
+title Move a Task to other Context
+
+participant View
+participant AppController
+participant Context(active)
+participant Context(chosen)
+
+View->AppController:moveTask(task, chosenContext)
+AppController->Context(active):removeTask(task)
+AppController->Context(chosen):appendTask(task)
+View<-AppController:removeTask(task)
