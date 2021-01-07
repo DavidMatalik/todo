@@ -56,11 +56,6 @@ class TodoController {
 
         this.init();
     }
-    
-    //under construction
-    // createNewTask(text) {
-    //     const task = new this.Task(text);   
-    // }
 
     init() {
         this.loadContext();
@@ -68,9 +63,15 @@ class TodoController {
 
     loadContext() {
         this.activeContext = new this.Context('inbox');
-        console.log(this.activeContext);
     }
+    
+    createNewTask(text) {
+        const task = new this.Task(text);   
+        this.activeContext.appendTask(task);
+        console.log(this.activeContext);
+    }    
 }
 
 const todoControlloer = new TodoController("", Task, Context);
-// todoControlloer.createNewTask('taskA')
+todoControlloer.createNewTask('taskA');
+todoControlloer.createNewTask('taskB')
