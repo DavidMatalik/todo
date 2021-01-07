@@ -49,8 +49,28 @@ class TodoDisplay {
 }
 
 class TodoController {
-    constructor(activeContext, todoDisplay, task, context) {
-        
+    constructor(todoDisplay, Task, Context) {
+        this.todoDisplay = todoDisplay;
+        this.Task = Task;
+        this.Context = Context;
+
+        this.init();
     }
-    //init
+    
+    //under construction
+    // createNewTask(text) {
+    //     const task = new this.Task(text);   
+    // }
+
+    init() {
+        this.loadContext();
+    }
+
+    loadContext() {
+        this.activeContext = new this.Context('inbox');
+        console.log(this.activeContext);
+    }
 }
+
+const todoControlloer = new TodoController("", Task, Context);
+// todoControlloer.createNewTask('taskA')
