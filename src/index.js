@@ -28,6 +28,10 @@ class Context extends Item {
         this.active = true;
     }
 
+    appendTask(task) {
+        this.taskList.push(task);
+    }
+
     removeTask(task) {
         const isSameId = taskToCompare => taskToCompare.id === task.id;
         const foundIndex = this.taskList.findIndex(isSameId);
@@ -46,7 +50,7 @@ class TodoDisplay {
 
 class TodoController {
     constructor(activeContext, todoDisplay, task, context) {
-
+        
     }
     //init
 }
