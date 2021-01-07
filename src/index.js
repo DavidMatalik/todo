@@ -1,7 +1,7 @@
 class Item {
     constructor(text) {
         this.text = text;
-        this.identifier = Item.countInstances();
+        this.id = Item.countInstances();
     }
     
     static countInstances() {
@@ -9,7 +9,6 @@ class Item {
         return Item.count;
     }
 
-    //deleteItem
     //editItem
 }
 
@@ -18,10 +17,22 @@ class Task extends Item {
         super(text);
         this.favorite = false;
     }
+    //Bei Erstellung muss es gleich richtiger ContextListe zugeordnet werden 
+    // --> Über TodoController
 }
 
 class Context extends Item {
-    //array taskList
+    constructor(text) {
+        super(text);
+        this.taskList = [];
+        this.active = true;
+    }
+
+    removeTask(task) {
+        const isSameId = taskToCompare => taskToCompare.id === task.id;
+        const foundIndex = this.taskList.findIndex(isSameId);
+        this.taskList.splice(foundIndex, 1);
+    }
 }
 
 class ActiveContext {
