@@ -85,11 +85,12 @@ class TodoController {
 
     loadContext() {
         this.activeContext = this.contextList.getActiveContext();
+        //render activeContext in todoDisplay
     }
     
     createNewTask(text) {
-        const task = new this.Task(text);   
-        this.activeContext.appendTask(task);
+        const task = new this.Task(text);  
+        this.contextList.getActiveContext().appendTask(task);
     }    
 }
 
@@ -98,7 +99,7 @@ console.log(todoController);
 
 
 
-// todoController.createNewTask('taskA');
-// todoController.createNewTask('taskB')
+todoController.createNewTask('taskA');
+todoController.createNewTask('taskB')
 // todoController.activeContext.removeTask({text: "taskA", id: 2, favorite: false});
 // console.log(todoController.activeContext);
