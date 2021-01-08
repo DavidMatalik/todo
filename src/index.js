@@ -1,3 +1,4 @@
+//Is used by Task and Context to inherit properties and methods
 class Item {
     constructor(text) {
         this.text = text;
@@ -12,15 +13,15 @@ class Item {
     //editItem
 }
 
+//Creates unlimited task objects
 class Task extends Item {
     constructor(text) {
         super(text);
         this.favorite = false;
     }
-    //Bei Erstellung muss es gleich richtiger ContextListe zugeordnet werden 
-    // --> Über TodoController
 }
 
+//Creates unlimited context objects with the ability to add and delete tasks
 class Context extends Item {
     constructor(text) {
         super(text);
@@ -39,6 +40,7 @@ class Context extends Item {
     }
 }
 
+//Creates a single object where all contexts with their tasks are listed
 class ContextList {
     constructor(Context){
         this.Context = Context;
@@ -65,10 +67,12 @@ class ContextList {
     }
 }
 
+//Creates the right view of the current state of objects
 class TodoDisplay {
 
 }
 
+//Handles all the todo App logic
 class TodoController {
     constructor(todoDisplay, Task, Context,ContextList) {
         this.todoDisplay = todoDisplay;
