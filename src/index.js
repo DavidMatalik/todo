@@ -32,7 +32,7 @@ class Context extends Item {
         this.taskList.push(task);
     }
 
-    removeTask(task) {
+    deleteTask(task) {
         const isSameId = taskToCompare => taskToCompare.id === task.id;
         const foundIndex = this.taskList.findIndex(isSameId);
         this.taskList.splice(foundIndex, 1);
@@ -91,15 +91,17 @@ class TodoController {
     createNewTask(text) {
         const task = new this.Task(text);  
         this.contextList.getActiveContext().appendTask(task);
-    }    
+    }
+    
+    removeTask(task) {
+        this.contextList.getActiveContext().deleteTask(task);
+        //remove this task from current View
+    }
 }
 
 const todoController = new TodoController("", Task, Context, ContextList);
-console.log(todoController);
-
-
 
 todoController.createNewTask('taskA');
 todoController.createNewTask('taskB')
-// todoController.activeContext.removeTask({text: "taskA", id: 2, favorite: false});
-// console.log(todoController.activeContext);
+todoController.removeTask({text: "taskA", id: 1, favorite: false});
+console.log(todoController);
