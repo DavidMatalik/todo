@@ -39,10 +39,37 @@ class Context extends Item {
     }
 }
 
-class ActiveContext {
-    //array contextList
-    //object activeContext
+class ContextList {
+    //ContextList object in todoController erstellen oder?
+    //Was soll beim erstellen der ContextList passieren? 
+    //inboxContext standardmäßig --> Dafür benötigen wir Context Klasse
+    constructor(Context){
+        this.Context = Context;
+        this.list = [];
+        this.init();
+    }
+
+    init() {
+        const defaultContext = new Context('inbox');
+        this.appendContext(defaultContext);
+        this.setActiveContext(defaultContext);
+    }
+
+    appendContext(context) {
+        this.list.push(context);
+    }
+
+    setActiveContext(context) {
+        this.activeContext = context;
+    }
+
+    getActiveContext() {
+        return this.activeContext;
+    }
 }
+
+const contextList = new ContextList(Context);
+console.log(contextList);
 
 class TodoDisplay {
 
@@ -68,10 +95,11 @@ class TodoController {
     createNewTask(text) {
         const task = new this.Task(text);   
         this.activeContext.appendTask(task);
-        console.log(this.activeContext);
     }    
 }
 
-const todoControlloer = new TodoController("", Task, Context);
-todoControlloer.createNewTask('taskA');
-todoControlloer.createNewTask('taskB')
+// const todoController = new TodoController("", Task, Context);
+// todoController.createNewTask('taskA');
+// todoController.createNewTask('taskB')
+// todoController.activeContext.removeTask({text: "taskA", id: 2, favorite: false});
+// console.log(todoController.activeContext);
