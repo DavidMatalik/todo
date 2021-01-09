@@ -65,6 +65,10 @@ class ContextList {
     getActiveContext() {
         return this.activeContext;
     }
+
+    getAllContexts() {
+        return this.list;
+    }
 }
 
 //Creates the right view of the current state of objects
@@ -77,14 +81,19 @@ class TodoDisplay {
         this.taskInput = document.getElementById('task-input');
         this.taskButton = document.getElementById('task-add');
     }
-    renderContexts() {
-        //Get context Elements(button, inputField, Container) from HTML
-        //Display inbox context
+
+    renderContexts(contexts) {
+        contexts.forEach(this.appendContext.bind(this));
     }
- 
+
+    appendContext(context) {
+        const p = document.createElement('p');
+        p.innerHTML = context.text;
+        p.classList.add('context');
+        this.contextContainer.appendChild(p);
+    }
     
-    renderTasks() {
-         //Get tasks ELements(button, inputField, Container) from HTML
+    renderTasks(tasks) {
         //Display tasks of inbox context
     }
 }
@@ -101,12 +110,12 @@ class TodoController {
     }
 
     init() {
-        this.loadContext();
+        this.loadStartPage();
     }
 
-    loadContext() {
+    loadStartPage() {
         this.activeContext = this.contextList.getActiveContext();
-        //render activeContext in todoDisplay
+        this.todoDisplay.renderContexts(this.contextList.getAllContexts());
     }
     
     createNewTask(text) {
@@ -121,8 +130,6 @@ class TodoController {
 }
 
 const todoController = new TodoController(TodoDisplay, Task, Context, ContextList);
-
 todoController.createNewTask('taskA');
 todoController.createNewTask('taskB')
-todoController.removeTask({text: "taskA", id: 1, favorite: false});
 console.log(todoController);
