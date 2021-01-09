@@ -69,16 +69,33 @@ class ContextList {
 
 //Creates the right view of the current state of objects
 class TodoDisplay {
-
+    constructor() {
+        this.contextContainer = document.getElementById('context-container');
+        this.contextInput = document.getElementById('context-input');
+        this.contextButton = document.getElementById('context-add');
+        this.taskContainer = document.getElementById('task-container');
+        this.taskInput = document.getElementById('task-input');
+        this.taskButton = document.getElementById('task-add');
+    }
+    renderContexts() {
+        //Get context Elements(button, inputField, Container) from HTML
+        //Display inbox context
+    }
+ 
+    
+    renderTasks() {
+         //Get tasks ELements(button, inputField, Container) from HTML
+        //Display tasks of inbox context
+    }
 }
 
 //Handles all the todo App logic
 class TodoController {
-    constructor(todoDisplay, Task, Context,ContextList) {
-        this.todoDisplay = todoDisplay;
+    constructor(TodoDisplay, Task, Context,ContextList) {
         this.Task = Task;
         this.Context = Context;
         this.contextList = new ContextList(this.Context);
+        this.todoDisplay = new TodoDisplay();
 
         this.init();
     }
@@ -103,7 +120,7 @@ class TodoController {
     }
 }
 
-const todoController = new TodoController("", Task, Context, ContextList);
+const todoController = new TodoController(TodoDisplay, Task, Context, ContextList);
 
 todoController.createNewTask('taskA');
 todoController.createNewTask('taskB')

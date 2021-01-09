@@ -2,9 +2,9 @@ title Load Startpage
 
 participant View
 participant AppController
-participant Context (Active)
+participant ContextList
 
-AppController->Context (Active):loadContext(activeContext)
-AppController<--Context (Active):return activeContext
-View<-AppController:renderContextTasks(activeContext)
-View<-AppController:highlightContextTab(activeContext)
+AppController->ContextList :loadContext(inboxContext)
+AppController<--ContextList:return inboxContext
+View<-AppController:renderContextTasks(inboxContext)
+View<-AppController:highlightContextTab(inboxContext)
