@@ -6,14 +6,14 @@
     font-size: 20px; 
 }
 
-#list-container{
+#context-container{
     width: 200px;
     height: 100vh;
     background-color: yellow;
     position: absolute;
 }
 
-#list-input {
+#context-input {
     width: 150px;
     outline: none;
     margin-bottom: 5px;
@@ -41,7 +41,7 @@
     padding: 5px;
 }
 
-.delete-task-button, .delete-list-button {
+.delete-task-button, .delete-context-button {
     float: right; 
 }
 
