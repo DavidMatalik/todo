@@ -50,11 +50,11 @@ class ContextList {
 
     init() {
         const defaultContext = new Context('inbox');
-        this.appendContext(defaultContext);
+        this.addNewContext(defaultContext);
         this.setActiveContext(defaultContext);
     }
 
-    appendContext(context) {
+    addNewContext(context) {
         this.list.push(context);
     }
 
@@ -80,13 +80,20 @@ class TodoDisplay {
         this.taskContainer = document.getElementById('task-container');
         this.taskInput = document.getElementById('task-input');
         this.taskButton = document.getElementById('task-add');
+
+        this.onClickAddContext = null;
     }
 
-    renderContexts(contexts) {
-        contexts.forEach(this.appendContext.bind(this));
+    initListeners() {
+        this.contextButton.addEventListener('click', this.onClickAddContext);
     }
 
-    appendContext(context) {
+    renderAllContexts(contexts) {
+        contexts.forEach(this.appendNewContext.bind(this));
+    }
+
+    appendNewContext(context) {
+        console.log(context);
         const p = document.createElement('p');
         p.innerHTML = context.text;
         p.classList.add('context');
@@ -111,16 +118,29 @@ class TodoController {
 
     init() {
         this.loadStartPage();
+        this.todoDisplay.onClickAddContext = this.onClickAddContext.bind(this);
+        this.todoDisplay.initListeners();
+    }
+
+    onClickAddContext() {
+        const userInput = this.todoDisplay.contextInput.value;
+        this.createNewContext(userInput);
     }
 
     loadStartPage() {
         this.activeContext = this.contextList.getActiveContext();
-        this.todoDisplay.renderContexts(this.contextList.getAllContexts());
+        this.todoDisplay.renderAllContexts(this.contextList.getAllContexts());
     }
     
     createNewTask(text) {
         const task = new this.Task(text);  
         this.contextList.getActiveContext().appendTask(task);
+    }
+
+    createNewContext(text) {
+        const context = new this.Context(text);  
+        this.contextList.addNewContext(context);
+        this.todoDisplay.appendNewContext(context);
     }
     
     removeTask(task) {
