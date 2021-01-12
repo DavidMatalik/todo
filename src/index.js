@@ -58,6 +58,16 @@ class ContextList {
         this.list.push(context);
     }
 
+    deleteContext(contextId) {
+        contextId = parseInt(contextId);
+        const contextListIndex = this.list.findIndex(function(currentContext) {
+            if (currentContext.id === contextId){
+                return true;
+            }
+        })
+    this.list.splice(contextListIndex, 1);
+    }
+
     setActiveContext(context) {
         this.activeContext = context;
     }
@@ -82,6 +92,7 @@ class TodoDisplay {
         this.taskButton = document.getElementById('task-add');
 
         this.onClickAddContext = null;
+        this.onClickDeleteContext = null;
     }
 
     initListeners() {
@@ -93,15 +104,28 @@ class TodoDisplay {
     }
 
     appendNewContext(context) {
-        console.log(context);
-        const p = document.createElement('p');
-        p.innerHTML = context.text;
-        p.classList.add('context');
-        this.contextContainer.appendChild(p);
+        const para = document.createElement('p');
+        para.innerHTML = context.text;
+        para.classList.add('context');
+        this.addDeleteButton(para, context);
+        this.contextContainer.appendChild(para);
+    }
+
+    addDeleteButton(paragraph, context){
+        const deleteButton = document.createElement('button');
+        deleteButton.innerHTML = 'del';
+        deleteButton.dataset.itemid = context.id;
+        // deleteButton.classList.add(`delete-${itemName}-button`);
+        deleteButton.addEventListener('click', this.onClickDeleteContext);
+        paragraph.appendChild(deleteButton);
     }
     
     renderTasks(tasks) {
         //Display tasks of inbox context
+    }
+
+    removeContext(element) {
+        element.remove();
     }
 }
 
@@ -117,9 +141,14 @@ class TodoController {
     }
 
     init() {
-        this.loadStartPage();
         this.todoDisplay.onClickAddContext = this.onClickAddContext.bind(this);
+        // Writing conlickDeleteContext so, that following arguments are passed:  
+        // this which equals TodoController object
+        // event of event Listener which isn't seen here 
+        // but can be accessed as last parameter in onClickDeleteContext
+        this.todoDisplay.onClickDeleteContext = this.onClickDeleteContext.bind(null, this);
         this.todoDisplay.initListeners();
+        this.loadStartPage();
     }
 
     onClickAddContext() {
@@ -142,6 +171,14 @@ class TodoController {
         this.contextList.addNewContext(context);
         this.todoDisplay.appendNewContext(context);
     }
+
+    onClickDeleteContext(_this, event) {
+        const elementToDelete = event.target.parentNode;
+        const itemToDeleteID = event.target.dataset.itemid;
+        _this.contextList.deleteContext(itemToDeleteID);
+        _this.todoDisplay.removeContext(elementToDelete)
+    }
+    
     
     removeTask(task) {
         this.contextList.getActiveContext().deleteTask(task);
@@ -151,5 +188,9 @@ class TodoController {
 
 const todoController = new TodoController(TodoDisplay, Task, Context, ContextList);
 todoController.createNewTask('taskA');
-todoController.createNewTask('taskB')
-console.log(todoController);
+todoController.createNewTask('taskB');
+todoController.createNewContext('contextB');
+todoController.createNewContext('contextC');
+
+
+
