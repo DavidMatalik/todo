@@ -9,8 +9,6 @@ class Item {
         Item.count = (Item.count || 0) + 1;
         return Item.count;
     }
-
-    //editItem
 }
 
 //Creates unlimited task objects
@@ -68,6 +66,26 @@ class ContextList {
     this.list.splice(contextListIndex, 1);
     }
 
+    /* editContext
+
+    Describe Problem: If user doublecklicks on context
+    it should be editable. If user presses enter changes should be saved
+    
+    Plan: 
+    - Add onDclickEditContext on every context in TodoDisplay 
+    in appendNewContext
+    - Write logic of onDclickEditContext in TodoController
+        Call editContext in TodoDisplay
+    - Write editContext logic in TodoDisplay: 
+        Create inputbox 
+        Put context text into inputbox
+        Create onEnterSaveInput listener for inputbox
+    -   Write logic of onEnterSaveInput in TodoController
+        Call updateContext in Context
+        Call updateContext in TodoDisplay
+    Code and plan further: 
+    */
+
     setActiveContext(context) {
         this.activeContext = context;
     }
@@ -93,6 +111,7 @@ class TodoDisplay {
 
         this.onClickAddContext = null;
         this.onClickDeleteContext = null;
+        this.onDclickEditContext = null;
     }
 
     initListeners() {
@@ -105,9 +124,13 @@ class TodoDisplay {
 
     appendNewContext(context) {
         const para = document.createElement('p');
-        para.innerHTML = context.text;
+        const span = document.createElement('span');
+        span.innerHTML = context.text;
+        para.appendChild(span);
+        // para.innerHTML = context.text;
         para.classList.add('context');
         this.addDeleteButton(para, context);
+        para.addEventListener('dblclick', this.onDclickEditContext)
         this.contextContainer.appendChild(para);
     }
 
@@ -120,12 +143,21 @@ class TodoDisplay {
         paragraph.appendChild(deleteButton);
     }
     
-    renderTasks(tasks) {
-        //Display tasks of inbox context
+    prepareContextEdit(element){
+        const inputBox = document.createElement('input');
+        const placeHolder = element.firstChild.textContent;
+        inputBox.type = 'text';
+        inputBox.placeholder = placeHolder;
+        element.innerHTML = '';
+        element.appendChild(inputBox);
     }
 
     removeContext(element) {
         element.remove();
+    }
+
+    renderTasks(tasks) {
+        //Display tasks of inbox context
     }
 }
 
@@ -147,6 +179,7 @@ class TodoController {
         // event of event Listener which isn't seen here 
         // but can be accessed as last parameter in onClickDeleteContext
         this.todoDisplay.onClickDeleteContext = this.onClickDeleteContext.bind(null, this);
+        this.todoDisplay.onDclickEditContext = this.onDclickEditContext.bind(null, this);
         this.todoDisplay.initListeners();
         this.loadStartPage();
     }
@@ -177,6 +210,10 @@ class TodoController {
         const itemToDeleteID = event.target.dataset.itemid;
         _this.contextList.deleteContext(itemToDeleteID);
         _this.todoDisplay.removeContext(elementToDelete)
+    }
+
+    onDclickEditContext(_this, event) {
+        _this.todoDisplay.prepareContextEdit(event.target);
     }
     
     
