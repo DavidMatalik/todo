@@ -174,8 +174,10 @@ class TodoDisplay {
     }
     
     prepareContextEdit(span){
+        //Implement helper methods for code below
         const inputBox = document.createElement('input');
         const placeHolder = span.firstChild.textContent;
+        //Name paraElements better maybe currentInnerContent?
         this.paraElements = span.parentNode;
         const para = this.paraElements.parentNode;
         inputBox.type = 'text';
@@ -207,7 +209,14 @@ class TodoDisplay {
 
     getContextInputValue(){
         return this.contextInput.value;
-        
+    }
+
+    getContextElement(event) {
+        return event.target.parentNode;
+    }
+
+    getUserInput(event) {
+        return event.target.value;
     }
 
     renderTasks(tasks) {
@@ -273,13 +282,12 @@ class TodoController {
 
     onEnterSaveInput(_this, event) {
         if (event.key === 'Enter'){
-            //Untenstehende 3 Zeilen hier richtig? Besser seperate Methode in TodoDisplay!!
-            const para = event.target.parentNode;
-            const contextId = para.dataset.itemid;
-            const input = event.target.value;
+            const input = _this.todoDisplay.getUserInput(event);
+            const contextElement = _this.todoDisplay.getContextElement(event);
+            const contextId = _this.todoDisplay.getItemId(contextElement);
             const contextIndex = _this.contextList.getIndexOfContext(contextId);
             _this.contextList.list[contextIndex].update(input);
-            _this.todoDisplay.updateContextAfterEdit(para, input);
+            _this.todoDisplay.updateContextAfterEdit(contextElement, input);
         }
     }
     
