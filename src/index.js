@@ -66,10 +66,7 @@ class ContextList {
     }
 
     getContext(contextId) {
-        console.log(contextId);
-        //Warum kommt bei folgener Zeile -1 raus und nicht passender Index?
         const contextIndexInList = this.getIndexOfContext(contextId);
-        console.log(contextIndexInList);
         return this.list[contextIndexInList];
     }
 
@@ -165,6 +162,7 @@ class TodoDisplay {
     }
 
     createInnerContent(text, delBtn) {
+        //Here you could create an extra method to separate span 
         const innerContent = document.createElement('div');
         const span = document.createElement('span');
         span.innerHTML = text;
@@ -173,16 +171,27 @@ class TodoDisplay {
         return innerContent;
     }
     
-    prepareContextEdit(span){
-        //Implement helper methods for code below
+    prepareContextEdit(textElement){
+        const inputBox = this.createInputBox(textElement);
+        this.saveContextElements(textElement);
+        this.createEditableElement(inputBox);
+    }
+
+    createInputBox(textElement) {
         const inputBox = document.createElement('input');
-        const placeHolder = span.firstChild.textContent;
-        //Name paraElements better maybe currentInnerContent?
-        this.paraElements = span.parentNode;
-        const para = this.paraElements.parentNode;
+        const placeHolder = textElement.firstChild.textContent;
         inputBox.type = 'text';
         inputBox.placeholder = placeHolder;
-        inputBox.addEventListener('keyup', this.onEnterSaveInput)
+        inputBox.addEventListener('keyup', this.onEnterSaveInput);
+        return inputBox;
+    }
+
+    saveContextElements(textElement) {
+        this.contextElements = textElement.parentNode;
+    }
+
+    createEditableElement(inputBox){
+        const para = this.contextElements.parentNode;
         para.firstChild.remove();
         para.appendChild(inputBox);
     }
@@ -192,11 +201,11 @@ class TodoDisplay {
     }
 
     updateContextAfterEdit(para, text) {
-        this.paraElements.firstChild.innerHTML = text;
+        this.contextElements.firstChild.innerHTML = text;
         //Remove inputBox
         para.firstChild.remove();
         //Append updated Text and Delete Button
-        para.appendChild(this.paraElements);
+        para.appendChild(this.contextElements);
     }
 
     getElementToDelete(event) {
@@ -290,7 +299,6 @@ class TodoController {
             _this.todoDisplay.updateContextAfterEdit(contextElement, input);
         }
     }
-    
     
     removeTask(task) {
         this.contextList.getActiveContext().deleteTask(task);
