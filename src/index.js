@@ -36,6 +36,10 @@ class Context extends Item {
         const foundIndex = this.taskList.findIndex(isSameId);
         this.taskList.splice(foundIndex, 1);
     }
+
+    update(text) {
+        this.text = text;
+    }
 }
 
 //Creates a single object where all contexts with their tasks are listed
@@ -57,13 +61,26 @@ class ContextList {
     }
 
     deleteContext(contextId) {
+        const contextListIndex = this.getIndexOfContext(contextId);
+        this.list.splice(contextListIndex, 1);
+    }
+
+    getContext(contextId) {
+        console.log(contextId);
+        //Warum kommt bei folgener Zeile -1 raus und nicht passender Index?
+        const contextIndexInList = this.getIndexOfContext(contextId);
+        console.log(contextIndexInList);
+        return this.list[contextIndexInList];
+    }
+
+    getIndexOfContext(contextId) {
         contextId = parseInt(contextId);
         const contextListIndex = this.list.findIndex(function(currentContext) {
             if (currentContext.id === contextId){
                 return true;
             }
         })
-    this.list.splice(contextListIndex, 1);
+        return contextListIndex;
     }
 
     /* editContext
@@ -112,6 +129,7 @@ class TodoDisplay {
         this.onClickAddContext = null;
         this.onClickDeleteContext = null;
         this.onDclickEditContext = null;
+        this.onEnterSaveInput = null;
     }
 
     initListeners() {
@@ -123,37 +141,73 @@ class TodoDisplay {
     }
 
     appendNewContext(context) {
-        const para = document.createElement('p');
-        const span = document.createElement('span');
-        span.innerHTML = context.text;
-        para.appendChild(span);
-        // para.innerHTML = context.text;
-        para.classList.add('context');
-        this.addDeleteButton(para, context);
-        para.addEventListener('dblclick', this.onDclickEditContext)
-        this.contextContainer.appendChild(para);
+        const delBtn = this.createDelBtn();
+        const innerContent = this.createInnerContent(context.text, delBtn);
+        const contextElement = this.createContextElement(context.id, innerContent);
+        // contextElement.addEventListener('dblclick', this.onDclickEditContext)
+        this.contextContainer.appendChild(contextElement);
     }
 
-    addDeleteButton(paragraph, context){
+    createContextElement(id, innerContent) {
+        const para = document.createElement('p');
+        para.classList.add('context');
+        para.dataset.itemid = id;
+        para.addEventListener('dblclick', this.onDclickEditContext);
+        para.appendChild(innerContent);
+        return para;
+    }
+
+    createDelBtn(){
         const deleteButton = document.createElement('button');
         deleteButton.innerHTML = 'del';
-        deleteButton.dataset.itemid = context.id;
-        // deleteButton.classList.add(`delete-${itemName}-button`);
         deleteButton.addEventListener('click', this.onClickDeleteContext);
-        paragraph.appendChild(deleteButton);
+        return deleteButton;
+    }
+
+    createInnerContent(text, delBtn) {
+        const innerContent = document.createElement('div');
+        const span = document.createElement('span');
+        span.innerHTML = text;
+        innerContent.appendChild(span);
+        innerContent.appendChild(delBtn);
+        return innerContent;
     }
     
-    prepareContextEdit(element){
+    prepareContextEdit(span){
         const inputBox = document.createElement('input');
-        const placeHolder = element.firstChild.textContent;
+        const placeHolder = span.firstChild.textContent;
+        this.paraElements = span.parentNode;
+        const para = this.paraElements.parentNode;
         inputBox.type = 'text';
         inputBox.placeholder = placeHolder;
-        element.innerHTML = '';
-        element.appendChild(inputBox);
+        inputBox.addEventListener('keyup', this.onEnterSaveInput)
+        para.firstChild.remove();
+        para.appendChild(inputBox);
     }
 
     removeContext(element) {
         element.remove();
+    }
+
+    updateContextAfterEdit(para, text) {
+        this.paraElements.firstChild.innerHTML = text;
+        //Remove inputBox
+        para.firstChild.remove();
+        //Append updated Text and Delete Button
+        para.appendChild(this.paraElements);
+    }
+
+    getElementToDelete(event) {
+        return event.target.parentNode.parentNode;
+    }
+
+    getItemId(element) {
+        return element.dataset.itemid;
+    }
+
+    getContextInputValue(){
+        return this.contextInput.value;
+        
     }
 
     renderTasks(tasks) {
@@ -180,12 +234,13 @@ class TodoController {
         // but can be accessed as last parameter in onClickDeleteContext
         this.todoDisplay.onClickDeleteContext = this.onClickDeleteContext.bind(null, this);
         this.todoDisplay.onDclickEditContext = this.onDclickEditContext.bind(null, this);
+        this.todoDisplay.onEnterSaveInput = this.onEnterSaveInput.bind(null, this);
         this.todoDisplay.initListeners();
         this.loadStartPage();
     }
 
     onClickAddContext() {
-        const userInput = this.todoDisplay.contextInput.value;
+        const userInput = this.todoDisplay.getContextInputValue();
         this.createNewContext(userInput);
     }
 
@@ -206,14 +261,26 @@ class TodoController {
     }
 
     onClickDeleteContext(_this, event) {
-        const elementToDelete = event.target.parentNode;
-        const itemToDeleteID = event.target.dataset.itemid;
-        _this.contextList.deleteContext(itemToDeleteID);
+        const elementToDelete = _this.todoDisplay.getElementToDelete(event);
+        const itemToDeleteId = _this.todoDisplay.getItemId(elementToDelete);
+        _this.contextList.deleteContext(itemToDeleteId);
         _this.todoDisplay.removeContext(elementToDelete)
     }
 
     onDclickEditContext(_this, event) {
         _this.todoDisplay.prepareContextEdit(event.target);
+    }
+
+    onEnterSaveInput(_this, event) {
+        if (event.key === 'Enter'){
+            //Untenstehende 3 Zeilen hier richtig? Besser seperate Methode in TodoDisplay!!
+            const para = event.target.parentNode;
+            const contextId = para.dataset.itemid;
+            const input = event.target.value;
+            const contextIndex = _this.contextList.getIndexOfContext(contextId);
+            _this.contextList.list[contextIndex].update(input);
+            _this.todoDisplay.updateContextAfterEdit(para, input);
+        }
     }
     
     
@@ -228,6 +295,4 @@ todoController.createNewTask('taskA');
 todoController.createNewTask('taskB');
 todoController.createNewContext('contextB');
 todoController.createNewContext('contextC');
-
-
 
