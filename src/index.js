@@ -80,26 +80,6 @@ class ContextList {
         return contextListIndex;
     }
 
-    /* editContext
-
-    Describe Problem: If user doublecklicks on context
-    it should be editable. If user presses enter changes should be saved
-    
-    Plan: 
-    - Add onDclickEditContext on every context in TodoDisplay 
-    in appendNewContext
-    - Write logic of onDclickEditContext in TodoController
-        Call editContext in TodoDisplay
-    - Write editContext logic in TodoDisplay: 
-        Create inputbox 
-        Put context text into inputbox
-        Create onEnterSaveInput listener for inputbox
-    -   Write logic of onEnterSaveInput in TodoController
-        Call updateContext in Context
-        Call updateContext in TodoDisplay
-    Code and plan further: 
-    */
-
     setActiveContext(context) {
         this.activeContext = context;
     }
