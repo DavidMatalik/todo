@@ -107,10 +107,13 @@ class TodoDisplay {
         this.onClickDeleteContext = null;
         this.onDclickEditContext = null;
         this.onEnterSaveInput = null;
+
+        this.onClickAddTask = null;
     }
 
     initListeners() {
         this.contextButton.addEventListener('click', this.onClickAddContext);
+        this.taskButton.addEventListener('click', this.onClickAddTask);
     }
 
     renderAllContexts(contexts) {
@@ -120,12 +123,18 @@ class TodoDisplay {
     appendNewContext(context) {
         const delBtn = this.createDelBtn();
         const innerContent = this.createInnerContent(context.text, delBtn);
-        const contextElement = this.createContextElement(context.id, innerContent);
-        // contextElement.addEventListener('dblclick', this.onDclickEditContext)
+        const contextElement = this.createItemElement(context.id, innerContent);
         this.contextContainer.appendChild(contextElement);
     }
 
-    createContextElement(id, innerContent) {
+    appendNewTask(task) {
+        const delBtn = this.createDelBtn();
+        const innerContent = this.createInnerContent(task.text, delBtn);
+        const taskElement = this.createItemElement(task.id, innerContent);
+        this.taskContainer.appendChild(taskElement);
+    }
+
+    createItemElement(id, innerContent) {
         const para = document.createElement('p');
         para.classList.add('context');
         para.dataset.itemid = id;
@@ -200,6 +209,10 @@ class TodoDisplay {
         return this.contextInput.value;
     }
 
+    getTaskInputValue(){
+        return this.taskInput.value;
+    }
+
     getContextElement(event) {
         return event.target.parentNode;
     }
@@ -226,6 +239,7 @@ class TodoController {
 
     init() {
         this.todoDisplay.onClickAddContext = this.onClickAddContext.bind(this);
+        this.todoDisplay.onClickAddTask = this.onClickAddTask.bind(this);
         // Writing conlickDeleteContext so, that following arguments are passed:  
         // this which equals TodoController object
         // event of event Listener which isn't seen here 
@@ -242,6 +256,11 @@ class TodoController {
         this.createNewContext(userInput);
     }
 
+    onClickAddTask() {
+        const userInput = this.todoDisplay.getTaskInputValue();
+        this.createNewTask(userInput);
+    }
+
     loadStartPage() {
         this.activeContext = this.contextList.getActiveContext();
         this.todoDisplay.renderAllContexts(this.contextList.getAllContexts());
@@ -250,6 +269,7 @@ class TodoController {
     createNewTask(text) {
         const task = new this.Task(text);  
         this.contextList.getActiveContext().appendTask(task);
+        this.todoDisplay.appendNewTask(task);
     }
 
     createNewContext(text) {
@@ -284,11 +304,30 @@ class TodoController {
         this.contextList.getActiveContext().deleteTask(task);
         //remove this task from current View
     }
+
+    /* Move a Task
+    1. Describe Problem: A task can be easily moved from one context to another context. When User
+       clicks on a task and holds the click he should be able to move it around the page. When user
+       let go of click and task is somewhere on the page nothing should happen. When user let go of
+       click and taks is on a different context the task should go into this context. And it should
+       dissappear from the current context.
+    2. Plan how to solve Problem: 
+        - Implement click hold event on a task#
+            On mouse down event on a task:
+                Create a transparent copy of the clicked on task
+                Create a mouseup listener for the whole page
+            The transparent copy should follow the mouse movement
+        - Implement let go of click event
+            What if task lays over two context elements?
+            Check on which context Elements the task lays over
+            Check on which context the biggest part lays
+            Remove transparent copy
+            Remove task from current view 
+            Remove task from current context
+            Add task to chosen context     */
 }
 
 const todoController = new TodoController(TodoDisplay, Task, Context, ContextList);
-todoController.createNewTask('taskA');
-todoController.createNewTask('taskB');
 todoController.createNewContext('contextB');
 todoController.createNewContext('contextC');
 
