@@ -23,12 +23,12 @@ class TodoController {
         // event of event Listener which isn't seen here 
         // but can be accessed as last parameter in onClickDeleteContext
         this.todoDisplay.onClickDeleteContext = this.onClickDeleteContext.bind(null, this);
-        this.todoDisplay.onClickChangeContext = function(event) {
-            _this.onClickChangeContext(event, this, _this);}
+        this.todoDisplay.onClickChangeContext = function() {
+            _this.onClickChangeContext(this, _this);}
         this.todoDisplay.onDclickEditContext = this.onDclickEditContext.bind(null, this);
         this.todoDisplay.onEnterSaveInput = this.onEnterSaveInput.bind(null, this);
-        this.todoDisplay.onMsDwnCopyTask  = function(event) {
-            _this.onMsDwnCopyTask(event, this, _this)}
+        this.todoDisplay.onMsDwnCopyTask  = function() {
+            _this.onMsDwnCopyTask(this, _this)}
         this.todoDisplay.onMsUpAnalyzePosition = function(event) {
             _this.onMsUpAnalyzePosition(event, this, _this)}
         this.todoDisplay.initListeners();
@@ -68,10 +68,10 @@ class TodoController {
         const elementToDelete = _this.todoDisplay.getElementToDelete(event);
         const itemToDeleteId = _this.todoDisplay.getItemId(elementToDelete);
         _this.contextList.deleteContext(itemToDeleteId);
-        _this.todoDisplay.removeContext(elementToDelete)
+        _this.todoDisplay.removeElement(elementToDelete)
     }
 
-    onClickChangeContext(event, elementWithHandler, _this){
+    onClickChangeContext(elementWithHandler, _this){
         const clickedContextElementId = _this.todoDisplay.getItemId(elementWithHandler);
         const clickedContext = _this.contextList.getContext(clickedContextElementId);
         //Change active Context
@@ -100,8 +100,8 @@ class TodoController {
 
     //Soll das wirklich hier rein? Nicht besser direkt in todoDisplay,
     // nur eine Methode von todoDisplay aufgerufen wird?!!
-    onMsDwnCopyTask(event, elementWithHandler, _this) {
-        _this.todoDisplay.attachTaskToMouse(event, elementWithHandler);
+    onMsDwnCopyTask(elementWithHandler, _this) {
+        _this.todoDisplay.attachTaskToMouse(elementWithHandler);
     } 
 
     onMsUpAnalyzePosition(event, elementWithHandler, _this, ) {

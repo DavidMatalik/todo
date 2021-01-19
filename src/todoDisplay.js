@@ -34,6 +34,7 @@ class TodoDisplay {
         this.activeContext = document.querySelector(`[data-itemid="${activeContext.id}"]`);
         this.highlightActiveContext(this.activeContext);
     }
+
     appendNewContext(context) {
         const delBtn = this.createDelBtn();
         const innerContent = this.createInnerContent(context.text, delBtn);
@@ -41,6 +42,12 @@ class TodoDisplay {
         const contextElement = this.createItemElement(context.id, innerContent, className);
         contextElement.addEventListener('click', this.onClickChangeContext);
         this.contextContainer.appendChild(contextElement);
+    }
+
+    highlightActiveContext(element){
+        this.activeContext.style.border = 'none';
+        this.activeContext = element;
+        element.style.border = '1px solid black';
     }
 
     renderTasks(tasks) {
@@ -58,11 +65,8 @@ class TodoDisplay {
         this.taskList.appendChild(taskElement);
     }
 
-    highlightActiveContext(element){
-        this.activeContext.style.border = 'none';
-        this.activeContext = element;
-        element.style.border = '1px solid black';
-    }
+    /* Helper functions to create Task or Context: 
+    createItemElement, createDelBtn, createInnerContent*/
 
     createItemElement(id, innerContent, className) {
         const para = document.createElement('p');
@@ -89,6 +93,9 @@ class TodoDisplay {
         innerContent.appendChild(delBtn);
         return innerContent;
     }
+
+    /*Edit Context functions: prepareContextEdit, createInputBox, 
+    saveContextElements, createEditableElement, updateContextAfterEdit  */
     
     prepareContextEdit(textElement){
         const inputBox = this.createInputBox(textElement);
@@ -115,10 +122,6 @@ class TodoDisplay {
         para.appendChild(inputBox);
     }
 
-    removeContext(element) {
-        element.remove();
-    }
-
     updateContextAfterEdit(para, text) {
         this.contextElements.firstChild.innerHTML = text;
         //Remove inputBox
@@ -127,7 +130,10 @@ class TodoDisplay {
         para.appendChild(this.contextElements);
     }
 
-    attachTaskToMouse(event, elementWithHandler) {
+    /* Move task to other context functions: attachTasktoMouse, onMsOverHighlight, onMsOutNormal
+    createTaskCopy, moveTaskWithMouse, removeTaskCopy, undoTaskMoveActions */
+
+    attachTaskToMouse(elementWithHandler) {
         const taskElementCopy = this.createTaskCopy(elementWithHandler);
 
         //Append mousemovement listener for moving the task with mouse
@@ -179,34 +185,6 @@ class TodoDisplay {
         taskElementCopy.remove();
     }
 
-    getElementToDelete(event) {
-        return event.target.parentNode.parentNode;
-    }
-
-    removeTask(element) {
-        element.remove();
-    }
-
-    getItemId(element) {
-        return element.dataset.itemid;
-    }
-
-    getContextInputValue(){
-        return this.contextInput.value;
-    }
-
-    getTaskInputValue(){
-        return this.taskInput.value;
-    }
-
-    getContextElement(event) {
-        return event.target.parentNode;
-    }
-
-    getUserInput(event) {
-        return event.target.value;
-    }
-
     undoTaskMoveActions() {
         this.removeTaskCopy();
         this.bodyElement.removeEventListener('mouseup', this.onMsUpAnalyzePosition);
@@ -219,6 +197,36 @@ class TodoDisplay {
             element.removeEventListener('mouseup', _this.onMsUpAnalyzePosition);
             element.style.backgroundColor = 'aqua';
         });
+    }
+
+    //Simple Helper functions
+
+    getItemId(element) {
+        return element.dataset.itemid;
+    }
+
+    getContextElement(event) {
+        return event.target.parentNode;
+    }
+
+    getContextInputValue(){
+        return this.contextInput.value;
+    }
+
+    removeElement(element) {
+        element.remove();
+    }
+
+    getElementToDelete(event) {
+        return event.target.parentNode.parentNode;
+    }
+
+    getTaskInputValue(){
+        return this.taskInput.value;
+    }
+
+    getUserInput(event) {
+        return event.target.value;
     }
 }
 
