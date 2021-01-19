@@ -68,11 +68,14 @@ class TodoController {
         const elementToDelete = _this.todoDisplay.getElementToDelete(event);
         const itemToDeleteId = _this.todoDisplay.getItemId(elementToDelete);
         _this.contextList.deleteContext(itemToDeleteId);
-        _this.todoDisplay.removeElement(elementToDelete)
+        _this.todoDisplay.removeElement(elementToDelete);
+        // Prevent bubbling of event up to onClickChangeContext Listener
+        event.stopPropagation();
     }
 
     onClickChangeContext(elementWithHandler, _this){
         const clickedContextElementId = _this.todoDisplay.getItemId(elementWithHandler);
+        console.log(clickedContextElementId);
         const clickedContext = _this.contextList.getContext(clickedContextElementId);
         //Change active Context
         this.contextList.setActiveContext(clickedContext);
