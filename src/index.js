@@ -37,6 +37,21 @@ class Context extends Item {
         this.taskList.splice(foundIndex, 1);
     }
 
+    getTask(taskId) {
+        const taskIndexInList = this.getIndexOfTask(taskId);
+        return this.taskList[taskIndexInList];
+    }
+
+    getIndexOfTask(taskId) {
+        taskId = parseInt(taskId);
+        const taskListIndex = this.taskList.findIndex(function(currentTask) {
+            if (currentTask.id === taskId){
+                return true;
+            }
+        })
+        return taskListIndex;
+    }
+
     update(text) {
         this.text = text;
     }
@@ -96,6 +111,7 @@ class ContextList {
 //Creates the right view of the current state of objects
 class TodoDisplay {
     constructor() {
+        this.bodyElement = document.querySelector('body');
         this.contextContainer = document.getElementById('context-container');
         this.contextInput = document.getElementById('context-input');
         this.contextButton = document.getElementById('context-add');
@@ -109,6 +125,8 @@ class TodoDisplay {
         this.onEnterSaveInput = null;
 
         this.onClickAddTask = null;
+        this.onMsDwnCopyTask = null;
+        this.onMsUpAnalyzePosition = null;
     }
 
     initListeners() {
@@ -123,21 +141,25 @@ class TodoDisplay {
     appendNewContext(context) {
         const delBtn = this.createDelBtn();
         const innerContent = this.createInnerContent(context.text, delBtn);
-        const contextElement = this.createItemElement(context.id, innerContent);
+        const className = 'context';
+        const contextElement = this.createItemElement(context.id, innerContent, className);
         this.contextContainer.appendChild(contextElement);
     }
 
     appendNewTask(task) {
         const delBtn = this.createDelBtn();
         const innerContent = this.createInnerContent(task.text, delBtn);
-        const taskElement = this.createItemElement(task.id, innerContent);
+        const className = 'task';
+        const taskElement = this.createItemElement(task.id, innerContent, className);
+        taskElement.classList.add('task'); //Better extra Method
+        taskElement.addEventListener('mousedown', this.onMsDwnCopyTask);
         this.taskContainer.appendChild(taskElement);
     }
 
-    createItemElement(id, innerContent) {
+    createItemElement(id, innerContent, className) {
         const para = document.createElement('p');
-        para.classList.add('context');
         para.dataset.itemid = id;
+        para.classList.add(className);
         para.addEventListener('dblclick', this.onDclickEditContext);
         para.appendChild(innerContent);
         return para;
@@ -197,8 +219,64 @@ class TodoDisplay {
         para.appendChild(this.contextElements);
     }
 
+    attachTaskToMouse(event, elementWithHandler) {
+        const taskElementCopy = this.createTaskCopy(elementWithHandler);
+
+        //Append mousemovement listener for moving the task with mouse
+        this.bodyElement.addEventListener('mousemove', 
+        this.moveTaskWithMouse.bind(null, this, taskElementCopy));
+
+        // Append mouseup listener to whole page
+        this.bodyElement.addEventListener('mouseup', this.onMsUpAnalyzePosition);
+
+        //Add mousehover event Listener to every context element
+        const contexts = document.querySelectorAll('.context');
+        const _this = this;
+        contexts.forEach(function(element) {
+            element.addEventListener('mouseover', _this.onMsOverHighlight)
+            element.addEventListener('mouseout', _this.onMsOutNormal)
+            element.addEventListener('mouseup', _this.onMsUpAnalyzePosition);
+        });
+    }
+
+    onMsOverHighlight(){
+        this.style.backgroundColor = 'green';
+    }
+
+
+    onMsOutNormal(){
+        this.style.backgroundColor = 'aqua';
+    }
+
+    createTaskCopy(elementWithHandler) {
+        this.temporarySavedTaskElement = elementWithHandler;
+        const taskElementCopy = this.temporarySavedTaskElement.cloneNode(true);
+        taskElementCopy.style.backgroundColor = 'red';
+        taskElementCopy.id = 'task-copy';
+        this.bodyElement.appendChild(taskElementCopy);
+        return taskElementCopy;
+    }
+
+    moveTaskWithMouse(_this, taskElementCopy, event) {
+        //Put copy at specified position
+        const mousePositionHorizontal = event.x;
+        const mousePositionVertical = event.y;
+        taskElementCopy.style.position = 'absolute';
+        taskElementCopy.style.top = `${mousePositionVertical}px`;
+        taskElementCopy.style.left = `${mousePositionHorizontal + 10}px`;
+    }
+
+    removeTaskCopy() {
+        const taskElementCopy = document.getElementById('task-copy');
+        taskElementCopy.remove();
+    }
+
     getElementToDelete(event) {
         return event.target.parentNode.parentNode;
+    }
+
+    removeTask(element) {
+        element.remove();
     }
 
     getItemId(element) {
@@ -221,6 +299,20 @@ class TodoDisplay {
         return event.target.value;
     }
 
+    undoTaskMoveActions() {
+        this.removeTaskCopy();
+        this.bodyElement.removeEventListener('mouseup', this.onMsUpAnalyzePosition);
+        
+        const contexts = document.querySelectorAll('.context');
+        const _this = this;
+        contexts.forEach(function(element) {
+            element.removeEventListener('mouseover', _this.onMsOverHighlight);
+            element.removeEventListener('mouseout', _this.onMsOutNormal);
+            element.removeEventListener('mouseup', _this.onMsUpAnalyzePosition);
+            element.style.backgroundColor = 'aqua';
+        });
+    }
+
     renderTasks(tasks) {
         //Display tasks of inbox context
     }
@@ -238,6 +330,7 @@ class TodoController {
     }
 
     init() {
+        const _this = this; 
         this.todoDisplay.onClickAddContext = this.onClickAddContext.bind(this);
         this.todoDisplay.onClickAddTask = this.onClickAddTask.bind(this);
         // Writing conlickDeleteContext so, that following arguments are passed:  
@@ -247,6 +340,12 @@ class TodoController {
         this.todoDisplay.onClickDeleteContext = this.onClickDeleteContext.bind(null, this);
         this.todoDisplay.onDclickEditContext = this.onDclickEditContext.bind(null, this);
         this.todoDisplay.onEnterSaveInput = this.onEnterSaveInput.bind(null, this);
+        //this.todoDisplay.onMsDwnCopyTask = this.onMsDwnCopyTask.bind(null, this);
+        this.todoDisplay.onMsDwnCopyTask  = function(event) {
+            _this.onMsDwnCopyTask(event, this, _this)}
+
+        this.todoDisplay.onMsUpAnalyzePosition = function(event) {
+            _this.onMsUpAnalyzePosition(event, this, _this)}
         this.todoDisplay.initListeners();
         this.loadStartPage();
     }
@@ -299,35 +398,37 @@ class TodoController {
             _this.todoDisplay.updateContextAfterEdit(contextElement, input);
         }
     }
-    
+
+    //Soll das wirklich hier rein? Nicht besser direkt in todoDisplay,
+    // nur eine Methode von todoDisplay aufgerufen wird?!!
+    onMsDwnCopyTask(event, elementWithHandler, _this) {
+        _this.todoDisplay.attachTaskToMouse(event, elementWithHandler);
+    } 
+
+    onMsUpAnalyzePosition(event, elementWithHandler, _this, ) {
+        if(elementWithHandler.classList.contains('context')){
+            const activeContext = _this.contextList.getActiveContext();
+            const taskToMoveElement = _this.todoDisplay.temporarySavedTaskElement
+            const taskToMoveId = _this.todoDisplay.getItemId(taskToMoveElement);
+            const taskToMove = _this.contextList.activeContext.getTask(taskToMoveId);
+            const chosenContextElementId = _this.todoDisplay.getItemId(elementWithHandler);
+            const chosenContext = _this.contextList.getContext(chosenContextElementId);
+            
+            chosenContext.appendTask(taskToMove);
+            activeContext.deleteTask(taskToMove);
+            _this.todoDisplay.removeTask(taskToMoveElement);
+            //Prevents executing the mouseup event which is also attached to body
+            event.stopPropagation();
+        }
+
+        _this.todoDisplay.undoTaskMoveActions();
+    }
+
     removeTask(task) {
         this.contextList.getActiveContext().deleteTask(task);
         //remove this task from current View
     }
-
-    /* Move a Task
-    1. Describe Problem: A task can be easily moved from one context to another context. When User
-       clicks on a task and holds the click he should be able to move it around the page. When user
-       let go of click and task is somewhere on the page nothing should happen. When user let go of
-       click and taks is on a different context the task should go into this context. And it should
-       dissappear from the current context.
-    2. Plan how to solve Problem: 
-        - Implement click hold event on a task#
-            On mouse down event on a task:
-                Create a transparent copy of the clicked on task
-                Create a mouseup listener for the whole page
-            The transparent copy should follow the mouse movement
-        - Implement let go of click event
-            What if task lays over two context elements?
-            Check on which context Elements the task lays over
-            Check on which context the biggest part lays
-            Remove transparent copy
-            Remove task from current view 
-            Remove task from current context
-            Add task to chosen context     */
 }
 
 const todoController = new TodoController(TodoDisplay, Task, Context, ContextList);
-todoController.createNewContext('contextB');
-todoController.createNewContext('contextC');
 
