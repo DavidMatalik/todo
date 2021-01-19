@@ -116,11 +116,14 @@ class TodoDisplay {
         this.contextInput = document.getElementById('context-input');
         this.contextButton = document.getElementById('context-add');
         this.taskContainer = document.getElementById('task-container');
+        this.taskList = document.getElementById('tasks');
         this.taskInput = document.getElementById('task-input');
         this.taskButton = document.getElementById('task-add');
+        this.activeContext = null;
 
         this.onClickAddContext = null;
         this.onClickDeleteContext = null;
+        this.onClickChangeContext = null;
         this.onDclickEditContext = null;
         this.onEnterSaveInput = null;
 
@@ -134,16 +137,25 @@ class TodoDisplay {
         this.taskButton.addEventListener('click', this.onClickAddTask);
     }
 
-    renderAllContexts(contexts) {
+    renderAllContexts(contexts, activeContext) {
+        // Render context elements
         contexts.forEach(this.appendNewContext.bind(this));
+        // Highlight active context element
+        this.activeContext = document.querySelector(`[data-itemid="${activeContext.id}"]`);
+        this.highlightActiveContext(this.activeContext);
     }
-
     appendNewContext(context) {
         const delBtn = this.createDelBtn();
         const innerContent = this.createInnerContent(context.text, delBtn);
         const className = 'context';
         const contextElement = this.createItemElement(context.id, innerContent, className);
+        contextElement.addEventListener('click', this.onClickChangeContext);
         this.contextContainer.appendChild(contextElement);
+    }
+
+    renderTasks(tasks) {
+        this.taskList.innerHTML = '';
+        tasks.forEach(this.appendNewTask.bind(this));
     }
 
     appendNewTask(task) {
@@ -153,7 +165,13 @@ class TodoDisplay {
         const taskElement = this.createItemElement(task.id, innerContent, className);
         taskElement.classList.add('task'); //Better extra Method
         taskElement.addEventListener('mousedown', this.onMsDwnCopyTask);
-        this.taskContainer.appendChild(taskElement);
+        this.taskList.appendChild(taskElement);
+    }
+
+    highlightActiveContext(element){
+        this.activeContext.style.border = 'none';
+        this.activeContext = element;
+        element.style.border = '1px solid black';
     }
 
     createItemElement(id, innerContent, className) {
@@ -312,10 +330,6 @@ class TodoDisplay {
             element.style.backgroundColor = 'aqua';
         });
     }
-
-    renderTasks(tasks) {
-        //Display tasks of inbox context
-    }
 }
 
 //Handles all the todo App logic
@@ -338,12 +352,12 @@ class TodoController {
         // event of event Listener which isn't seen here 
         // but can be accessed as last parameter in onClickDeleteContext
         this.todoDisplay.onClickDeleteContext = this.onClickDeleteContext.bind(null, this);
+        this.todoDisplay.onClickChangeContext = function(event) {
+            _this.onClickChangeContext(event, this, _this);}
         this.todoDisplay.onDclickEditContext = this.onDclickEditContext.bind(null, this);
         this.todoDisplay.onEnterSaveInput = this.onEnterSaveInput.bind(null, this);
-        //this.todoDisplay.onMsDwnCopyTask = this.onMsDwnCopyTask.bind(null, this);
         this.todoDisplay.onMsDwnCopyTask  = function(event) {
             _this.onMsDwnCopyTask(event, this, _this)}
-
         this.todoDisplay.onMsUpAnalyzePosition = function(event) {
             _this.onMsUpAnalyzePosition(event, this, _this)}
         this.todoDisplay.initListeners();
@@ -362,7 +376,8 @@ class TodoController {
 
     loadStartPage() {
         this.activeContext = this.contextList.getActiveContext();
-        this.todoDisplay.renderAllContexts(this.contextList.getAllContexts());
+        const contexts = this.contextList.getAllContexts();
+        this.todoDisplay.renderAllContexts(contexts, this.activeContext);
     }
     
     createNewTask(text) {
@@ -373,6 +388,7 @@ class TodoController {
 
     createNewContext(text) {
         const context = new this.Context(text);  
+        context.onClickChangeContext = this.onClickChangeContext;
         this.contextList.addNewContext(context);
         this.todoDisplay.appendNewContext(context);
     }
@@ -382,6 +398,18 @@ class TodoController {
         const itemToDeleteId = _this.todoDisplay.getItemId(elementToDelete);
         _this.contextList.deleteContext(itemToDeleteId);
         _this.todoDisplay.removeContext(elementToDelete)
+    }
+
+    onClickChangeContext(event, elementWithHandler, _this){
+        const clickedContextElementId = _this.todoDisplay.getItemId(elementWithHandler);
+        const clickedContext = _this.contextList.getContext(clickedContextElementId);
+        //Change active Context
+        this.contextList.setActiveContext(clickedContext);
+        //Display Tasks of active Context
+        const tasks = clickedContext.taskList; 
+        this.todoDisplay.renderTasks(tasks);
+        //Highlight active Context
+        this.todoDisplay.highlightActiveContext(elementWithHandler);
     }
 
     onDclickEditContext(_this, event) {
