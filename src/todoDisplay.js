@@ -72,7 +72,7 @@ class TodoDisplay {
         const para = document.createElement('p');
         para.dataset.itemid = id;
         para.classList.add(className);
-        para.addEventListener('dblclick', this.onDclickEditContext);
+        para.addEventListener('dblclick', this.onDclickEditItem);
         para.appendChild(innerContent);
         return para;
     }
@@ -94,12 +94,12 @@ class TodoDisplay {
         return innerContent;
     }
 
-    /*Edit Context functions: prepareContextEdit, createInputBox, 
-    saveContextElements, createEditableElement, updateContextAfterEdit  */
+    /*Edit functions: prepareItemEdit, createInputBox, 
+    saveItemElements, createEditableElement, updateItemAfterEdit  */
     
-    prepareContextEdit(textElement){
+    prepareItemEdit(textElement){
         const inputBox = this.createInputBox(textElement);
-        this.saveContextElements(textElement);
+        this.saveItemElements(textElement);
         this.createEditableElement(inputBox);
     }
 
@@ -112,22 +112,22 @@ class TodoDisplay {
         return inputBox;
     }
 
-    saveContextElements(textElement) {
-        this.contextElements = textElement.parentNode;
+    saveItemElements(textElement) {
+        this.itemElements = textElement.parentNode;
     }
 
     createEditableElement(inputBox){
-        const para = this.contextElements.parentNode;
+        const para = this.itemElements.parentNode;
         para.firstChild.remove();
         para.appendChild(inputBox);
     }
 
-    updateContextAfterEdit(para, text) {
-        this.contextElements.firstChild.innerHTML = text;
+    updateItemAfterEdit(para, text) {
+        this.itemElements.firstChild.innerHTML = text;
         //Remove inputBox
         para.firstChild.remove();
         //Append updated Text and Delete Button
-        para.appendChild(this.contextElements);
+        para.appendChild(this.itemElements);
     }
 
     /* Move task to other context functions: attachTasktoMouse, onMsOverHighlight, onMsOutNormal
@@ -205,7 +205,7 @@ class TodoDisplay {
         return element.dataset.itemid;
     }
 
-    getContextElement(event) {
+    getItemElement(event) {
         return event.target.parentNode;
     }
 
@@ -227,6 +227,10 @@ class TodoDisplay {
 
     getUserInput(event) {
         return event.target.value;
+    }
+
+    getClassName(element) {
+        return element.classList;
     }
 }
 

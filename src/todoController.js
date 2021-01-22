@@ -25,7 +25,7 @@ class TodoController {
         this.todoDisplay.onClickDeleteContext = this.onClickDeleteContext.bind(null, this);
         this.todoDisplay.onClickChangeContext = function() {
             _this.onClickChangeContext(this, _this);}
-        this.todoDisplay.onDclickEditContext = this.onDclickEditContext.bind(null, this);
+        this.todoDisplay.onDclickEditItem = this.onDclickEditItem.bind(null, this);
         this.todoDisplay.onEnterSaveInput = this.onEnterSaveInput.bind(null, this);
         this.todoDisplay.onMsDwnCopyTask  = function() {
             _this.onMsDwnCopyTask(this, _this)}
@@ -75,7 +75,6 @@ class TodoController {
 
     onClickChangeContext(elementWithHandler, _this){
         const clickedContextElementId = _this.todoDisplay.getItemId(elementWithHandler);
-        console.log(clickedContextElementId);
         const clickedContext = _this.contextList.getContext(clickedContextElementId);
         //Change active Context
         this.contextList.setActiveContext(clickedContext);
@@ -86,18 +85,26 @@ class TodoController {
         this.todoDisplay.highlightActiveContext(elementWithHandler);
     }
 
-    onDclickEditContext(_this, event) {
-        _this.todoDisplay.prepareContextEdit(event.target);
+    onDclickEditItem(_this, event) {
+        _this.todoDisplay.prepareItemEdit(event.target);
     }
 
     onEnterSaveInput(_this, event) {
         if (event.key === 'Enter'){
             const input = _this.todoDisplay.getUserInput(event);
-            const contextElement = _this.todoDisplay.getContextElement(event);
-            const contextId = _this.todoDisplay.getItemId(contextElement);
-            const contextIndex = _this.contextList.getIndexOfContext(contextId);
-            _this.contextList.list[contextIndex].update(input);
-            _this.todoDisplay.updateContextAfterEdit(contextElement, input);
+            const itemElement = _this.todoDisplay.getItemElement(event);
+            const itemId = _this.todoDisplay.getItemId(itemElement);
+            const className = _this.todoDisplay.getClassName(itemElement);
+
+            if (className.contains('context')){
+                const contextIndex = _this.contextList.getIndexOfContext(itemId);
+                _this.contextList.list[contextIndex].update(input);
+            } else if(className.contains('task')){
+                const taskIndex = _this.contextList.activeContext.getIndexOfTask(itemId);
+                // For Line below should be implemented a setter method in Context
+                _this.contextList.activeContext.taskList[taskIndex].text = input;
+            }
+            _this.todoDisplay.updateItemAfterEdit(itemElement, input);
         }
     }
 
