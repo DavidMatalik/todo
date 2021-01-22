@@ -125,7 +125,7 @@ class TodoController {
             
             chosenContext.appendTask(taskToMove);
             activeContext.deleteTask(taskToMove);
-            _this.todoDisplay.removeTask(taskToMoveElement);
+            _this.todoDisplay.removeElement(taskToMoveElement);
             //Prevents executing the mouseup event which is also attached to body
             event.stopPropagation();
         }
