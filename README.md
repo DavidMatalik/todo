@@ -7,7 +7,10 @@ Use github branching
 
 Use local Storage
 
-# Todos:
+# Thoughts
+TodoDisplay is very big - split code in more Classes?
+
+# Todos
 Create a real Database
 
 Add function moveATask (in a list and to another list)
