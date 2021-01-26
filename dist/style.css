@@ -1,47 +1,73 @@
 #container{
-    width: 1000px;
-    margin-right: auto;
-    margin-left: auto;
-    text-align: center;
+    display: flex;
     font-size: 20px; 
+    background-color: purple;
+    /*Have searchbar and heading of the two containers next to each other*/
 }
 
 #context-container{
-    width: 200px;
+    width: 20vw;
     height: 100vh;
-    background-color: yellow;
-    position: absolute;
+    background-color: rgb(112,135,114, 0.8);
+}
+
+#search-field {
+  width: 18vw;
+  padding: 0.5vw;
+  margin: 0.5vw;
+}
+
+#context-add{
+  width: 2.5vw;
+  height: 2.5vw; 
 }
 
 #context-input {
-    width: 150px;
+    width: 15.45vw;
     outline: none;
-    margin-bottom: 5px;
+    margin-bottom: 0.5vw;
+    padding: 0.5vw;
 }
 
 #task-container{
-    width: 540px;
+    /*Have a padding to the left for all items*/
+    width: 80vw;
     height: 100vh;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 5px;
-    background-color: pink;
+    background-color: rgb(112,135,114, 0.5);
+}
+
+#context-heading{
+  /*Change color to input box color*/
+  /*Have margin between heading and input box*/
+  /*align the text to the left*/
+  color: white;
+  margin: 5px;
+  display: inline-block;
 }
 
 #task-input {
     width: 500px;
+    height: 25px;
     outline: none;
     margin-bottom: 5px;
+    background-color: rgb(112,135,114);
+    color: white;
 }
 
 .task, .context{
+    width: 18vw;
     background-color: aqua;
-    margin-bottom: 5px;
-    text-align: left;
-    padding: 5px;
+    margin: 0.5vw;
+    padding: 0.5vw;
 }
 
 .delete-task-button, .delete-context-button {
+    /*Delete should look like it is inside input box*/
+    /*Delete sign white*/
     float: right; 
 }
 
+::placeholder{
+    color: white;
+    opacity: 1; /*Firefox*/
+}
