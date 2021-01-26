@@ -1,45 +1,48 @@
 #container{
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    width: 1000px;
-    margin-right: auto;
-    margin-left: auto;
     font-size: 20px; 
-    text-align: center;
+    background-color: purple;
     /*Have searchbar and heading of the two containers next to each other*/
 }
 
 #context-container{
-    width: 200px;
+    width: 20vw;
     height: 100vh;
     background-color: rgb(112,135,114, 0.8);
-    position: absolute;
 }
 
-#context-heading{
-    /*Change color to input box color*/
-    /*Have margin between heading and input box*/
-    /*align the text to the left*/
-    color: white;
-    margin: 5px;
-    display: inline-block;
+#search-field {
+  width: 18vw;
+  padding: 0.5vw;
+  margin: 0.5vw;
+}
+
+#context-add{
+  width: 2.5vw;
+  height: 2.5vw; 
 }
 
 #context-input {
-    width: 150px;
+    width: 15.45vw;
     outline: none;
-    margin-bottom: 5px;
+    margin-bottom: 0.5vw;
+    padding: 0.5vw;
 }
 
 #task-container{
     /*Have a padding to the left for all items*/
-    width: 540px;
+    width: 80vw;
     height: 100vh;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 5px;
     background-color: rgb(112,135,114, 0.5);
+}
+
+#context-heading{
+  /*Change color to input box color*/
+  /*Have margin between heading and input box*/
+  /*align the text to the left*/
+  color: white;
+  margin: 5px;
+  display: inline-block;
 }
 
 #task-input {
@@ -52,10 +55,10 @@
 }
 
 .task, .context{
+    width: 18vw;
     background-color: aqua;
-    margin-bottom: 5px;
-    text-align: left;
-    padding: 5px;
+    margin: 0.5vw;
+    padding: 0.5vw;
 }
 
 .delete-task-button, .delete-context-button {
