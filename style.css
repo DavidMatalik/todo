@@ -1,7 +1,9 @@
+/*media query einbauen für unter 800 bis 900 vw, dass tasConter 80 vw statt 60 vw*/
+
 #container{
     display: flex;
     font-size: 20px; 
-    background-color: purple;
+    justify-content: center;
     /*Have searchbar and heading of the two containers next to each other*/
 }
 
@@ -31,7 +33,7 @@
 
 #task-container{
     /*Have a padding to the left for all items*/
-    width: 80vw;
+    width: 60vw;
     height: 100vh;
     background-color: rgb(112,135,114, 0.5);
 }
@@ -45,13 +47,32 @@
   display: inline-block;
 }
 
-#task-input {
-    width: 500px;
-    height: 25px;
-    outline: none;
-    margin-bottom: 5px;
-    background-color: rgb(112,135,114);
-    color: white;
+#task-input { 
+  width: 55vw;
+  height: 2.2vw;
+  outline: none;
+  font-size: 1.8vw;
+  color: white;
+} 
+
+#task-add {
+  width: 58vw;
+  height: 3vw;
+  outline: none;
+  margin-bottom: 1vw;
+  background-color: rgb(112,135,114);
+  color: white;
+}
+
+#task-add-button{
+  margin-left: 0.5vw;
+  color: white;
+  font-size: 2.8vw;
+  cursor: pointer;
+}
+
+#task-add-button:focus{
+  outline:none;
 }
 
 .task, .context{
