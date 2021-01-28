@@ -8,7 +8,7 @@ class TodoDisplay {
     this.taskContainer = document.getElementById('task-container')
     this.taskList = document.getElementById('tasks')
     this.taskInput = document.getElementById('task-input')
-    this.taskButton = document.getElementById('task-add')
+    this.taskButton = document.getElementById('task-add-button')
     this.activeContext = null
 
     this.onClickAddContext = null
