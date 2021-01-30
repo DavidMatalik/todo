@@ -34,6 +34,7 @@ class ContextList {
       if (currentContext.id === contextId) {
         return true
       }
+      return false
     })
     return contextListIndex
   }

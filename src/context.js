@@ -12,10 +12,11 @@ class Context extends Item {
     this.taskList.push(task)
   }
 
-  deleteTask (task) {
-    const isSameId = taskToCompare => taskToCompare.id === task.id
-    const foundIndex = this.taskList.findIndex(isSameId)
-    this.taskList.splice(foundIndex, 1)
+  deleteTask (taskId) {
+    console.log(this.taskList)
+    const taskListIndex = this.getIndexOfTask(taskId)
+    this.taskList.splice(taskListIndex, 1)
+    console.log(this.taskList)
   }
 
   getTask (taskId) {
@@ -29,6 +30,7 @@ class Context extends Item {
       if (currentTask.id === taskId) {
         return true
       }
+      return false
     })
     return taskListIndex
   }

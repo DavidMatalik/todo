@@ -22,7 +22,7 @@ class TodoController {
     // this which equals TodoController object
     // event of event Listener which isn't seen here
     // but can be accessed as last parameter in onClickDeleteContext
-    this.todoDisplay.onClickDeleteContext = this.onClickDeleteContext.bind(null, this)
+    this.todoDisplay.onClickDeleteItem = this.onClickDeleteItem.bind(null, this)
     this.todoDisplay.onClickChangeContext = function () {
       _this.onClickChangeContext(this, _this)
     }
@@ -67,10 +67,18 @@ class TodoController {
     this.todoDisplay.appendNewContext(context)
   }
 
-  onClickDeleteContext (_this, event) {
+  onClickDeleteItem (_this, event) {
     const elementToDelete = _this.todoDisplay.getElementToDelete(event)
     const itemToDeleteId = _this.todoDisplay.getItemId(elementToDelete)
-    _this.contextList.deleteContext(itemToDeleteId)
+    const className = _this.todoDisplay.getClassName(elementToDelete)
+
+    if (className.contains('context')) {
+      _this.contextList.deleteContext(itemToDeleteId)
+    } else if (className.contains('task')) {
+      console.log('ClassName contains task')
+      _this.contextList.activeContext.deleteTask(itemToDeleteId)
+    }
+
     _this.todoDisplay.removeElement(elementToDelete)
     // Prevent bubbling of event up to onClickChangeContext Listener
     event.stopPropagation()

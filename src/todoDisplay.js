@@ -12,7 +12,7 @@ class TodoDisplay {
     this.activeContext = null
 
     this.onClickAddContext = null
-    this.onClickDeleteContext = null
+    this.onClickDeleteItem = null
     this.onClickChangeContext = null
     this.onDclickEditContext = null
     this.onEnterSaveInput = null
@@ -80,7 +80,7 @@ class TodoDisplay {
   createDelBtn () {
     const deleteButton = document.createElement('button')
     deleteButton.innerHTML = 'del'
-    deleteButton.addEventListener('click', this.onClickDeleteContext)
+    deleteButton.addEventListener('click', this.onClickDeleteItem)
     return deleteButton
   }
 
