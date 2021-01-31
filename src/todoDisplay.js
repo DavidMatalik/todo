@@ -4,7 +4,7 @@ class TodoDisplay {
     this.bodyElement = document.querySelector('body')
     this.contextContainer = document.getElementById('context-container')
     this.contextInput = document.getElementById('context-input')
-    this.contextButton = document.getElementById('context-add')
+    this.contextButton = document.getElementById('context-add-button')
     this.taskContainer = document.getElementById('task-container')
     this.taskList = document.getElementById('tasks')
     this.taskInput = document.getElementById('task-input')
