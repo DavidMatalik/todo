@@ -20,15 +20,31 @@
 }
 
 #context-add{
-  width: 2.5vw;
-  height: 2.5vw; 
+  width: 19vw;
+  height: 3vw;
+  outline: none;
+  margin-bottom: 1vw;
+  background-color: rgb(112,135,114);
+  color: white;
+}
+
+#context-add-button{
+  margin-left: 0.5vw;
+  color: white;
+  font-size: 2.8vw;
+  cursor: pointer;
+}
+
+#context-add-button:focus{
+  outline:none;
 }
 
 #context-input {
-    width: 15.45vw;
-    outline: none;
-    margin-bottom: 0.5vw;
-    padding: 0.5vw;
+  width: 11.45vw;
+  height: 2.2vw;
+  outline: none;
+  font-size: 1.8vw;
+  color: white;
 }
 
 #task-container{
@@ -43,7 +59,7 @@
   /*Have margin between heading and input box*/
   /*align the text to the left*/
   color: white;
-  margin: 5px;
+  margin: 0.6vw;
   display: inline-block;
 }
 
