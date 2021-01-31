@@ -78,8 +78,9 @@ class TodoDisplay {
   }
 
   createDelBtn () {
-    const deleteButton = document.createElement('button')
-    deleteButton.innerHTML = 'del'
+    const deleteButton = document.createElement('i')
+    deleteButton.classList.add('fa')
+    deleteButton.classList.add('fa-trash-o')
     deleteButton.addEventListener('click', this.onClickDeleteContext)
     return deleteButton
   }

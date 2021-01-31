@@ -98,10 +98,8 @@
     padding: 0.5vw;
 }
 
-.delete-task-button, .delete-context-button {
-    /*Delete should look like it is inside input box*/
-    /*Delete sign white*/
-    float: right; 
+.fa {
+  float: right; 
 }
 
 ::placeholder{
