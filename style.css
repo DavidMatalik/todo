@@ -59,10 +59,17 @@
   /*Change color to input box color*/
   /*Have margin between heading and input box*/
   /*align the text to the left*/
-  color: white;
   margin: 0.6vw;
   display: inline-block;
   font-size: 2.8vw; 
+}
+
+#heading-task-container{
+  color: white;
+}
+
+#heading-context-container{
+  color: palegoldenrod;
 }
 
 #task-add {
@@ -97,7 +104,6 @@
 }
 
 .task, .context{
-    background-color: aqua;
     font-size: 2.5vw;
     margin: 0.5vw;
     padding: 0.5vw;
@@ -105,10 +111,12 @@
 
 .context {
   width: 21vw;
+  background-color: palegoldenrod;
 }
 
 .task {
   width: 58vw;
+  background-color: white;
 }
 
 /* fa is the class of the trash icon from font-awesome */
