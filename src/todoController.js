@@ -41,11 +41,13 @@ class TodoController {
   onClickAddContext () {
     const userInput = this.todoDisplay.getContextInputValue()
     this.createNewContext(userInput)
+    this.todoDisplay.resetContextInput()
   }
 
   onClickAddTask () {
     const userInput = this.todoDisplay.getTaskInputValue()
     this.createNewTask(userInput)
+    this.todoDisplay.resetTaskInput()
   }
 
   loadStartPage () {

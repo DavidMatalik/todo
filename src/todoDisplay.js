@@ -213,6 +213,10 @@ class TodoDisplay {
     return this.contextInput.value
   }
 
+  resetContextInput () {
+    this.contextInput.value = ''
+  }
+
   removeElement (element) {
     element.remove()
   }
@@ -223,6 +227,10 @@ class TodoDisplay {
 
   getTaskInputValue () {
     return this.taskInput.value
+  }
+
+  resetTaskInput () {
+    this.taskInput.value = ''
   }
 
   getUserInput (event) {
