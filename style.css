@@ -1,73 +1,132 @@
+/*media query einbauen für unter 800 bis 900 vw, dass tasConter 80 vw statt 60 vw*/
+
 #container{
     display: flex;
-    font-size: 20px; 
-    background-color: purple;
-    /*Have searchbar and heading of the two containers next to each other*/
+    justify-content: center;
 }
 
 #context-container{
-    width: 20vw;
+    width: 23vw;
     height: 100vh;
     background-color: rgb(112,135,114, 0.8);
 }
 
-#search-field {
-  width: 18vw;
-  padding: 0.5vw;
+#context-add{
+  width: 21vw;
+  height: 3vw;
   margin: 0.5vw;
+  padding: 0.5vw;
+  outline: none;
+  margin-bottom: 1vw;
+  background-color: rgb(112,135,114);
+  color: white;
 }
 
-#context-add{
-  width: 2.5vw;
-  height: 2.5vw; 
+#context-add-button{
+  margin-left: 0.5vw;
+  color: white;
+  font-size: 2.8vw;
+  cursor: pointer;
+}
+
+#context-add-button:focus{
+  outline:none;
 }
 
 #context-input {
-    width: 15.45vw;
-    outline: none;
-    margin-bottom: 0.5vw;
-    padding: 0.5vw;
+  width: 15vw;
+  height: 2.2vw;
+  outline: none;
+  font-size: 2.5vw;
+  color: white;
 }
 
 #task-container{
-    /*Have a padding to the left for all items*/
-    width: 80vw;
+    width: 60vw;
     height: 100vh;
     background-color: rgb(112,135,114, 0.5);
+    background: url("img/background-flower.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
-#context-heading{
-  /*Change color to input box color*/
-  /*Have margin between heading and input box*/
-  /*align the text to the left*/
-  color: white;
-  margin: 5px;
+.heading-container{
+  margin: 0.6vw;
   display: inline-block;
+  font-size: 2.8vw; 
 }
 
-#task-input {
-    width: 500px;
-    height: 25px;
-    outline: none;
-    margin-bottom: 5px;
-    background-color: rgb(112,135,114);
-    color: white;
+#heading-task-container{
+  color: black;
+}
+
+#heading-context-container{
+  color: palegoldenrod;
+}
+
+#task-add {
+  width: 58vw;
+  height: 3vw;
+  margin: 0.5vw;
+  padding: 0.5vw;
+  outline: none;
+  margin-bottom: 1vw;
+  background-color: rgb(112,135,114);
+  color: white;
+}
+
+#task-input { 
+  width: 55vw;
+  height: 2.2vw;
+  outline: none;
+  font-size: 2.5vw;
+  color: white;
+} 
+
+#task-add-button{
+  margin-left: 0.5vw;
+  color: white;
+  font-size: 2.8vw;
+  cursor: pointer;
+}
+
+#task-add-button:focus{
+  outline:none;
 }
 
 .task, .context{
-    width: 18vw;
-    background-color: aqua;
+    font-size: 2.0vw;
     margin: 0.5vw;
     padding: 0.5vw;
 }
 
-.delete-task-button, .delete-context-button {
-    /*Delete should look like it is inside input box*/
-    /*Delete sign white*/
-    float: right; 
+.context {
+  width: 21vw;
+  background-color: palegoldenrod;
+}
+
+.task {
+  width: 58vw;
+  background-color: white;
+}
+
+/* fa is the class of the trash icon from font-awesome */
+.fa {
+  float: right; 
+}
+
+.fa:hover {
+  cursor:pointer;
 }
 
 ::placeholder{
     color: white;
-    opacity: 1; /*Firefox*/
+    opacity: 0.6; /*Firefox*/
+    font-size: 1.8vw;
+}
+
+input{
+  font-size: 2.0vw;
 }
