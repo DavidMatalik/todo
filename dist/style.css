@@ -111,8 +111,13 @@
   width: 58vw;
 }
 
+/* fa is the class of the trash icon from font-awesome */
 .fa {
   float: right; 
+}
+
+.fa:hover {
+  cursor:pointer;
 }
 
 ::placeholder{
