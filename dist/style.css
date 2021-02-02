@@ -2,7 +2,6 @@
 
 #container{
     display: flex;
-    font-size: 20px; 
     justify-content: center;
     /*Have searchbar and heading of the two containers next to each other*/
 }
@@ -56,13 +55,14 @@
     background-color: rgb(112,135,114, 0.5);
 }
 
-#context-heading{
+.heading-container{
   /*Change color to input box color*/
   /*Have margin between heading and input box*/
   /*align the text to the left*/
   color: white;
   margin: 0.6vw;
   display: inline-block;
+  font-size: 2.8vw; 
 }
 
 #task-add {
@@ -122,5 +122,6 @@
 
 ::placeholder{
     color: white;
-    opacity: 1; /*Firefox*/
+    opacity: 0.6; /*Firefox*/
+    font-size: 1.8vw;
 }
