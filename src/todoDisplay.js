@@ -155,17 +155,17 @@ class TodoDisplay {
   }
 
   onMsOverHighlight () {
-    this.style.backgroundColor = 'green'
+    this.style.opacity = '0.7'
   }
 
   onMsOutNormal () {
-    this.style.backgroundColor = 'aqua'
+    this.style.opacity = '1'
   }
 
   createTaskCopy (elementWithHandler) {
     this.temporarySavedTaskElement = elementWithHandler
     const taskElementCopy = this.temporarySavedTaskElement.cloneNode(true)
-    taskElementCopy.style.backgroundColor = 'red'
+    // taskElementCopy.style.backgroundColor = 'red'
     taskElementCopy.id = 'task-copy'
     this.bodyElement.appendChild(taskElementCopy)
     return taskElementCopy
@@ -195,7 +195,7 @@ class TodoDisplay {
       element.removeEventListener('mouseover', _this.onMsOverHighlight)
       element.removeEventListener('mouseout', _this.onMsOutNormal)
       element.removeEventListener('mouseup', _this.onMsUpAnalyzePosition)
-      element.style.backgroundColor = 'aqua'
+      element.style.opacity = '1'
     })
   }
 
