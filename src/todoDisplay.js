@@ -4,11 +4,11 @@ class TodoDisplay {
     this.bodyElement = document.querySelector('body')
     this.contextContainer = document.getElementById('context-container')
     this.contextInput = document.getElementById('context-input')
-    this.contextButton = document.getElementById('context-add')
+    this.contextButton = document.getElementById('context-add-button')
     this.taskContainer = document.getElementById('task-container')
     this.taskList = document.getElementById('tasks')
     this.taskInput = document.getElementById('task-input')
-    this.taskButton = document.getElementById('task-add')
+    this.taskButton = document.getElementById('task-add-button')
     this.activeContext = null
 
     this.onClickAddContext = null
@@ -78,8 +78,9 @@ class TodoDisplay {
   }
 
   createDelBtn () {
-    const deleteButton = document.createElement('button')
-    deleteButton.innerHTML = 'del'
+    const deleteButton = document.createElement('i')
+    deleteButton.classList.add('fa')
+    deleteButton.classList.add('fa-trash-o')
     deleteButton.addEventListener('click', this.onClickDeleteItem)
     return deleteButton
   }
@@ -105,9 +106,9 @@ class TodoDisplay {
 
   createInputBox (textElement) {
     const inputBox = document.createElement('input')
-    const placeHolder = textElement.firstChild.textContent
+    const inputBoxValue = textElement.firstChild.textContent
     inputBox.type = 'text'
-    inputBox.placeholder = placeHolder
+    inputBox.value = inputBoxValue
     inputBox.addEventListener('keyup', this.onEnterSaveInput)
     return inputBox
   }
@@ -120,6 +121,8 @@ class TodoDisplay {
     const para = this.itemElements.parentNode
     para.firstChild.remove()
     para.appendChild(inputBox)
+    // Put cursor directly into text to edit it
+    inputBox.focus()
   }
 
   updateItemAfterEdit (para, text) {
@@ -154,17 +157,17 @@ class TodoDisplay {
   }
 
   onMsOverHighlight () {
-    this.style.backgroundColor = 'green'
+    this.style.opacity = '0.7'
   }
 
   onMsOutNormal () {
-    this.style.backgroundColor = 'aqua'
+    this.style.opacity = '1'
   }
 
   createTaskCopy (elementWithHandler) {
     this.temporarySavedTaskElement = elementWithHandler
     const taskElementCopy = this.temporarySavedTaskElement.cloneNode(true)
-    taskElementCopy.style.backgroundColor = 'red'
+    // taskElementCopy.style.backgroundColor = 'red'
     taskElementCopy.id = 'task-copy'
     this.bodyElement.appendChild(taskElementCopy)
     return taskElementCopy
@@ -194,7 +197,7 @@ class TodoDisplay {
       element.removeEventListener('mouseover', _this.onMsOverHighlight)
       element.removeEventListener('mouseout', _this.onMsOutNormal)
       element.removeEventListener('mouseup', _this.onMsUpAnalyzePosition)
-      element.style.backgroundColor = 'aqua'
+      element.style.opacity = '1'
     })
   }
 
@@ -212,6 +215,10 @@ class TodoDisplay {
     return this.contextInput.value
   }
 
+  resetContextInput () {
+    this.contextInput.value = ''
+  }
+
   removeElement (element) {
     element.remove()
   }
@@ -222,6 +229,10 @@ class TodoDisplay {
 
   getTaskInputValue () {
     return this.taskInput.value
+  }
+
+  resetTaskInput () {
+    this.taskInput.value = ''
   }
 
   getUserInput (event) {
