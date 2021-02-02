@@ -106,9 +106,9 @@ class TodoDisplay {
 
   createInputBox (textElement) {
     const inputBox = document.createElement('input')
-    const placeHolder = textElement.firstChild.textContent
+    const inputBoxValue = textElement.firstChild.textContent
     inputBox.type = 'text'
-    inputBox.placeholder = placeHolder
+    inputBox.value = inputBoxValue
     inputBox.addEventListener('keyup', this.onEnterSaveInput)
     return inputBox
   }
@@ -121,6 +121,8 @@ class TodoDisplay {
     const para = this.itemElements.parentNode
     para.firstChild.remove()
     para.appendChild(inputBox)
+    // Put cursor directly into text to edit it
+    inputBox.focus()
   }
 
   updateItemAfterEdit (para, text) {
