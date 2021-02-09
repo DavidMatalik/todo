@@ -18,6 +18,7 @@ class TodoController {
     const _this = this
     this.todoDisplay.onClickAddContext = this.onClickAddContext.bind(this)
     this.todoDisplay.onClickAddTask = this.onClickAddTask.bind(this)
+    // https://stackoverflow.com/questions/256754/how-to-pass-arguments-to-addeventlistener-listener-function/54731362#54731362
     // Writing conlickDeleteContext so, that following arguments are passed:
     // this which equals TodoController object
     // event of event Listener which isn't seen here
@@ -39,13 +40,13 @@ class TodoController {
   }
 
   onClickAddContext () {
-    const userInput = this.todoDisplay.getContextInputValue()
+    const userInput = this.todoDisplay.getContextInputValue() || 'Give me a name'
     this.createNewContext(userInput)
     this.todoDisplay.resetContextInput()
   }
 
   onClickAddTask () {
-    const userInput = this.todoDisplay.getTaskInputValue()
+    const userInput = this.todoDisplay.getTaskInputValue() || 'Give me a name'
     this.createNewTask(userInput)
     this.todoDisplay.resetTaskInput()
   }
