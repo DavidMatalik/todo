@@ -55,6 +55,7 @@ class TodoController {
     this.activeContext = this.contextList.getActiveContext()
     const contexts = this.contextList.getAllContexts()
     this.todoDisplay.renderAllContexts(contexts, this.activeContext)
+    this.todoDisplay.setContextHeading(this.activeContext.text)
   }
 
   createNewTask (text) {
@@ -97,6 +98,7 @@ class TodoController {
     this.todoDisplay.renderTasks(tasks)
     // Highlight active Context
     this.todoDisplay.highlightActiveContext(elementWithHandler)
+    this.todoDisplay.setContextHeading(clickedContext.text)
   }
 
   onDclickEditItem (_this, event) {

@@ -9,6 +9,7 @@ class TodoDisplay {
     this.taskList = document.getElementById('tasks')
     this.taskInput = document.getElementById('task-input')
     this.taskButton = document.getElementById('task-add-button')
+    this.taskHeading = document.getElementById('heading-task-container')
     this.activeContext = null
 
     this.onClickAddContext = null
@@ -199,6 +200,10 @@ class TodoDisplay {
       element.removeEventListener('mouseup', _this.onMsUpAnalyzePosition)
       element.style.opacity = '1'
     })
+  }
+
+  setContextHeading (newHeading) {
+    this.taskHeading.innerText = newHeading
   }
 
   // Simple Helper functions
