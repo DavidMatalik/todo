@@ -155,6 +155,7 @@ class TodoDisplay {
       element.addEventListener('mouseout', _this.onMsOutNormal)
       element.addEventListener('mouseup', _this.onMsUpAnalyzePosition)
     })
+    this.changeUserSelect('none')
   }
 
   onMsOverHighlight () {
@@ -200,10 +201,17 @@ class TodoDisplay {
       element.removeEventListener('mouseup', _this.onMsUpAnalyzePosition)
       element.style.opacity = '1'
     })
+    this.changeUserSelect('auto')
   }
 
   setContextHeading (newHeading) {
     this.taskHeading.innerText = newHeading
+  }
+
+  changeUserSelect (mode) {
+    document.querySelectorAll('*').forEach(node => {
+      node.style.userSelect = mode
+    })
   }
 
   // Simple Helper functions
