@@ -15,6 +15,7 @@ class TodoController {
   }
 
   init () {
+    this.setDefaultTasks()
     const _this = this
     this.todoDisplay.onClickAddContext = this.onClickAddContext.bind(this)
     this.todoDisplay.onClickAddTask = this.onClickAddTask.bind(this)
@@ -39,6 +40,21 @@ class TodoController {
     this.loadStartPage()
   }
 
+  setDefaultTasks () {
+    this.activeContext = this.contextList.getActiveContext()
+    this.createNewTask('Double click me to edit my name')
+    this.createNewTask('Create a new list')
+    this.createNewTask('Click and hold me to move me to the new list')
+  }
+
+  loadStartPage () {
+    const contexts = this.contextList.getAllContexts()
+    const tasks = this.activeContext.taskList
+    this.todoDisplay.renderTasks(tasks)
+    this.todoDisplay.renderAllContexts(contexts, this.activeContext)
+    this.todoDisplay.setContextHeading(this.activeContext.text)
+  }
+
   onClickAddContext () {
     const userInput = this.todoDisplay.getContextInputValue() || 'Give me a name'
     this.createNewContext(userInput)
@@ -49,18 +65,6 @@ class TodoController {
     const userInput = this.todoDisplay.getTaskInputValue() || 'Give me a name'
     this.createNewTask(userInput)
     this.todoDisplay.resetTaskInput()
-  }
-
-  loadStartPage () {
-    this.activeContext = this.contextList.getActiveContext()
-    const contexts = this.contextList.getAllContexts()
-    const tasks = this.activeContext.taskList
-    this.createNewTask('Double click me to edit my name')
-    this.createNewTask('Create a new list')
-    this.createNewTask('Click and hold me to move me to the new list')
-    this.todoDisplay.renderTasks(tasks)
-    this.todoDisplay.renderAllContexts(contexts, this.activeContext)
-    this.todoDisplay.setContextHeading(this.activeContext.text)
   }
 
   createNewTask (text) {
