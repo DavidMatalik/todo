@@ -28,17 +28,17 @@ class TodoController {
     this.todoDisplay.onClickChangeContext = function () {
       _this.onClickChangeContext(this, _this)
     }
-    // this.todoDisplay.onDclickEditItem = this.onDclickEditItem.bind(null, this)
     this.todoDisplay.onDclickEditItem = function () {
       _this.onDclickEditItem(this, _this)
     }
-    this.todoDisplay.onEnterSaveInput = this.onEnterSaveInput.bind(null, this)
+    this.todoDisplay.onEnterSaveInput = this.saveInput.bind(null, this)
     this.todoDisplay.onMsDwnCopyTask = function () {
       _this.onMsDwnCopyTask(this, _this)
     }
     this.todoDisplay.onMsUpAnalyzePosition = function (event) {
       _this.onMsUpAnalyzePosition(event, this, _this)
     }
+    this.todoDisplay.onClickOutsideSave = this.saveInput.bind(null, this)
     this.todoDisplay.initListeners()
     this.loadStartPage()
   }
@@ -91,7 +91,6 @@ class TodoController {
     if (className.contains('context')) {
       _this.contextList.deleteContext(itemToDeleteId)
     } else if (className.contains('task')) {
-      console.log('ClassName contains task')
       _this.contextList.activeContext.deleteTask(itemToDeleteId)
     }
 
@@ -113,18 +112,14 @@ class TodoController {
     this.todoDisplay.setContextHeading(clickedContext.text)
   }
 
-  /* onDclickEditItem (_this, event) {
-    _this.todoDisplay.prepareItemEdit(event.target)
-  } */
-
   onDclickEditItem (elementWithHandler, _this) {
     _this.todoDisplay.prepareItemEdit(elementWithHandler)
   }
 
-  onEnterSaveInput (_this, event) {
-    if (event.key === 'Enter') {
-      const input = _this.todoDisplay.getUserInput(event)
-      const itemElement = _this.todoDisplay.getItemElement(event)
+  saveInput (_this, event) {
+    if (event.key === 'Enter' || event.type === 'click') {
+      const input = _this.todoDisplay.getEditInput()
+      const itemElement = _this.todoDisplay.getEditItem()
       const itemId = _this.todoDisplay.getItemId(itemElement)
       const className = _this.todoDisplay.getClassName(itemElement)
 
@@ -136,7 +131,7 @@ class TodoController {
         // For Line below should be implemented a setter method in Context
         _this.contextList.activeContext.taskList[taskIndex].text = input
       }
-      _this.todoDisplay.updateItemAfterEdit(itemElement, input)
+      _this.todoDisplay.updateDomAfterEdit(itemElement, input)
     }
   }
 

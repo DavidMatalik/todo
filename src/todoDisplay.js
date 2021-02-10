@@ -17,6 +17,7 @@ class TodoDisplay {
     this.onClickChangeContext = null
     this.onDclickEditContext = null
     this.onEnterSaveInput = null
+    this.onClickOutsideSave = null
 
     this.onClickAddTask = null
     this.onMsDwnCopyTask = null
@@ -74,7 +75,6 @@ class TodoDisplay {
     para.dataset.itemid = id
     para.classList.add(className)
     para.addEventListener('dblclick', this.onDclickEditItem)
-    console.log(para)
     para.appendChild(innerContent)
     return para
   }
@@ -105,6 +105,10 @@ class TodoDisplay {
     const maxLength = this.defineMaxLength()
     const inputBox = this.createInputBox(para, maxLength)
     this.createEditableElement(inputBox)
+    // Implement click Listener for whole page to exit edit
+    // except current element
+    this.bodyElement.addEventListener('click', this.onClickOutsideSave)
+    inputBox.addEventListener('click', event => event.stopPropagation())
   }
 
   saveItemElements (para) {
@@ -121,6 +125,7 @@ class TodoDisplay {
     const inputBox = document.createElement('input')
     const inputBoxValue = para.firstChild.textContent
     inputBox.type = 'text'
+    inputBox.id = 'edit-item-field'
     inputBox.maxLength = length
     inputBox.value = inputBoxValue
     inputBox.addEventListener('keyup', this.onEnterSaveInput)
@@ -129,18 +134,23 @@ class TodoDisplay {
 
   createEditableElement (inputBox) {
     const para = this.itemElements.parentNode
+    para.id = 'edit-item'
     para.firstChild.remove()
     para.appendChild(inputBox)
     // Put cursor directly into text to edit it
     inputBox.focus()
   }
 
-  updateItemAfterEdit (para, text) {
+  updateDomAfterEdit (para, text) {
     this.itemElements.firstChild.innerHTML = text
     // Remove inputBox
     para.firstChild.remove()
     // Append updated Text and Delete Button
     para.appendChild(this.itemElements)
+    // Remove edit id for new use
+    para.removeAttribute('id')
+    // Remove event listener from body
+    this.bodyElement.removeEventListener('click', this.onClickOutsideSave)
   }
 
   /* Move task to other context functions: attachTasktoMouse, onMsOverHighlight, onMsOutNormal
@@ -229,8 +239,9 @@ class TodoDisplay {
     return element.dataset.itemid
   }
 
-  getItemElement (event) {
-    return event.target.parentNode
+  getEditItem () {
+    const itemElement = document.getElementById('edit-item')
+    return itemElement
   }
 
   getContextInputValue () {
@@ -257,8 +268,9 @@ class TodoDisplay {
     this.taskInput.value = ''
   }
 
-  getUserInput (event) {
-    return event.target.value
+  getEditInput () {
+    const inputField = document.getElementById('edit-item-field')
+    return inputField.value
   }
 
   getClassName (element) {
