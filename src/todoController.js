@@ -54,6 +54,11 @@ class TodoController {
   loadStartPage () {
     this.activeContext = this.contextList.getActiveContext()
     const contexts = this.contextList.getAllContexts()
+    const tasks = this.activeContext.taskList
+    this.createNewTask('Double click me to edit my name')
+    this.createNewTask('Create a new list')
+    this.createNewTask('Click and hold me to move me to the new list')
+    this.todoDisplay.renderTasks(tasks)
     this.todoDisplay.renderAllContexts(contexts, this.activeContext)
     this.todoDisplay.setContextHeading(this.activeContext.text)
   }
