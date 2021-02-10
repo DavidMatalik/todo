@@ -100,22 +100,30 @@ class TodoDisplay {
   saveItemElements, createEditableElement, updateItemAfterEdit */
 
   prepareItemEdit (textElement) {
-    const inputBox = this.createInputBox(textElement)
     this.saveItemElements(textElement)
+    const maxLength = this.defineMaxLength()
+    const inputBox = this.createInputBox(textElement, maxLength)
     this.createEditableElement(inputBox)
-  }
-
-  createInputBox (textElement) {
-    const inputBox = document.createElement('input')
-    const inputBoxValue = textElement.firstChild.textContent
-    inputBox.type = 'text'
-    inputBox.value = inputBoxValue
-    inputBox.addEventListener('keyup', this.onEnterSaveInput)
-    return inputBox
   }
 
   saveItemElements (textElement) {
     this.itemElements = textElement.parentNode
+  }
+
+  defineMaxLength () {
+    const itemType = this.itemElements.parentNode.className
+    if (itemType === 'task') return 25
+    if (itemType === 'context') return 8
+  }
+
+  createInputBox (textElement, length) {
+    const inputBox = document.createElement('input')
+    const inputBoxValue = textElement.firstChild.textContent
+    inputBox.type = 'text'
+    inputBox.maxLength = length
+    inputBox.value = inputBoxValue
+    inputBox.addEventListener('keyup', this.onEnterSaveInput)
+    return inputBox
   }
 
   createEditableElement (inputBox) {
