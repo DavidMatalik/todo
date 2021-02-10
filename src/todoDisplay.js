@@ -74,6 +74,7 @@ class TodoDisplay {
     para.dataset.itemid = id
     para.classList.add(className)
     para.addEventListener('dblclick', this.onDclickEditItem)
+    console.log(para)
     para.appendChild(innerContent)
     return para
   }
@@ -99,15 +100,15 @@ class TodoDisplay {
   /* Edit functions: prepareItemEdit, createInputBox,
   saveItemElements, createEditableElement, updateItemAfterEdit */
 
-  prepareItemEdit (textElement) {
-    this.saveItemElements(textElement)
+  prepareItemEdit (para) {
+    this.saveItemElements(para)
     const maxLength = this.defineMaxLength()
-    const inputBox = this.createInputBox(textElement, maxLength)
+    const inputBox = this.createInputBox(para, maxLength)
     this.createEditableElement(inputBox)
   }
 
-  saveItemElements (textElement) {
-    this.itemElements = textElement.parentNode
+  saveItemElements (para) {
+    this.itemElements = para.firstChild
   }
 
   defineMaxLength () {
@@ -116,9 +117,9 @@ class TodoDisplay {
     if (itemType === 'context') return 8
   }
 
-  createInputBox (textElement, length) {
+  createInputBox (para, length) {
     const inputBox = document.createElement('input')
-    const inputBoxValue = textElement.firstChild.textContent
+    const inputBoxValue = para.firstChild.textContent
     inputBox.type = 'text'
     inputBox.maxLength = length
     inputBox.value = inputBoxValue

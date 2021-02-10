@@ -28,7 +28,10 @@ class TodoController {
     this.todoDisplay.onClickChangeContext = function () {
       _this.onClickChangeContext(this, _this)
     }
-    this.todoDisplay.onDclickEditItem = this.onDclickEditItem.bind(null, this)
+    // this.todoDisplay.onDclickEditItem = this.onDclickEditItem.bind(null, this)
+    this.todoDisplay.onDclickEditItem = function () {
+      _this.onDclickEditItem(this, _this)
+    }
     this.todoDisplay.onEnterSaveInput = this.onEnterSaveInput.bind(null, this)
     this.todoDisplay.onMsDwnCopyTask = function () {
       _this.onMsDwnCopyTask(this, _this)
@@ -110,8 +113,12 @@ class TodoController {
     this.todoDisplay.setContextHeading(clickedContext.text)
   }
 
-  onDclickEditItem (_this, event) {
+  /* onDclickEditItem (_this, event) {
     _this.todoDisplay.prepareItemEdit(event.target)
+  } */
+
+  onDclickEditItem (elementWithHandler, _this) {
+    _this.todoDisplay.prepareItemEdit(elementWithHandler)
   }
 
   onEnterSaveInput (_this, event) {
