@@ -95,7 +95,6 @@ class TodoController {
     }
 
     _this.todoDisplay.removeElement(elementToDelete)
-    // Prevent bubbling of event up to onClickChangeContext Listener
     event.stopPropagation()
   }
 

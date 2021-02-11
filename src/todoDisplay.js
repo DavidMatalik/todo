@@ -109,6 +109,7 @@ class TodoDisplay {
     // except current element
     this.bodyElement.addEventListener('click', this.onClickOutsideSave)
     inputBox.addEventListener('click', event => event.stopPropagation())
+    this.addContextListeners()
   }
 
   saveItemElements (para) {
@@ -151,6 +152,8 @@ class TodoDisplay {
     para.removeAttribute('id')
     // Remove event listener from body
     this.bodyElement.removeEventListener('click', this.onClickOutsideSave)
+    // Append event listeners to contexts
+    this.addContextListeners()
   }
 
   /* Move task to other context functions: attachTasktoMouse, onMsOverHighlight, onMsOutNormal
@@ -277,6 +280,18 @@ class TodoDisplay {
 
   getClassName (element) {
     return element.classList
+  }
+
+  removeContextListeners () {
+    document.querySelectorAll('.context').forEach(context => {
+      context.removeEventListener('click', this.onClickChangeContext)
+    })
+  }
+
+  addContextListeners () {
+    document.querySelectorAll('.context').forEach(context => {
+      context.addEventListener('click', this.onClickChangeContext)
+    })
   }
 }
 
