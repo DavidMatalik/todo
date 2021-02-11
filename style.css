@@ -127,6 +127,7 @@
     font-size: 1.8vw;
 }
 
-input{
-  font-size: 2.0vw;
+#edit-item-field{
+  font-size: 1.9vw;
+  width: 100%; 
 }
