@@ -188,8 +188,9 @@ class TodoDisplay {
   createTaskCopy (elementWithHandler) {
     this.temporarySavedTaskElement = elementWithHandler
     const taskElementCopy = this.temporarySavedTaskElement.cloneNode(true)
-    // taskElementCopy.style.backgroundColor = 'red'
     taskElementCopy.id = 'task-copy'
+    taskElementCopy.style.width = '25vw'
+    taskElementCopy.style.display = 'none'
     this.bodyElement.appendChild(taskElementCopy)
     return taskElementCopy
   }
@@ -201,6 +202,7 @@ class TodoDisplay {
     taskElementCopy.style.position = 'absolute'
     taskElementCopy.style.top = `${mousePositionVertical}px`
     taskElementCopy.style.left = `${mousePositionHorizontal + 10}px`
+    taskElementCopy.style.display = 'block'
   }
 
   removeTaskCopy () {
