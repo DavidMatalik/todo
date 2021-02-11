@@ -261,6 +261,11 @@ class TodoDisplay {
     element.remove()
   }
 
+  removeTasks () {
+    console.log('in here')
+    this.taskList.innerHTML = ''
+  }
+
   getElementToDelete (event) {
     return event.target.parentNode.parentNode
   }
