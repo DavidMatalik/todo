@@ -12,6 +12,8 @@ Use local Storage
 
 TodoDisplay is very big - split code in more Classes?
 
+There is a lot of direct styling in JS - better just add classes in JS and style classes in CSS?
+
 # Todos
 
 Create a real Database
