@@ -5,7 +5,7 @@ import { TodoDisplay } from './todoDisplay'
 
 // Handles all the todo App logic
 class TodoController {
-  constructor (TodoDisplay, Task, Context, ContextList) {
+  constructor(TodoDisplay, Task, Context, ContextList) {
     this.Task = Task
     this.Context = Context
     this.contextList = new ContextList(this.Context)
@@ -14,7 +14,7 @@ class TodoController {
     this.init()
   }
 
-  init () {
+  init() {
     this.setDefaultTasks()
     const _this = this
     this.todoDisplay.onClickAddContext = this.onClickAddContext.bind(this)
@@ -43,14 +43,14 @@ class TodoController {
     this.loadStartPage()
   }
 
-  setDefaultTasks () {
+  setDefaultTasks() {
     this.activeContext = this.contextList.getActiveContext()
     this.createNewTask('Double click me to edit my name')
     this.createNewTask('Create a new list')
     this.createNewTask('Click and hold me to move me to the new list')
   }
 
-  loadStartPage () {
+  loadStartPage() {
     const contexts = this.contextList.getAllContexts()
     const tasks = this.activeContext.taskList
     this.todoDisplay.renderTasks(tasks)
@@ -58,32 +58,33 @@ class TodoController {
     this.todoDisplay.setContextHeading(this.activeContext.text)
   }
 
-  onClickAddContext () {
-    const userInput = this.todoDisplay.getContextInputValue() || 'Give me a name'
+  onClickAddContext() {
+    const userInput =
+      this.todoDisplay.getContextInputValue() || 'Give me a name'
     this.createNewContext(userInput)
     this.todoDisplay.resetContextInput()
   }
 
-  onClickAddTask () {
+  onClickAddTask() {
     const userInput = this.todoDisplay.getTaskInputValue() || 'Give me a name'
     this.createNewTask(userInput)
     this.todoDisplay.resetTaskInput()
   }
 
-  createNewTask (text) {
+  createNewTask(text) {
     const task = new this.Task(text)
     this.contextList.getActiveContext().appendTask(task)
     this.todoDisplay.appendNewTask(task)
   }
 
-  createNewContext (text) {
+  createNewContext(text) {
     const context = new this.Context(text)
     context.onClickChangeContext = this.onClickChangeContext
     this.contextList.addNewContext(context)
     this.todoDisplay.appendNewContext(context)
   }
 
-  onClickDeleteItem (_this, event) {
+  onClickDeleteItem(_this, event) {
     const elementToDelete = _this.todoDisplay.getElementToDelete(event)
     const itemToDeleteId = _this.todoDisplay.getItemId(elementToDelete)
     const className = _this.todoDisplay.getClassName(elementToDelete)
@@ -99,8 +100,10 @@ class TodoController {
     event.stopPropagation()
   }
 
-  onClickChangeContext (elementWithHandler, _this) {
-    const clickedContextElementId = _this.todoDisplay.getItemId(elementWithHandler)
+  onClickChangeContext(elementWithHandler, _this) {
+    const clickedContextElementId = _this.todoDisplay.getItemId(
+      elementWithHandler
+    )
     const clickedContext = _this.contextList.getContext(clickedContextElementId)
     // Change active Context
     this.contextList.setActiveContext(clickedContext)
@@ -112,11 +115,11 @@ class TodoController {
     this.todoDisplay.setContextHeading(clickedContext.text)
   }
 
-  onDclickEditItem (elementWithHandler, _this) {
+  onDclickEditItem(elementWithHandler, _this) {
     _this.todoDisplay.prepareItemEdit(elementWithHandler)
   }
 
-  saveInput (_this, event) {
+  saveInput(_this, event) {
     if (event.key === 'Enter' || event.type === 'click') {
       const input = _this.todoDisplay.getEditInput()
       const itemElement = _this.todoDisplay.getEditItem()
@@ -137,17 +140,19 @@ class TodoController {
 
   // Soll das wirklich hier rein? Nicht besser direkt in todoDisplay,
   // nur eine Methode von todoDisplay aufgerufen wird?!!
-  onMsDwnCopyTask (elementWithHandler, _this) {
+  onMsDwnCopyTask(elementWithHandler, _this) {
     _this.todoDisplay.attachTaskToMouse(elementWithHandler)
   }
 
-  onMsUpAnalyzePosition (event, elementWithHandler, _this) {
+  onMsUpAnalyzePosition(event, elementWithHandler, _this) {
     if (elementWithHandler.classList.contains('context')) {
       const activeContext = _this.contextList.getActiveContext()
       const taskToMoveElement = _this.todoDisplay.temporarySavedTaskElement
       const taskToMoveId = _this.todoDisplay.getItemId(taskToMoveElement)
       const taskToMove = _this.contextList.activeContext.getTask(taskToMoveId)
-      const chosenContextElementId = _this.todoDisplay.getItemId(elementWithHandler)
+      const chosenContextElementId = _this.todoDisplay.getItemId(
+        elementWithHandler
+      )
       const chosenContext = _this.contextList.getContext(chosenContextElementId)
 
       chosenContext.appendTask(taskToMove)
@@ -160,12 +165,17 @@ class TodoController {
     _this.todoDisplay.undoTaskMoveActions()
   }
 
-  removeTask (task) {
+  removeTask(task) {
     this.contextList.getActiveContext().deleteTask(task)
     // remove this task from current View
   }
 }
 
-const todoController = new TodoController(TodoDisplay, Task, Context, ContextList)
+const todoController = new TodoController(
+  TodoDisplay,
+  Task,
+  Context,
+  ContextList
+)
 
 export { todoController }

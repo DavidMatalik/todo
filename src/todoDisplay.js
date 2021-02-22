@@ -1,6 +1,6 @@
 // Creates the right view of the current state of objects
 class TodoDisplay {
-  constructor () {
+  constructor() {
     this.bodyElement = document.querySelector('body')
     this.contextContainer = document.getElementById('context-container')
     this.contextInput = document.getElementById('context-input')
@@ -24,40 +24,46 @@ class TodoDisplay {
     this.onMsUpAnalyzePosition = null
   }
 
-  initListeners () {
+  initListeners() {
     this.contextButton.addEventListener('click', this.onClickAddContext)
     this.taskButton.addEventListener('click', this.onClickAddTask)
   }
 
-  renderAllContexts (contexts, activeContext) {
+  renderAllContexts(contexts, activeContext) {
     // Render context elements
     contexts.forEach(this.appendNewContext.bind(this))
     // Highlight active context element
-    this.activeContext = document.querySelector(`[data-itemid="${activeContext.id}"]`)
+    this.activeContext = document.querySelector(
+      `[data-itemid="${activeContext.id}"]`
+    )
     this.highlightActiveContext(this.activeContext)
   }
 
-  appendNewContext (context) {
+  appendNewContext(context) {
     const delBtn = this.createDelBtn()
     const innerContent = this.createInnerContent(context.text, delBtn)
     const className = 'context'
-    const contextElement = this.createItemElement(context.id, innerContent, className)
+    const contextElement = this.createItemElement(
+      context.id,
+      innerContent,
+      className
+    )
     contextElement.addEventListener('click', this.onClickChangeContext)
     this.contextContainer.appendChild(contextElement)
   }
 
-  highlightActiveContext (element) {
+  highlightActiveContext(element) {
     this.activeContext.style.border = 'none'
     this.activeContext = element
     element.style.border = '1px solid black'
   }
 
-  renderTasks (tasks) {
+  renderTasks(tasks) {
     this.taskList.innerHTML = ''
     tasks.forEach(this.appendNewTask.bind(this))
   }
 
-  appendNewTask (task) {
+  appendNewTask(task) {
     const delBtn = this.createDelBtn()
     const innerContent = this.createInnerContent(task.text, delBtn)
     const className = 'task'
@@ -70,7 +76,7 @@ class TodoDisplay {
   /* Helper functions to create Task or Context:
   createItemElement, createDelBtn, createInnerContent */
 
-  createItemElement (id, innerContent, className) {
+  createItemElement(id, innerContent, className) {
     const para = document.createElement('p')
     para.dataset.itemid = id
     para.classList.add(className)
@@ -79,7 +85,7 @@ class TodoDisplay {
     return para
   }
 
-  createDelBtn () {
+  createDelBtn() {
     const deleteButton = document.createElement('i')
     deleteButton.classList.add('fa')
     deleteButton.classList.add('fa-trash-o')
@@ -87,7 +93,7 @@ class TodoDisplay {
     return deleteButton
   }
 
-  createInnerContent (text, delBtn) {
+  createInnerContent(text, delBtn) {
     // Here you could create an extra method to separate span
     const innerContent = document.createElement('div')
     const span = document.createElement('span')
@@ -100,7 +106,7 @@ class TodoDisplay {
   /* Edit functions: prepareItemEdit, createInputBox,
   saveItemElements, createEditableElement, updateItemAfterEdit */
 
-  prepareItemEdit (para) {
+  prepareItemEdit(para) {
     this.saveItemElements(para)
     const maxLength = this.defineMaxLength()
     const inputBox = this.createInputBox(para, maxLength)
@@ -108,21 +114,21 @@ class TodoDisplay {
     // Implement click Listener for whole page to exit edit
     // except current element
     this.bodyElement.addEventListener('click', this.onClickOutsideSave)
-    inputBox.addEventListener('click', event => event.stopPropagation())
+    inputBox.addEventListener('click', (event) => event.stopPropagation())
     this.addContextListeners()
   }
 
-  saveItemElements (para) {
+  saveItemElements(para) {
     this.itemElements = para.firstChild
   }
 
-  defineMaxLength () {
+  defineMaxLength() {
     const itemType = this.itemElements.parentNode.className
     if (itemType === 'task') return 25
     if (itemType === 'context') return 8
   }
 
-  createInputBox (para, length) {
+  createInputBox(para, length) {
     const inputBox = document.createElement('input')
     const inputBoxValue = para.firstChild.textContent
     inputBox.type = 'text'
@@ -133,7 +139,7 @@ class TodoDisplay {
     return inputBox
   }
 
-  createEditableElement (inputBox) {
+  createEditableElement(inputBox) {
     const para = this.itemElements.parentNode
     para.id = 'edit-item'
     para.firstChild.remove()
@@ -142,7 +148,7 @@ class TodoDisplay {
     inputBox.focus()
   }
 
-  updateDomAfterEdit (para, text) {
+  updateDomAfterEdit(para, text) {
     this.itemElements.firstChild.innerHTML = text
     // Remove inputBox
     para.firstChild.remove()
@@ -159,12 +165,14 @@ class TodoDisplay {
   /* Move task to other context functions: attachTasktoMouse, onMsOverHighlight, onMsOutNormal
   createTaskCopy, moveTaskWithMouse, removeTaskCopy, undoTaskMoveActions */
 
-  attachTaskToMouse (elementWithHandler) {
+  attachTaskToMouse(elementWithHandler) {
     const taskElementCopy = this.createTaskCopy(elementWithHandler)
 
     // Append mousemovement listener for moving the task with mouse
-    this.bodyElement.addEventListener('mousemove',
-      this.moveTaskWithMouse.bind(null, this, taskElementCopy))
+    this.bodyElement.addEventListener(
+      'mousemove',
+      this.moveTaskWithMouse.bind(null, this, taskElementCopy)
+    )
 
     // Append mouseup listener to whole page
     this.bodyElement.addEventListener('mouseup', this.onMsUpAnalyzePosition)
@@ -180,15 +188,15 @@ class TodoDisplay {
     this.changeUserSelect('none')
   }
 
-  onMsOverHighlight () {
+  onMsOverHighlight() {
     this.style.opacity = '0.7'
   }
 
-  onMsOutNormal () {
+  onMsOutNormal() {
     this.style.opacity = '1'
   }
 
-  createTaskCopy (elementWithHandler) {
+  createTaskCopy(elementWithHandler) {
     this.temporarySavedTaskElement = elementWithHandler
     const taskElementCopy = this.temporarySavedTaskElement.cloneNode(true)
     taskElementCopy.id = 'task-copy'
@@ -198,7 +206,7 @@ class TodoDisplay {
     return taskElementCopy
   }
 
-  moveTaskWithMouse (_this, taskElementCopy, event) {
+  moveTaskWithMouse(_this, taskElementCopy, event) {
     // Put copy at specified position
     const mousePositionHorizontal = event.x
     const mousePositionVertical = event.y
@@ -208,12 +216,12 @@ class TodoDisplay {
     taskElementCopy.style.display = 'block'
   }
 
-  removeTaskCopy () {
+  removeTaskCopy() {
     const taskElementCopy = document.getElementById('task-copy')
     taskElementCopy.remove()
   }
 
-  undoTaskMoveActions () {
+  undoTaskMoveActions() {
     this.removeTaskCopy()
     this.bodyElement.removeEventListener('mouseup', this.onMsUpAnalyzePosition)
 
@@ -228,73 +236,73 @@ class TodoDisplay {
     this.changeUserSelect('auto')
   }
 
-  setContextHeading (newHeading) {
+  setContextHeading(newHeading) {
     this.taskHeading.innerText = newHeading
   }
 
-  changeUserSelect (mode) {
-    document.querySelectorAll('*').forEach(node => {
+  changeUserSelect(mode) {
+    document.querySelectorAll('*').forEach((node) => {
       node.style.userSelect = mode
     })
   }
 
   // Simple Helper functions
 
-  getItemId (element) {
+  getItemId(element) {
     return element.dataset.itemid
   }
 
-  getEditItem () {
+  getEditItem() {
     const itemElement = document.getElementById('edit-item')
     return itemElement
   }
 
-  getContextInputValue () {
+  getContextInputValue() {
     return this.contextInput.value
   }
 
-  resetContextInput () {
+  resetContextInput() {
     this.contextInput.value = ''
   }
 
-  removeElement (element) {
+  removeElement(element) {
     element.remove()
   }
 
-  removeTasks () {
+  removeTasks() {
     console.log('in here')
     this.taskList.innerHTML = ''
   }
 
-  getElementToDelete (event) {
+  getElementToDelete(event) {
     return event.target.parentNode.parentNode
   }
 
-  getTaskInputValue () {
+  getTaskInputValue() {
     return this.taskInput.value
   }
 
-  resetTaskInput () {
+  resetTaskInput() {
     this.taskInput.value = ''
   }
 
-  getEditInput () {
+  getEditInput() {
     const inputField = document.getElementById('edit-item-field')
     return inputField.value
   }
 
-  getClassName (element) {
+  getClassName(element) {
     return element.classList
   }
 
-  removeContextListeners () {
-    document.querySelectorAll('.context').forEach(context => {
+  removeContextListeners() {
+    document.querySelectorAll('.context').forEach((context) => {
       context.removeEventListener('click', this.onClickChangeContext)
     })
   }
 
-  addContextListeners () {
-    document.querySelectorAll('.context').forEach(context => {
+  addContextListeners() {
+    document.querySelectorAll('.context').forEach((context) => {
       context.addEventListener('click', this.onClickChangeContext)
     })
   }

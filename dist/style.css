@@ -1,36 +1,36 @@
 /*media query einbauen für unter 800 bis 900 vw, dass tasConter 80 vw statt 60 vw*/
 
-#container{
-    display: flex;
-    justify-content: center;
+#container {
+  display: flex;
+  justify-content: center;
 }
 
-#context-container{
-    width: 23vw;
-    height: 100vh;
-    background-color: rgb(112,135,114, 0.8);
+#context-container {
+  width: 23vw;
+  height: 100vh;
+  background-color: rgb(112, 135, 114, 0.8);
 }
 
-#context-add{
+#context-add {
   width: 21vw;
   height: 3vw;
   margin: 0.5vw;
   padding: 0.5vw;
   outline: none;
   margin-bottom: 1vw;
-  background-color: rgb(112,135,114);
+  background-color: rgb(112, 135, 114);
   color: white;
 }
 
-#context-add-button{
+#context-add-button {
   margin-left: 0.5vw;
   color: white;
   font-size: 2.8vw;
   cursor: pointer;
 }
 
-#context-add-button:focus{
-  outline:none;
+#context-add-button:focus {
+  outline: none;
 }
 
 #context-input {
@@ -41,28 +41,28 @@
   color: white;
 }
 
-#task-container{
-    width: 60vw;
-    height: 100vh;
-    background-color: rgb(112,135,114, 0.5);
-    background: url("img/background-flower.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+#task-container {
+  width: 60vw;
+  height: 100vh;
+  background-color: rgb(112, 135, 114, 0.5);
+  background: url('img/background-flower.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
-.heading-container{
+.heading-container {
   margin: 0.6vw;
   display: inline-block;
-  font-size: 2.8vw; 
+  font-size: 2.8vw;
 }
 
-#heading-task-container{
+#heading-task-container {
   color: black;
 }
 
-#heading-context-container{
+#heading-context-container {
   color: palegoldenrod;
 }
 
@@ -73,33 +73,34 @@
   padding: 0.5vw;
   outline: none;
   margin-bottom: 1vw;
-  background-color: rgb(112,135,114);
+  background-color: rgb(112, 135, 114);
   color: white;
 }
 
-#task-input { 
+#task-input {
   width: 55vw;
   height: 2.2vw;
   outline: none;
   font-size: 2.5vw;
   color: white;
-} 
+}
 
-#task-add-button{
+#task-add-button {
   margin-left: 0.5vw;
   color: white;
   font-size: 2.8vw;
   cursor: pointer;
 }
 
-#task-add-button:focus{
-  outline:none;
+#task-add-button:focus {
+  outline: none;
 }
 
-.task, .context{
-    font-size: 2.0vw;
-    margin: 0.5vw;
-    padding: 0.5vw;
+.task,
+.context {
+  font-size: 2vw;
+  margin: 0.5vw;
+  padding: 0.5vw;
 }
 
 .context {
@@ -114,20 +115,20 @@
 
 /* fa is the class of the trash icon from font-awesome */
 .fa {
-  float: right; 
+  float: right;
 }
 
 .fa:hover {
-  cursor:pointer;
+  cursor: pointer;
 }
 
-::placeholder{
-    color: white;
-    opacity: 0.6; /*Firefox*/
-    font-size: 1.8vw;
+::placeholder {
+  color: white;
+  opacity: 0.6; /*Firefox*/
+  font-size: 1.8vw;
 }
 
-#edit-item-field{
-  font-size: 2.0vw;
-  width: 100%; 
+#edit-item-field {
+  font-size: 2vw;
+  width: 100%;
 }
