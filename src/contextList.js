@@ -2,33 +2,33 @@ import { Context } from './context'
 
 // Creates a single object where all contexts with their tasks are listed
 class ContextList {
-  constructor (Context) {
+  constructor(Context) {
     this.Context = Context
     this.list = []
     this.init()
   }
 
-  init () {
+  init() {
     const defaultContext = new Context('inbox')
     this.addNewContext(defaultContext)
     this.setActiveContext(defaultContext)
   }
 
-  addNewContext (context) {
+  addNewContext(context) {
     this.list.push(context)
   }
 
-  deleteContext (contextId) {
+  deleteContext(contextId) {
     const contextListIndex = this.getIndexOfContext(contextId)
     this.list.splice(contextListIndex, 1)
   }
 
-  getContext (contextId) {
+  getContext(contextId) {
     const contextIndexInList = this.getIndexOfContext(contextId)
     return this.list[contextIndexInList]
   }
 
-  getIndexOfContext (contextId) {
+  getIndexOfContext(contextId) {
     contextId = parseInt(contextId)
     const contextListIndex = this.list.findIndex(function (currentContext) {
       if (currentContext.id === contextId) {
@@ -39,15 +39,15 @@ class ContextList {
     return contextListIndex
   }
 
-  setActiveContext (context) {
+  setActiveContext(context) {
     this.activeContext = context
   }
 
-  getActiveContext () {
+  getActiveContext() {
     return this.activeContext
   }
 
-  getAllContexts () {
+  getAllContexts() {
     return this.list
   }
 }

@@ -1,28 +1,49 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Todos</title>
-        <link rel="stylesheet" href="reset.css">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div id="container">
-            <div id="context-container">
-                <input id="search-field" type="text" placeholder="Search for">
-                <button id="context-add">+</button>
-                <input type="text" id="context-input" placeholder="Add a Context">
-                <div id="lists"></div>
-            </div>
-            <div id="task-container">
-                <h1 id="context-heading">Context heading</h1>
-                <p>
-                    <button id="task-add">+</button>
-                    <input type="text" id="task-input" placeholder="Add a task">
-                </p>
-                <div id="tasks"></div>
-            </div>
-        </div>
-        <script src="main.js"></script>
-    </body>
+  <head>
+    <meta charset="utf-8" />
+    <title>Todos</title>
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+  <body>
+    <div id="container">
+      <div id="context-container">
+        <h1 id="heading-context-container" class="heading-container">
+          My lists
+        </h1>
+        <!-- <input id="search-field" type="text" placeholder="Search for"> -->
+        <p id="context-add">
+          <button id="context-add-button">+</button>
+          <input
+            type="text"
+            id="context-input"
+            placeholder="Add a list"
+            maxlength="8"
+          />
+        </p>
+        <div id="lists"></div>
+      </div>
+      <div id="task-container">
+        <h1 id="heading-task-container" class="heading-container">
+          Current list
+        </h1>
+        <p id="task-add">
+          <button id="task-add-button">+</button>
+          <input
+            type="text"
+            id="task-input"
+            placeholder="Add a task"
+            maxlength="25"
+          />
+        </p>
+        <div id="tasks"></div>
+      </div>
+    </div>
+    <script src="main.js"></script>
+  </body>
 </html>
