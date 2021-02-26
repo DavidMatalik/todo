@@ -7,11 +7,14 @@ const config = {
   // form https://[databaseName].[region].firebasedatabase.app.
   // For example, https://your-database-123.europe-west1.firebasedatabase.app
 
-  apiKey: 'AIzaSyCGGMhr7m0KCFIM0ZgJOASzE1d2CF3KXJ8',
-  authDomain: 'todo-extended.firebaseapp.com',
-  databaseURL: 'https://todo-extended-default-rtdb.europe-west1.firebasedatabase.app',
-  projectId: 'todo-extended',
-  storageBucket: 'todo-extended.appspot.com'
+  apiKey: 'AIzaSyBFiU9bK31rlA038QilosuxULEXJpM3kyM',
+  authDomain: 'my-todo-9c6e1.firebaseapp.com',
+  databaseURL:
+    'https://my-todo-9c6e1-default-rtdb.europe-west1.firebasedatabase.app',
+  projectId: 'my-todo-9c6e1',
+  storageBucket: 'my-todo-9c6e1.appspot.com',
+  messagingSenderId: '56681932314',
+  appId: '1:56681932314:web:948208b84164067d82d3a3',
 }
 firebase.initializeApp(config)
 
