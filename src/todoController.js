@@ -11,11 +11,16 @@ class TodoController {
     this.contextList = new ContextList(this.Context)
     this.todoDisplay = new TodoDisplay()
 
-    this.init()
+    // Get Data from DB first time and init app with it
+    const dbPromise = this.contextList.getDbPromise()
+    dbPromise.then((data) => {
+      const contexts = this.contextList.getAllContexts(data)
+      this.init(contexts)
+    })
   }
 
-  init() {
-    this.setDefaultTasks()
+  init(contexts) {
+    // this.setDefaultTasks()
     const _this = this
     this.todoDisplay.onClickAddContext = this.onClickAddContext.bind(this)
     this.todoDisplay.onClickAddTask = this.onClickAddTask.bind(this)
@@ -40,7 +45,8 @@ class TodoController {
     }
     this.todoDisplay.onClickOutsideSave = this.saveInput.bind(null, this)
     this.todoDisplay.initListeners()
-    this.loadStartPage()
+    this.contextList.init(contexts)
+    this.loadStartPage(contexts)
   }
 
   setDefaultTasks() {
@@ -50,8 +56,7 @@ class TodoController {
     this.createNewTask('Click and hold me to move me to the new list')
   }
 
-  loadStartPage() {
-    const contexts = this.contextList.getAllContexts()
+  loadStartPage(contexts) {
     const tasks = this.activeContext.taskList
     this.todoDisplay.renderTasks(tasks)
     this.todoDisplay.renderAllContexts(contexts, this.activeContext)
