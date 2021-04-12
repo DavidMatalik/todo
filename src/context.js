@@ -1,6 +1,7 @@
 import { Item } from './item'
 
-// Creates unlimited context objects with the ability to add and delete tasks
+/* Class Context Creates unlimited context (or "list") objects 
+with the ability to add delete and read tasks */
 class Context extends Item {
   constructor(text) {
     super(text)
@@ -24,6 +25,8 @@ class Context extends Item {
     return this.taskList[taskIndexInList]
   }
 
+  /*  Index of task is sometimes needed in todoController 
+  to e.g. update information with reference to the right task */
   getIndexOfTask(taskId) {
     taskId = parseInt(taskId)
     const taskListIndex = this.taskList.findIndex(function (currentTask) {

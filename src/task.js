@@ -1,6 +1,6 @@
 import { Item } from './item'
 
-// Creates unlimited task objects
+// Class Task Creates unlimited task objects
 class Task extends Item {
   constructor(text) {
     super(text)

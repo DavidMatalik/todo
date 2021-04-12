@@ -3,43 +3,56 @@ import { Context } from './context'
 import { ContextList } from './contextList'
 import { TodoDisplay } from './todoDisplay'
 
-// Handles all the todo App logic
+/* Class TodoController generates an object which acts as 
+the bridge between the model classes and todoDisplay */
 class TodoController {
   constructor(TodoDisplay, Task, Context, ContextList) {
+    // Several task and context objects are created later
     this.Task = Task
     this.Context = Context
+
+    // Only one contextList and one todoDisplay object needed
     this.contextList = new ContextList(this.Context)
     this.todoDisplay = new TodoDisplay()
 
     this.init()
   }
 
+  // The logic of all event handlers created in todoDisplay is implemented in init()
   init() {
     this.setDefaultTasks()
-    const _this = this
     this.todoDisplay.onClickAddContext = this.onClickAddContext.bind(this)
     this.todoDisplay.onClickAddTask = this.onClickAddTask.bind(this)
+    /* initListeners() adds listeners to addContextButton and addTaskButton
+    All other listeners below are only needed after UI interactions */
+    this.todoDisplay.initListeners()
+
     // https://stackoverflow.com/questions/256754/how-to-pass-arguments-to-addeventlistener-listener-function/54731362#54731362
     // Writing conlickDeleteContext so, that following arguments are passed:
     // this which equals TodoController object
     // event of event Listener which isn't seen here
     // but can be accessed as last parameter in onClickDeleteContext
     this.todoDisplay.onClickDeleteItem = this.onClickDeleteItem.bind(null, this)
+    this.todoDisplay.onEnterSaveInput = this.saveInput.bind(null, this)
+    this.todoDisplay.onClickOutsideSave = this.saveInput.bind(null, this)
+
+    /* We need to save todoController as this into _this in order 
+    to pass todoController(_this) and the element where the handler 
+    sits on (this) into handler functions below */
+    const _this = this
     this.todoDisplay.onClickChangeContext = function () {
       _this.onClickChangeContext(this, _this)
     }
     this.todoDisplay.onDclickEditItem = function () {
       _this.onDclickEditItem(this, _this)
     }
-    this.todoDisplay.onEnterSaveInput = this.saveInput.bind(null, this)
     this.todoDisplay.onMsDwnCopyTask = function () {
       _this.onMsDwnCopyTask(this, _this)
     }
     this.todoDisplay.onMsUpAnalyzePosition = function (event) {
       _this.onMsUpAnalyzePosition(event, this, _this)
     }
-    this.todoDisplay.onClickOutsideSave = this.saveInput.bind(null, this)
-    this.todoDisplay.initListeners()
+
     this.loadStartPage()
   }
 
@@ -97,7 +110,6 @@ class TodoController {
     }
 
     _this.todoDisplay.removeElement(elementToDelete)
-    event.stopPropagation()
   }
 
   onClickChangeContext(elementWithHandler, _this) {
@@ -164,13 +176,11 @@ class TodoController {
 
     _this.todoDisplay.undoTaskMoveActions()
   }
-
-  removeTask(task) {
-    this.contextList.getActiveContext().deleteTask(task)
-    // remove this task from current View
-  }
 }
 
+/* Here a todoController object is created
+It would be probably better practice to do this
+in index.js  and export just class TodoController */
 const todoController = new TodoController(
   TodoDisplay,
   Task,

@@ -1,4 +1,5 @@
-// Creates the right view of the current state of objects
+/* Class TodoDisplay generates an object which renders the
+current state of objects */
 class TodoDisplay {
   constructor() {
     this.bodyElement = document.querySelector('body')
@@ -12,18 +13,21 @@ class TodoDisplay {
     this.taskHeading = document.getElementById('heading-task-container')
     this.activeContext = null
 
+    // Logic of these handlers is implemented in Class Todocontroller
     this.onClickAddContext = null
     this.onClickDeleteItem = null
     this.onClickChangeContext = null
     this.onDclickEditContext = null
     this.onEnterSaveInput = null
     this.onClickOutsideSave = null
-
     this.onClickAddTask = null
     this.onMsDwnCopyTask = null
     this.onMsUpAnalyzePosition = null
   }
 
+  /* Only addContext and addTask can be assigned to Elements
+  Because for all other handlers the elements needed get generated
+  after UI interactions */
   initListeners() {
     this.contextButton.addEventListener('click', this.onClickAddContext)
     this.taskButton.addEventListener('click', this.onClickAddTask)

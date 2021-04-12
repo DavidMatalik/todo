@@ -1,6 +1,7 @@
 import { Context } from './context'
 
-// Creates a single object where all contexts with their tasks are listed
+/* Class ContextList Creates a single object with 
+all existing contexts(or "lists") */
 class ContextList {
   constructor(Context) {
     this.Context = Context
@@ -8,6 +9,9 @@ class ContextList {
     this.init()
   }
 
+  /* When a new ContextList is created it has automatically
+  a default context (or "list") called "inbox". A contextList object
+  has CRUD abilities on its contexts */
   init() {
     const defaultContext = new Context('inbox')
     this.addNewContext(defaultContext)
@@ -28,6 +32,8 @@ class ContextList {
     return this.list[contextIndexInList]
   }
 
+  /*  Index of context is sometimes needed in todoController 
+  to e.g. update information with reference to the right context */
   getIndexOfContext(contextId) {
     contextId = parseInt(contextId)
     const contextListIndex = this.list.findIndex(function (currentContext) {
