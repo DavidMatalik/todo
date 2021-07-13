@@ -35,3 +35,7 @@ Add function seachTodo
 Add function importTodos (e.g. from exportFile of MS todo)
 
 Style it nicer
+
+# Issues
+
+firebasedb branch implementation isn't working properly. The reason might be a restricted access of the firebase db. With configuration in firebase console it should work again.
