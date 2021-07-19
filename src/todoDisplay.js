@@ -57,9 +57,9 @@ class TodoDisplay {
   }
 
   highlightActiveContext(element) {
-    this.activeContext.style.border = 'none'
+    this.activeContext.style.fontWeight = 'normal'
     this.activeContext = element
-    element.style.border = '1px solid black'
+    element.style.fontWeight = 'bold'
   }
 
   renderTasks(tasks) {
