@@ -72,10 +72,12 @@
 
 #heading-task-container {
   color: black;
+  text-shadow: 0.2vw 0.1vw #708772;
 }
 
 #heading-context-container {
   color: palegoldenrod;
+  text-shadow: 0.2vw 0.1vw black;
 }
 
 #task-add {
