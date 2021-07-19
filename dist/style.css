@@ -1,5 +1,14 @@
 /*media query einbauen für unter 800 bis 900 vw, dass tasConter 80 vw statt 60 vw*/
 
+@font-face {
+  font-family: Bronova;
+  src: url(Bronova\ Regular.otf);
+}
+
+*, input {
+  font-family: Bronova;
+}
+
 #container {
   display: flex;
   justify-content: center;
@@ -55,7 +64,8 @@
 }
 
 .heading-container {
-  margin: 0.6vw;
+  margin: 1.5vw;
+  margin-bottom: 0;
   display: inline-block;
   font-size: 2.8vw;
 }
@@ -85,7 +95,7 @@
   width: 54vw;
   height: 2.2vw;
   outline: none;
-  font-size: 2.5vw;
+  font-size: 2vw;
   color: white;
 }
 
@@ -102,9 +112,10 @@
 
 .task,
 .context {
-  font-size: 2vw;
+  font-size: 1.7vw;
   margin: 1vw;
-  padding: 0.5vw;
+  padding: 0.4vw;
+  padding-top: 0.7vw;
   border-radius: 0.3vw;
 }
 
