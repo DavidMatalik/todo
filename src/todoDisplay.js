@@ -274,7 +274,6 @@ class TodoDisplay {
   }
 
   removeTasks() {
-    console.log('in here')
     this.taskList.innerHTML = ''
   }
 

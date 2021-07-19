@@ -14,10 +14,8 @@ class Context extends Item {
   }
 
   deleteTask(taskId) {
-    console.log(this.taskList)
     const taskListIndex = this.getIndexOfTask(taskId)
     this.taskList.splice(taskListIndex, 1)
-    console.log(this.taskList)
   }
 
   getTask(taskId) {

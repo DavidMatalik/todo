@@ -71,14 +71,16 @@ class TodoController {
     this.todoDisplay.setContextHeading(this.activeContext.text)
   }
 
-  onClickAddContext() {
+  onClickAddContext(event) {
+    event.preventDefault()
     const userInput =
       this.todoDisplay.getContextInputValue() || 'Give me a name'
     this.createNewContext(userInput)
     this.todoDisplay.resetContextInput()
   }
 
-  onClickAddTask() {
+  onClickAddTask(event) {
+    event.preventDefault()
     const userInput = this.todoDisplay.getTaskInputValue() || 'Give me a name'
     this.createNewTask(userInput)
     this.todoDisplay.resetTaskInput()
