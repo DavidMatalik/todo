@@ -20,6 +20,7 @@
   margin-bottom: 1vw;
   background-color: rgb(112, 135, 114);
   color: white;
+  box-shadow: 4px 4px 8px #3e4f40;
 }
 
 #context-add-button {
@@ -75,6 +76,7 @@
   margin-bottom: 1vw;
   background-color: rgb(112, 135, 114);
   color: white;
+  box-shadow: 4px 4px 8px #3e4f40;
 }
 
 #task-input {
@@ -106,11 +108,13 @@
 .context {
   width: 21vw;
   background-color: palegoldenrod;
+  box-shadow: 4px 4px 8px #3e4f40;
 }
 
 .task {
   width: 58vw;
   background-color: white;
+  box-shadow: 4px 4px 8px #708772;
 }
 
 /* fa is the class of the trash icon from font-awesome */
