@@ -20,7 +20,7 @@ class TodoController {
 
   // The logic of all event handlers created in todoDisplay is implemented in init()
   init() {
-    this.setDefaultTasks()
+    // this.setDefaultTasks()
     this.todoDisplay.onClickAddContext = this.onClickAddContext.bind(this)
     this.todoDisplay.onClickAddTask = this.onClickAddTask.bind(this)
     /* initListeners() adds listeners to addContextButton and addTaskButton
@@ -63,10 +63,12 @@ class TodoController {
     this.createNewTask('Click and hold me to move me to the new list')
   }
 
-  loadStartPage() {
+  async loadStartPage() {
     const contexts = this.contextList.getAllContexts()
-    const tasks = this.activeContext.taskList
-    this.todoDisplay.renderTasks(tasks)
+    this.activeContext = await this.contextList.getActiveContext()
+    const activeContextTasks = await this.activeContext.taskList
+
+    this.todoDisplay.renderTasks(activeContextTasks)
     this.todoDisplay.renderAllContexts(contexts, this.activeContext)
     this.todoDisplay.setContextHeading(this.activeContext.text)
   }

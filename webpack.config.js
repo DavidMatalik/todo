@@ -21,4 +21,8 @@ module.exports = {
       },
     ],
   },
+  // Allow await not only in functions but on top level
+  experiments: {
+    topLevelAwait: true,
+  },
 }

@@ -1,12 +1,24 @@
 import { Item } from './item'
+import { app } from './firebaseApp'
+import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
 
-/* Class Context Creates unlimited context (or "list") objects 
+// Create firestore object
+const db = getFirestore(app)
+
+/* Class Context Creates unlimited context (or "context") objects
 with the ability to add delete and read tasks */
 class Context extends Item {
-  constructor(text) {
-    super(text)
-    this.taskList = []
+  constructor(context) {
+    super(context.text)
+    this.taskList = this.getTasksfromDB(context.id) || []
     this.active = true
+  }
+
+  async getTasksfromDB(contextId) {
+    const contextTasksCol = collection(db, `lists/${contextId}/tasks`)
+    const tasksSnapshot = await getDocs(contextTasksCol)
+    const tasks = tasksSnapshot.docs.map((doc) => doc.data())
+    return tasks
   }
 
   appendTask(task) {
