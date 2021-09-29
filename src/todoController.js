@@ -10,9 +10,9 @@ class TodoController {
     // Several task and context objects are created later
     this.Task = Task
     this.Context = Context
+    this.ContextList = ContextList
 
     // Only one contextList and one todoDisplay object needed
-    this.contextList = new ContextList(this.Context)
     this.todoDisplay = new TodoDisplay()
 
     this.init()
@@ -64,8 +64,11 @@ class TodoController {
   }
 
   async loadStartPage() {
+    this.contextList = new this.ContextList(this.Context)
+    await this.contextList.init()
+
     const contexts = this.contextList.getAllContexts()
-    this.activeContext = await this.contextList.getActiveContext()
+    this.activeContext = this.contextList.getActiveContext()
     const activeContextTasks = await this.activeContext.taskList
 
     this.todoDisplay.renderTasks(activeContextTasks)

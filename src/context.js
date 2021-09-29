@@ -10,8 +10,11 @@ with the ability to add delete and read tasks */
 class Context extends Item {
   constructor(context) {
     super(context.text)
-    this.taskList = this.getTasksfromDB(context.id) || []
     this.active = true
+  }
+
+  async init() {
+    this.taskList = await this.getTasksfromDB('XEhjtsRDNLZKo9FFLfDE')
   }
 
   async getTasksfromDB(contextId) {

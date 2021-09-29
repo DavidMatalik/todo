@@ -5,27 +5,29 @@ import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
 // Create firestore object
 const db = getFirestore(app)
 
-// get lists from Firestore
-const contextsCol = collection(db, 'lists')
-const contextsSnapshot = await getDocs(contextsCol)
-const contexts = contextsSnapshot.docs.map((doc) => doc.data())
-
 /* Class ContextList Creates a single object with 
 all existing contexts(or "lists") */
 class ContextList {
   constructor(Context) {
     this.Context = Context
     this.list = []
-    this.init()
   }
 
-  /* When a new ContextList is created it has automatically
-  a default context (or "list") called "inbox". A contextList object
-  has CRUD abilities on its contexts */
-  init() {
+  async init() {
+    const contexts = await this.getContextFromDB()
+
     const activeContext = new Context(contexts[0])
+    await activeContext.init()
+
     this.addNewContext(activeContext)
     this.setActiveContext(activeContext)
+  }
+
+  async getContextFromDB() {
+    const contextsCol = collection(db, 'lists')
+    const contextsSnapshot = await getDocs(contextsCol)
+    const contexts = contextsSnapshot.docs.map((doc) => doc.data())
+    return contexts
   }
 
   addNewContext(context) {
