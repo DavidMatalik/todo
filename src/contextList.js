@@ -15,8 +15,8 @@ class ContextList {
 
   async init() {
     const contexts = await this.getContextFromDB()
-
-    const activeContext = new Context(contexts[0])
+    const activeDbContext = contexts.find((context) => context.active === true)
+    const activeContext = new Context(activeDbContext)
     await activeContext.init()
 
     this.addNewContext(activeContext)
