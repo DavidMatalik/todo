@@ -1,4 +1,3 @@
-import { Item } from './item'
 import { app } from './firebaseApp'
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
 
@@ -7,14 +6,16 @@ const db = getFirestore(app)
 
 /* Class Context Creates unlimited context (or "context") objects
 with the ability to add delete and read tasks */
-class Context extends Item {
+class Context {
   constructor(context) {
-    super(context.text)
+    this.text = context.text
     this.active = true
+    this.id = context.id
+    this.taskList = []
   }
 
   async init() {
-    this.taskList = await this.getTasksfromDB('XEhjtsRDNLZKo9FFLfDE')
+    this.taskList = await this.getTasksfromDB(this.id)
   }
 
   async getTasksfromDB(contextId) {

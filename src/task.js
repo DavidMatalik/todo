@@ -1,10 +1,9 @@
-import { Item } from './item'
-
 // Class Task Creates unlimited task objects
-class Task extends Item {
-  constructor(text) {
-    super(text)
+class Task {
+  constructor(task) {
+    this.text = task.text
     this.favorite = false
+    this.id = task.id
   }
 }
 
