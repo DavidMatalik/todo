@@ -14,8 +14,28 @@ class ContextList {
   }
 
   async init() {
-    const contexts = await this.getContextFromDB()
-    const activeDbContext = contexts.find((context) => context.active === true)
+    const contexts = await this.getContextsFromDB()
+    await this.loadActiveContext(contexts)
+
+    const normalContexts = this.removeActiveContext(contexts)
+
+    normalContexts.forEach((context) => {
+      this.addNewContext(context)
+    })
+  }
+
+  async getContextsFromDB() {
+    const contextsCol = collection(db, 'lists')
+    const contextsSnapshot = await getDocs(contextsCol)
+    const contexts = contextsSnapshot.docs.map((doc) => doc.data())
+    return contexts
+  }
+
+  async loadActiveContext(contexts) {
+    const activeDbContext = contexts.find((context, i) => {
+      return context.active === true
+    })
+
     const activeContext = new Context(activeDbContext)
     await activeContext.init()
 
@@ -23,11 +43,13 @@ class ContextList {
     this.setActiveContext(activeContext)
   }
 
-  async getContextFromDB() {
-    const contextsCol = collection(db, 'lists')
-    const contextsSnapshot = await getDocs(contextsCol)
-    const contexts = contextsSnapshot.docs.map((doc) => doc.data())
-    return contexts
+  removeActiveContext(contexts) {
+    return contexts.reduce((acc, context) => {
+      if (context.active === false) {
+        acc.push(context)
+      }
+      return acc
+    }, [])
   }
 
   addNewContext(context) {
