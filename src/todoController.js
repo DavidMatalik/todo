@@ -120,17 +120,18 @@ class TodoController {
     _this.todoDisplay.removeElement(elementToDelete)
   }
 
-  onClickChangeContext(elementWithHandler, _this) {
+  async onClickChangeContext(elementWithHandler, _this) {
     const clickedContextElementId = _this.todoDisplay.getItemId(
       elementWithHandler
     )
     const clickedContext = _this.contextList.getContext(clickedContextElementId)
 
     // Change active Context
+    await clickedContext.init()
     this.contextList.setActiveContext(clickedContext)
     // Display Tasks of active Context
-    // const tasks = clickedContext.taskList
-    // this.todoDisplay.renderTasks(tasks)
+    const tasks = clickedContext.taskList
+    this.todoDisplay.renderTasks(tasks)
     // Highlight active Context
     this.todoDisplay.highlightActiveContext(elementWithHandler)
     this.todoDisplay.setContextHeading(clickedContext.text)

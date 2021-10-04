@@ -20,7 +20,8 @@ class ContextList {
     const normalContexts = this.removeActiveContext(contexts)
 
     normalContexts.forEach((context) => {
-      this.addNewContext(context)
+      const newContext = new Context(context)
+      this.addNewContext(newContext)
     })
   }
 
@@ -32,7 +33,7 @@ class ContextList {
   }
 
   async loadActiveContext(contexts) {
-    const activeDbContext = contexts.find((context, i) => {
+    const activeDbContext = contexts.find((context) => {
       return context.active === true
     })
 
@@ -40,7 +41,7 @@ class ContextList {
     await activeContext.init()
 
     this.addNewContext(activeContext)
-    this.setActiveContext(activeContext)
+    await this.setActiveContext(activeContext)
   }
 
   removeActiveContext(contexts) {
@@ -80,7 +81,7 @@ class ContextList {
     return contextListIndex
   }
 
-  setActiveContext(context) {
+  async setActiveContext(context) {
     this.activeContext = context
   }
 
