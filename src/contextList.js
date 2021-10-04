@@ -41,7 +41,7 @@ class ContextList {
     await activeContext.init()
 
     this.addNewContext(activeContext)
-    await this.setActiveContext(activeContext)
+    this.setActiveContext(activeContext)
   }
 
   removeActiveContext(contexts) {
@@ -81,7 +81,7 @@ class ContextList {
     return contextListIndex
   }
 
-  async setActiveContext(context) {
+  setActiveContext(context) {
     this.activeContext = context
   }
 

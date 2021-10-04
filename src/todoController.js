@@ -81,6 +81,7 @@ class TodoController {
     event.preventDefault()
     const userInput =
       this.todoDisplay.getContextInputValue() || 'Give me a name'
+
     this.createNewContext(userInput)
     this.todoDisplay.resetContextInput()
   }
@@ -125,7 +126,6 @@ class TodoController {
       elementWithHandler
     )
     const clickedContext = _this.contextList.getContext(clickedContextElementId)
-
     // Change active Context
     await clickedContext.init()
     this.contextList.setActiveContext(clickedContext)

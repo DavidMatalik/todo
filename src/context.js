@@ -1,5 +1,11 @@
 import { app } from './firebaseApp'
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
+import {
+  getFirestore,
+  collection,
+  doc,
+  setDoc,
+  getDocs,
+} from 'firebase/firestore/lite'
 
 // Create firestore object
 const db = getFirestore(app)
@@ -7,11 +13,22 @@ const db = getFirestore(app)
 /* Class Context Creates unlimited context (or "context") objects
 with the ability to add delete and read tasks */
 class Context {
-  constructor(context) {
-    this.text = context.text
-    this.active = true
-    this.id = context.id
-    this.taskList = []
+  constructor(data) {
+    if (typeof data === 'object') {
+      this.text = data.text
+      this.id = data.id
+      this.active = true
+      this.taskList = []
+    } else if (typeof data === 'string') {
+      const newContextRef = doc(collection(db, 'lists'))
+      this.text = data
+      this.id = newContextRef.id
+      setDoc(newContextRef, {
+        id: newContextRef.id,
+        text: data,
+        active: true,
+      })
+    }
   }
 
   async init() {
