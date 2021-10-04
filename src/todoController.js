@@ -2,6 +2,7 @@ import { Task } from './task'
 import { Context } from './context'
 import { ContextList } from './contextList'
 import { TodoDisplay } from './todoDisplay'
+import { connectFirestoreEmulator } from 'firebase/firestore/lite'
 
 /* Class TodoController generates an object which acts as 
 the bridge between the model classes and todoDisplay */
@@ -124,11 +125,12 @@ class TodoController {
       elementWithHandler
     )
     const clickedContext = _this.contextList.getContext(clickedContextElementId)
+
     // Change active Context
     this.contextList.setActiveContext(clickedContext)
     // Display Tasks of active Context
-    const tasks = clickedContext.taskList
-    this.todoDisplay.renderTasks(tasks)
+    // const tasks = clickedContext.taskList
+    // this.todoDisplay.renderTasks(tasks)
     // Highlight active Context
     this.todoDisplay.highlightActiveContext(elementWithHandler)
     this.todoDisplay.setContextHeading(clickedContext.text)

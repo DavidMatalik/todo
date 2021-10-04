@@ -61,9 +61,10 @@ class ContextList {
     this.list.splice(contextListIndex, 1)
   }
 
-  getContext(contextId) {
-    const contextIndexInList = this.getIndexOfContext(contextId)
-    return this.list[contextIndexInList]
+  getContext(givenId) {
+    return this.list.find((context) => {
+      return context.id === givenId
+    })
   }
 
   /*  Index of context is sometimes needed in todoController 
