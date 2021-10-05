@@ -5,6 +5,7 @@ import {
   doc,
   setDoc,
   getDocs,
+  deleteDoc,
 } from 'firebase/firestore/lite'
 
 // Create firestore object
@@ -45,9 +46,11 @@ class Context {
     this.taskList.push(task)
   }
 
-  deleteTask(taskId) {
+  deleteTask(taskId, contextId) {
     const taskListIndex = this.getIndexOfTask(taskId)
     this.taskList.splice(taskListIndex, 1)
+
+    deleteDoc(doc(db, `lists/${contextId}/tasks/${taskId}`))
   }
 
   getTask(taskId) {

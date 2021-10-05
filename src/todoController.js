@@ -115,7 +115,8 @@ class TodoController {
       _this.contextList.deleteContext(itemToDeleteId)
       _this.todoDisplay.removeTasks()
     } else if (className.contains('task')) {
-      _this.contextList.activeContext.deleteTask(itemToDeleteId)
+      const activeContext = _this.contextList.activeContext
+      activeContext.deleteTask(itemToDeleteId, activeContext.id)
     }
 
     _this.todoDisplay.removeElement(elementToDelete)
