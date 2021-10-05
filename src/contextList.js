@@ -34,7 +34,7 @@ class ContextList {
 
   async loadActiveContext(contexts) {
     const activeDbContext = contexts.find((context) => {
-      return context.active === true
+      return 'default' in context
     })
 
     const activeContext = new Context(activeDbContext)
@@ -45,11 +45,11 @@ class ContextList {
   }
 
   removeActiveContext(contexts) {
-    return contexts.reduce((acc, context) => {
-      if (context.active === false) {
-        acc.push(context)
+    return contexts.reduce((reducedContexts, context) => {
+      if (!('default' in context)) {
+        reducedContexts.push(context)
       }
-      return acc
+      return reducedContexts
     }, [])
   }
 
@@ -81,7 +81,7 @@ class ContextList {
     return contextListIndex
   }
 
-  setActiveContext(context) {
+  async setActiveContext(context) {
     this.activeContext = context
   }
 

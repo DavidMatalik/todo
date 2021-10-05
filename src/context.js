@@ -26,7 +26,6 @@ class Context {
       setDoc(newContextRef, {
         id: newContextRef.id,
         text: data,
-        active: true,
       })
     }
   }
