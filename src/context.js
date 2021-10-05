@@ -41,7 +41,7 @@ class Context {
     return tasks
   }
 
-  appendTask(task) {
+  async appendTask(task) {
     this.taskList.push(task)
   }
 

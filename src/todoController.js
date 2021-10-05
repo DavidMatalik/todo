@@ -2,7 +2,6 @@ import { Task } from './task'
 import { Context } from './context'
 import { ContextList } from './contextList'
 import { TodoDisplay } from './todoDisplay'
-import { connectFirestoreEmulator } from 'firebase/firestore/lite'
 
 /* Class TodoController generates an object which acts as 
 the bridge between the model classes and todoDisplay */
@@ -94,8 +93,9 @@ class TodoController {
   }
 
   createNewTask(text) {
-    const task = new this.Task(text)
-    this.contextList.getActiveContext().appendTask(task)
+    const activeContext = this.contextList.getActiveContext()
+    const task = new this.Task(text, activeContext.id)
+    activeContext.appendTask(task)
     this.todoDisplay.appendNewTask(task)
   }
 
