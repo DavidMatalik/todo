@@ -1,6 +1,12 @@
 import { Context } from './context'
 import { app } from './firebaseApp'
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDocs,
+  deleteDoc,
+} from 'firebase/firestore/lite'
 
 // Create firestore object
 const db = getFirestore(app)
@@ -60,6 +66,19 @@ class ContextList {
   deleteContext(contextId) {
     const contextListIndex = this.getIndexOfContext(contextId)
     this.list.splice(contextListIndex, 1)
+
+    deleteDoc(doc(db, `lists/${contextId}`))
+    this.deleteContextSubcollection(contextId)
+  }
+
+  /* Not recommended to delete subcollections on the client side.
+  Instead create a function on the server side and call it from here */
+  async deleteContextSubcollection(contextId) {
+    const contextTasksCol = collection(db, `lists/${contextId}/tasks`)
+    const tasksSnapshot = await getDocs(contextTasksCol)
+    tasksSnapshot.docs.forEach((task) => {
+      deleteDoc(doc(db, `lists/${contextId}/tasks/${task.id}`))
+    })
   }
 
   getContext(givenId) {
