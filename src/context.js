@@ -42,8 +42,14 @@ class Context {
     return tasks
   }
 
-  async appendTask(task) {
+  async appendTask(task, contextId) {
     this.taskList.push(task)
+
+    const docRef = doc(db, `lists/${contextId}/tasks/${task.id}`)
+    setDoc(docRef, {
+      id: task.id,
+      text: task.text,
+    })
   }
 
   deleteTask(taskId, contextId) {
@@ -54,14 +60,12 @@ class Context {
   }
 
   getTask(taskId) {
-    const taskIndexInList = this.getIndexOfTask(taskId)
-    return this.taskList[taskIndexInList]
+    return this.taskList.find((task) => task.id === taskId)
   }
 
   /*  Index of task is sometimes needed in todoController 
   to e.g. update information with reference to the right task */
   getIndexOfTask(taskId) {
-    taskId = parseInt(taskId)
     const taskListIndex = this.taskList.findIndex(function (currentTask) {
       if (currentTask.id === taskId) {
         return true

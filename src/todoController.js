@@ -178,8 +178,8 @@ class TodoController {
       )
       const chosenContext = _this.contextList.getContext(chosenContextElementId)
 
-      chosenContext.appendTask(taskToMove)
-      activeContext.deleteTask(taskToMove)
+      chosenContext.appendTask(taskToMove, chosenContext.id)
+      activeContext.deleteTask(taskToMoveId, activeContext.id)
       _this.todoDisplay.removeElement(taskToMoveElement)
       // Prevents executing the mouseup event which is also attached to body
       event.stopPropagation()
