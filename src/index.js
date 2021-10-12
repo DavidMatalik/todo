@@ -4,7 +4,10 @@ import { Task } from './task'
 import { Context } from './context'
 import { ContextList } from './contextList'
 import { TodoDisplay } from './todoDisplay'
-import createRegistrationStartingPoint from './authentication'
+import {
+  createRegistrationStartingPoint,
+  createLoginForm,
+} from './authentication'
 
 const todoController = new TodoController(
   TodoDisplay,
@@ -24,3 +27,4 @@ const renderTodoApp = () => {
 }
 
 createRegistrationStartingPoint(formContainer, renderTodoApp)
+createLoginForm(formContainer, renderTodoApp)
