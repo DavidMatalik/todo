@@ -1,4 +1,21 @@
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+
 let parentElement = null
+
+const handleSubmit = (ev) => {
+  ev.preventDefault()
+  const form = ev.target
+  const emailValue = form.querySelector('#email-input').value
+  const passwordValue = form.querySelector('#password-input').value
+
+  const auth = getAuth()
+  createUserWithEmailAndPassword(auth, emailValue, passwordValue).then(
+    (userCredential) => {
+      const user = userCredential.user
+      console.log(user)
+    }
+  )
+}
 
 const createEmailField = () => {
   const emailField = document.createElement('input')
@@ -33,7 +50,7 @@ const createNewUserForm = () => {
   const submitButton = createSubmitButton()
 
   const newUserForm = document.createElement('form')
-  newUserForm.addEventListener('submit', () => console.log('submitted'))
+  newUserForm.addEventListener('submit', handleSubmit)
   appendChildren(newUserForm, [emailField, passwordField, submitButton])
 
   parentElement.appendChild(newUserForm)
