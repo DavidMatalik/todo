@@ -1,8 +1,3 @@
-import { Task } from './task'
-import { Context } from './context'
-import { ContextList } from './contextList'
-import { TodoDisplay } from './todoDisplay'
-
 /* Class TodoController generates an object which acts as 
 the bridge between the model classes and todoDisplay */
 class TodoController {
@@ -14,8 +9,6 @@ class TodoController {
 
     // Only one contextList and one todoDisplay object needed
     this.todoDisplay = new TodoDisplay()
-
-    this.init()
   }
 
   // The logic of all event handlers created in todoDisplay is implemented in init()
@@ -189,14 +182,4 @@ class TodoController {
   }
 }
 
-/* Here a todoController object is created
-It would be probably better practice to do this
-in index.js  and export just class TodoController */
-const todoController = new TodoController(
-  TodoDisplay,
-  Task,
-  Context,
-  ContextList
-)
-
-export { todoController }
+export { TodoController }
