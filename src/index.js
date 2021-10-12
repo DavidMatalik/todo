@@ -13,7 +13,14 @@ const todoController = new TodoController(
   ContextList
 )
 
-document.querySelector('#container').style.display = 'none'
-const body = document.querySelector('body')
+const appContainer = document.querySelector('#container')
+const formContainer = document.querySelector('body')
 
-createRegistrationStartingPoint(body)
+appContainer.style.display = 'none'
+
+const renderTodoApp = () => {
+  appContainer.style.display = 'flex'
+  todoController.init()
+}
+
+createRegistrationStartingPoint(formContainer, renderTodoApp)

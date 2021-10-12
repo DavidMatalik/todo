@@ -1,6 +1,7 @@
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 
 let parentElement = null
+let renderApplication = null
 
 const handleSubmit = (ev) => {
   ev.preventDefault()
@@ -13,6 +14,7 @@ const handleSubmit = (ev) => {
     (userCredential) => {
       const user = userCredential.user
       console.log(user)
+      renderApplication()
     }
   )
 }
@@ -56,8 +58,9 @@ const createNewUserForm = () => {
   parentElement.appendChild(newUserForm)
 }
 
-const createRegistrationStartingPoint = (specifiedElement) => {
+const createRegistrationStartingPoint = (specifiedElement, renderApp) => {
   parentElement = specifiedElement
+  renderApplication = renderApp
 
   const createAccount = document.createElement('button')
   createAccount.id = 'createAccount'
