@@ -12,11 +12,11 @@ const manageAuthentication = (specifiedElement, renderApp) => {
   parentElement = specifiedElement
   renderApplication = renderApp
 
-  createRegistrationStartingPoint(parentElement, registerNewUser)
-  createLoginForm(parentElement, loginUser)
+  createRegistrationStartingPoint(parentElement, registerNewUserAndLoadApp)
+  createLoginForm(parentElement, loginUserAndLoadApp)
 }
 
-const registerNewUser = (ev) => {
+const registerNewUserAndLoadApp = (ev) => {
   ev.preventDefault()
   const form = ev.target
   const emailValue = form.querySelector('#new-user-email').value
@@ -31,7 +31,7 @@ const registerNewUser = (ev) => {
   )
 }
 
-const loginUser = (ev) => {
+const loginUserAndLoadApp = (ev) => {
   ev.preventDefault()
   const form = ev.target
   const emailValue = form.querySelector('#login-email').value

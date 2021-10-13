@@ -46,7 +46,10 @@ const createNewUserForm = (parentElement) => {
   const submitButton = createSubmitButton('new-user-submit')
 
   const newUserForm = document.createElement('form')
-  newUserForm.addEventListener('submit', registerUser)
+  newUserForm.addEventListener('submit', (ev) => {
+    registerUser(ev)
+    parentElement.remove()
+  })
   appendChildren(newUserForm, [emailField, passwordField, submitButton])
 
   parentElement.appendChild(newUserForm)
@@ -58,7 +61,10 @@ const createLoginForm = (parentElement, loginUser) => {
   const submitButton = createSubmitButton('login-submit')
 
   const newUserForm = document.createElement('form')
-  newUserForm.addEventListener('submit', loginUser)
+  newUserForm.addEventListener('submit', (ev) => {
+    loginUser(ev)
+    parentElement.remove()
+  })
   appendChildren(newUserForm, [emailField, passwordField, submitButton])
 
   parentElement.appendChild(newUserForm)

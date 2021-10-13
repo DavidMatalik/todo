@@ -14,13 +14,15 @@ const todoController = new TodoController(
 )
 
 const appContainer = document.querySelector('#container')
-const formContainer = document.querySelector('body')
-
 appContainer.style.display = 'none'
+
+const body = document.querySelector('body')
+const authContainer = document.createElement('div')
+body.appendChild(authContainer)
 
 const renderTodoApp = (user) => {
   appContainer.style.display = 'flex'
   todoController.init(user)
 }
 
-manageAuthentication(formContainer, renderTodoApp)
+manageAuthentication(authContainer, renderTodoApp)
