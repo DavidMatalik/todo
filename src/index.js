@@ -18,9 +18,9 @@ const formContainer = document.querySelector('body')
 
 appContainer.style.display = 'none'
 
-const renderTodoApp = () => {
+const renderTodoApp = (user) => {
   appContainer.style.display = 'flex'
-  todoController.init()
+  todoController.init(user)
 }
 
 manageAuthentication(formContainer, renderTodoApp)

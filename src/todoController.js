@@ -12,8 +12,9 @@ class TodoController {
   }
 
   // The logic of all event handlers created in todoDisplay is implemented in init()
-  init() {
+  init(user) {
     // this.setDefaultTasks()
+    this.user = user
     this.todoDisplay.onClickAddContext = this.onClickAddContext.bind(this)
     this.todoDisplay.onClickAddTask = this.onClickAddTask.bind(this)
     /* initListeners() adds listeners to addContextButton and addTaskButton
@@ -58,7 +59,7 @@ class TodoController {
 
   async loadStartPage() {
     this.contextList = new this.ContextList(this.Context)
-    await this.contextList.init()
+    await this.contextList.init(this.user)
 
     const contexts = this.contextList.getAllContexts()
     this.activeContext = this.contextList.getActiveContext()
@@ -87,13 +88,13 @@ class TodoController {
 
   createNewTask(text) {
     const activeContext = this.contextList.getActiveContext()
-    const task = new this.Task(text, activeContext.id)
+    const task = new this.Task(text, activeContext.id, this.user)
     activeContext.appendTask(task)
     this.todoDisplay.appendNewTask(task)
   }
 
   createNewContext(text) {
-    const context = new this.Context(text)
+    const context = new this.Context(text, this.user)
     context.onClickChangeContext = this.onClickChangeContext
     this.contextList.addNewContext(context)
     this.todoDisplay.appendNewContext(context)
@@ -121,7 +122,7 @@ class TodoController {
     )
     const clickedContext = _this.contextList.getContext(clickedContextElementId)
     // Change active Context
-    await clickedContext.init()
+    await clickedContext.init(this.user)
     this.contextList.setActiveContext(clickedContext)
     // Display Tasks of active Context
     const tasks = clickedContext.taskList

@@ -19,7 +19,9 @@ class ContextList {
     this.list = []
   }
 
-  async init() {
+  async init(user) {
+    this.user = user
+
     const contexts = await this.getContextsFromDB()
     await this.loadActiveContext(contexts)
 
@@ -32,7 +34,7 @@ class ContextList {
   }
 
   async getContextsFromDB() {
-    const contextsCol = collection(db, 'lists')
+    const contextsCol = collection(db, this.user.uid)
     const contextsSnapshot = await getDocs(contextsCol)
     const contexts = contextsSnapshot.docs.map((doc) => doc.data())
     return contexts
@@ -44,7 +46,7 @@ class ContextList {
     })
 
     const activeContext = new Context(activeDbContext)
-    await activeContext.init()
+    await activeContext.init(this.user)
 
     this.addNewContext(activeContext)
     this.setActiveContext(activeContext)
@@ -67,17 +69,20 @@ class ContextList {
     const contextListIndex = this.getIndexOfContext(contextId)
     this.list.splice(contextListIndex, 1)
 
-    deleteDoc(doc(db, `lists/${contextId}`))
+    deleteDoc(doc(db, `${this.user.uid}/${contextId}`))
     this.deleteContextSubcollection(contextId)
   }
 
   /* Not recommended to delete subcollections on the client side.
   Instead create a function on the server side and call it from here */
   async deleteContextSubcollection(contextId) {
-    const contextTasksCol = collection(db, `lists/${contextId}/tasks`)
+    const contextTasksCol = collection(
+      db,
+      `${this.user.uid}/${contextId}/tasks`
+    )
     const tasksSnapshot = await getDocs(contextTasksCol)
     tasksSnapshot.docs.forEach((task) => {
-      deleteDoc(doc(db, `lists/${contextId}/tasks/${task.id}`))
+      deleteDoc(doc(db, `${this.user.uid}/${contextId}/tasks/${task.id}`))
     })
   }
 

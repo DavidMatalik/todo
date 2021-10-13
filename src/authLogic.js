@@ -26,8 +26,7 @@ const registerNewUser = (ev) => {
   createUserWithEmailAndPassword(auth, emailValue, passwordValue).then(
     (userCredential) => {
       const user = userCredential.user
-      console.log(user)
-      renderApplication()
+      renderApplication(user)
     }
   )
 }
@@ -39,8 +38,11 @@ const loginUser = (ev) => {
   const passwordValue = form.querySelector('#login-password').value
 
   const auth = getAuth()
-  signInWithEmailAndPassword(auth, emailValue, passwordValue).then(() =>
-    renderApplication()
+  signInWithEmailAndPassword(auth, emailValue, passwordValue).then(
+    (userCredential) => {
+      const user = userCredential.user
+      renderApplication(user)
+    }
   )
 }
 
