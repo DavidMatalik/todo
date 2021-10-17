@@ -1,10 +1,13 @@
+import { app } from './firebaseApp'
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth'
+import { getFirestore, collection, doc, setDoc } from 'firebase/firestore/lite'
 import { createLoginForm, createRegistrationStartingPoint } from './authDisplay'
 
+const db = getFirestore(app)
 let parentElement = null
 let renderApplication = null
 
@@ -26,9 +29,19 @@ const registerNewUserAndLoadApp = (ev) => {
   createUserWithEmailAndPassword(auth, emailValue, passwordValue).then(
     (userCredential) => {
       const user = userCredential.user
-      renderApplication(user)
+      createUserDefaultLists(user).then(() => renderApplication(user))
     }
   )
+}
+
+const createUserDefaultLists = (user) => {
+  const newContextRef = doc(collection(db, user.uid))
+
+  return setDoc(newContextRef, {
+    default: true,
+    id: newContextRef.id,
+    text: 'inbox',
+  })
 }
 
 const loginUserAndLoadApp = (ev) => {
