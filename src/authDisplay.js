@@ -39,7 +39,7 @@ const createRegistrationStartingPoint = (parentElement, registerNewUser) => {
 
   const errorMessage = document.createElement('div')
   errorMessage.id = 'authentication-error'
-  errorMessage.classList.toggle('hide')
+  errorMessage.classList.add('hide')
 
   appendChildren(parentElement, [createAccount, errorMessage])
 }
@@ -47,7 +47,7 @@ const createRegistrationStartingPoint = (parentElement, registerNewUser) => {
 const renderAuthenticationError = (errorText) => {
   const errorElement = document.querySelector('#authentication-error')
   errorElement.textContent = errorText
-  errorElement.classList.toggle('hide')
+  errorElement.classList.remove('hide')
 }
 
 const createNewUserForm = (previousElement) => {
@@ -73,7 +73,6 @@ const createLoginForm = (parentElement, loginUser) => {
   const newUserForm = document.createElement('form')
   newUserForm.addEventListener('submit', (ev) => {
     loginUser(ev)
-    parentElement.remove()
   })
   appendChildren(newUserForm, [emailField, passwordField, submitButton])
 

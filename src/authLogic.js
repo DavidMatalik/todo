@@ -73,12 +73,31 @@ const loginUserAndLoadApp = (ev) => {
   const passwordValue = form.querySelector('#login-password').value
 
   const auth = getAuth()
-  signInWithEmailAndPassword(auth, emailValue, passwordValue).then(
-    (userCredential) => {
+  signInWithEmailAndPassword(auth, emailValue, passwordValue)
+    .then((userCredential) => {
+      parentElement.remove()
+
       const user = userCredential.user
       renderApplication(user)
+    })
+    .catch((error) => {
+      handleLoginError(error)
+    })
+}
+
+const handleLoginError = (error) => {
+  if (error instanceof FirebaseError) {
+    if (error.message === 'Firebase: Error (auth/user-not-found).') {
+      renderAuthenticationError(
+        'There is no user registered with this email address'
+      )
     }
-  )
+    if (error.message === 'Firebase: Error (auth/wrong-password).') {
+      renderAuthenticationError(
+        'This is not the correct password for this user'
+      )
+    }
+  }
 }
 
 export { manageAuthentication }
