@@ -5,12 +5,12 @@
   src: url(Bronova\ Regular.otf);
 }
 
-*, input {
+*,
+input {
   font-family: Bronova;
 }
 
 #container {
-  display: flex;
   justify-content: center;
 }
 
@@ -151,4 +151,12 @@
 #edit-item-field {
   font-size: 2vw;
   width: 100%;
+}
+
+.show-flex {
+  display: flex;
+}
+
+.hide {
+  display: none;
 }

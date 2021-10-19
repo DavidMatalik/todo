@@ -34,25 +34,35 @@ const createRegistrationStartingPoint = (parentElement, registerNewUser) => {
   createAccount.id = 'createAccount'
   createAccount.textContent = 'Create new Account'
   createAccount.addEventListener('click', () =>
-    createNewUserForm(parentElement)
+    createNewUserForm(createAccount)
   )
 
-  parentElement.appendChild(createAccount)
+  const errorMessage = document.createElement('div')
+  errorMessage.id = 'authentication-error'
+  errorMessage.classList.toggle('hide')
+
+  appendChildren(parentElement, [createAccount, errorMessage])
 }
 
-const createNewUserForm = (parentElement) => {
+const renderAuthenticationError = (errorText) => {
+  const errorElement = document.querySelector('#authentication-error')
+  errorElement.textContent = errorText
+  errorElement.classList.toggle('hide')
+}
+
+const createNewUserForm = (previousElement) => {
   const emailField = createEmailField('new-user-email')
   const passwordField = createPasswordField('new-user-password')
   const submitButton = createSubmitButton('new-user-submit')
 
   const newUserForm = document.createElement('form')
+  newUserForm.id = 'authentication-form'
   newUserForm.addEventListener('submit', (ev) => {
     registerUser(ev)
-    parentElement.remove()
   })
   appendChildren(newUserForm, [emailField, passwordField, submitButton])
 
-  parentElement.appendChild(newUserForm)
+  previousElement.after(newUserForm)
 }
 
 const createLoginForm = (parentElement, loginUser) => {
@@ -70,4 +80,8 @@ const createLoginForm = (parentElement, loginUser) => {
   parentElement.appendChild(newUserForm)
 }
 
-export { createLoginForm, createRegistrationStartingPoint }
+export {
+  createLoginForm,
+  createRegistrationStartingPoint,
+  renderAuthenticationError,
+}

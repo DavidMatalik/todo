@@ -5,7 +5,12 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth'
 import { getFirestore, collection, doc, setDoc } from 'firebase/firestore/lite'
-import { createLoginForm, createRegistrationStartingPoint } from './authDisplay'
+import {
+  createLoginForm,
+  createRegistrationStartingPoint,
+  renderAuthenticationError,
+} from './authDisplay'
+import { FirebaseError } from 'firebase/app'
 
 const db = getFirestore(app)
 let parentElement = null
@@ -15,8 +20,8 @@ const manageAuthentication = (specifiedElement, renderApp) => {
   parentElement = specifiedElement
   renderApplication = renderApp
 
-  createRegistrationStartingPoint(parentElement, registerNewUserAndLoadApp)
   createLoginForm(parentElement, loginUserAndLoadApp)
+  createRegistrationStartingPoint(parentElement, registerNewUserAndLoadApp)
 }
 
 const registerNewUserAndLoadApp = (ev) => {
@@ -26,12 +31,29 @@ const registerNewUserAndLoadApp = (ev) => {
   const passwordValue = form.querySelector('#new-user-password').value
 
   const auth = getAuth()
-  createUserWithEmailAndPassword(auth, emailValue, passwordValue).then(
-    (userCredential) => {
+  createUserWithEmailAndPassword(auth, emailValue, passwordValue)
+    .then((userCredential) => {
+      parentElement.remove()
+
       const user = userCredential.user
       createUserDefaultLists(user).then(() => renderApplication(user))
+    })
+    .catch((error) => {
+      handleRegistrationError(error)
+    })
+}
+
+const handleRegistrationError = (error) => {
+  if (error instanceof FirebaseError) {
+    if (error.message === 'Firebase: Error (auth/invalid-email).') {
+      renderAuthenticationError('Please enter a valid email address')
     }
-  )
+    if (error.message === 'Firebase: Error (auth/weak-password).') {
+      renderAuthenticationError(
+        'Please use a Password with at least 6 characters'
+      )
+    }
+  }
 }
 
 const createUserDefaultLists = (user) => {
