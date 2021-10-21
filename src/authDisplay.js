@@ -79,8 +79,19 @@ const createLoginForm = (parentElement, loginUser) => {
   parentElement.appendChild(newUserForm)
 }
 
+const renderLogout = (logoutUser, appElement) => {
+  const logoutButton = document.createElement('button')
+  logoutButton.id = 'logout-button'
+  logoutButton.textContent = 'Logout'
+  logoutButton.addEventListener('click', logoutUser)
+
+  const body = document.querySelector('body')
+  body.insertBefore(logoutButton, appElement)
+}
+
 export {
   createLoginForm,
   createRegistrationStartingPoint,
   renderAuthenticationError,
+  renderLogout,
 }
