@@ -11,6 +11,7 @@ import {
   renderAuthenticationError,
   removeAuthentication,
   renderLogout,
+  clearApplicationData,
   renderStartScreen,
 } from './authDisplay'
 import { FirebaseError } from 'firebase/app'
@@ -68,6 +69,7 @@ const renderLoginContent = (user) => {
 
 const logoutUser = () => {
   auth.signOut().then(() => {
+    clearApplicationData()
     renderStartScreen(appElement)
     createLoginForm(authContainer, loginUserAndLoadApp)
     createRegistrationStartingPoint(authContainer, registerNewUserAndLoadApp)

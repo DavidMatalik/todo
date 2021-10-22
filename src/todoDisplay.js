@@ -3,7 +3,7 @@ current state of objects */
 class TodoDisplay {
   constructor() {
     this.bodyElement = document.querySelector('body')
-    this.contextContainer = document.getElementById('context-container')
+    this.contexts = document.getElementById('contexts')
     this.contextInput = document.getElementById('context-input')
     this.contextButton = document.getElementById('context-add-button')
     this.taskContainer = document.getElementById('task-container')
@@ -53,7 +53,7 @@ class TodoDisplay {
       className
     )
     contextElement.addEventListener('click', this.onClickChangeContext)
-    this.contextContainer.appendChild(contextElement)
+    this.contexts.appendChild(contextElement)
   }
 
   highlightActiveContext(element) {

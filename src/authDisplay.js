@@ -87,6 +87,14 @@ const removeAuthentication = (authContainer) => {
   authContainer.innerHTML = ''
 }
 
+const clearApplicationData = () => {
+  const contexts = document.querySelector('#contexts')
+  contexts.innerHTML = ''
+
+  const tasks = document.querySelector('#tasks')
+  tasks.innerHTML = ''
+}
+
 const renderStartScreen = (appElement) => {
   appElement.classList.add('hide')
   document.querySelector('#logout-button').remove()
@@ -104,5 +112,6 @@ export {
   renderAuthenticationError,
   removeAuthentication,
   renderLogout,
+  clearApplicationData,
   renderStartScreen,
 }
