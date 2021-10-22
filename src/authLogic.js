@@ -15,7 +15,7 @@ import { FirebaseError } from 'firebase/app'
 
 const db = getFirestore(app)
 const auth = getAuth()
-const appElement = document.querySelector('#container')
+const appElement = document.querySelector('#app-container')
 
 let parentElement = null
 let renderApplication = null

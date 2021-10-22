@@ -85,7 +85,7 @@ const renderLogout = (logoutUser, appElement) => {
   logoutButton.textContent = 'Logout'
   logoutButton.addEventListener('click', logoutUser)
 
-  const body = document.querySelector('body')
+  const body = document.querySelector('#container')
   body.insertBefore(logoutButton, appElement)
 }
 

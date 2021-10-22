@@ -13,12 +13,12 @@ const todoController = new TodoController(
   ContextList
 )
 
-const appContainer = document.querySelector('#container')
+const appContainer = document.querySelector('#app-container')
 appContainer.classList.toggle('hide')
 
-const body = document.querySelector('body')
+const container = document.querySelector('#container')
 const authContainer = document.createElement('div')
-body.appendChild(authContainer)
+container.appendChild(authContainer)
 
 const renderTodoApp = (user) => {
   appContainer.classList.add('show-flex')
