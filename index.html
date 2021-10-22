@@ -2,13 +2,19 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta property='og:title' content='Todo App'/>
-    <meta property='og:image' content='https://i.ibb.co/3vCWHy6/todo2-896-504.png'/>
-    <meta property='og:description' content='Here you can add tasks and lists to bring order into your life'/>
-    <meta property='og:url' content='https://davidmatalik.github.io/todo/'/>
-    <meta property='og:image:width' content='896' />
-    <meta property='og:image:height' content='504' />
-    <meta property="og:type" content='website'/>
+    <meta property="og:title" content="Todo App" />
+    <meta
+      property="og:image"
+      content="https://i.ibb.co/3vCWHy6/todo2-896-504.png"
+    />
+    <meta
+      property="og:description"
+      content="Here you can add tasks and lists to bring order into your life"
+    />
+    <meta property="og:url" content="https://davidmatalik.github.io/todo/" />
+    <meta property="og:image:width" content="896" />
+    <meta property="og:image:height" content="504" />
+    <meta property="og:type" content="website" />
     <title>Todos</title>
     <link rel="stylesheet" href="reset.css" />
     <link rel="stylesheet" href="style.css" />
@@ -19,38 +25,40 @@
   </head>
   <body>
     <div id="container">
-      <div id="context-container">
-        <h1 id="heading-context-container" class="heading-container">
-          My lists
-        </h1>
-        <!-- <input id="search-field" type="text" placeholder="Search for"> -->
-        <form id="context-add">
-          <button id="context-add-button">+</button>
-          <input
-            type="text"
-            id="context-input"
-            placeholder="Add a list"
-            maxlength="20"
-          />
-        </form>
-        <div id="lists"></div>
+      <div id="app-container">
+        <div id="context-container">
+          <h1 id="heading-context-container" class="heading-container">
+            My lists
+          </h1>
+          <!-- <input id="search-field" type="text" placeholder="Search for"> -->
+          <form id="context-add">
+            <button id="context-add-button">+</button>
+            <input
+              type="text"
+              id="context-input"
+              placeholder="Add a list"
+              maxlength="20"
+            />
+          </form>
+          <div id="lists"></div>
+        </div>
+        <div id="task-container">
+          <h1 id="heading-task-container" class="heading-container">
+            Current list
+          </h1>
+          <form id="task-add">
+            <button id="task-add-button">+</button>
+            <input
+              type="text"
+              id="task-input"
+              placeholder="Add a task"
+              maxlength="50"
+            />
+          </form>
+          <div id="tasks"></div>
+        </div>
       </div>
-      <div id="task-container">
-        <h1 id="heading-task-container" class="heading-container">
-          Current list
-        </h1>
-        <form id="task-add">
-          <button id="task-add-button">+</button>
-          <input
-            type="text"
-            id="task-input"
-            placeholder="Add a task"
-            maxlength="50"
-          />
-        </form>
-        <div id="tasks"></div>
-      </div>
+      <script src="main.js"></script>
     </div>
-    <script src="main.js"></script>
   </body>
 </html>
