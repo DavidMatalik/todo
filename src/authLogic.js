@@ -9,31 +9,25 @@ import {
   createLoginForm,
   createRegistrationStartingPoint,
   renderAuthenticationError,
+  removeAuthentication,
   renderLogout,
+  renderStartScreen,
 } from './authDisplay'
 import { FirebaseError } from 'firebase/app'
 
 const db = getFirestore(app)
 const auth = getAuth()
-const appElement = document.querySelector('#app-container')
 
-let parentElement = null
+const appElement = document.querySelector('#app-container')
+const authContainer = document.querySelector('#auth-container')
+
 let renderApplication = null
 
-const logoutUser = () => {
-  auth.signOut().then(() => {
-    console.log('user logged out')
-    // Write logic that start of App is rendered
-    // At the moment: Hide/Delete app element and render auth form
-  })
-}
-
-const manageAuthentication = (specifiedElement, renderApp) => {
-  parentElement = specifiedElement
+const manageAuthentication = (renderApp) => {
   renderApplication = renderApp
 
-  createLoginForm(parentElement, loginUserAndLoadApp)
-  createRegistrationStartingPoint(parentElement, registerNewUserAndLoadApp)
+  createLoginForm(authContainer, loginUserAndLoadApp)
+  createRegistrationStartingPoint(authContainer, registerNewUserAndLoadApp)
 }
 
 const registerNewUserAndLoadApp = (ev) => {
@@ -44,19 +38,40 @@ const registerNewUserAndLoadApp = (ev) => {
 
   createUserWithEmailAndPassword(auth, emailValue, passwordValue).then(
     (userCredential) => {
-      parentElement.remove()
-
       const user = userCredential.user
       createUserDefaultLists(user)
         .then(() => {
-          renderApplication(user)
-          renderLogout(logoutUser, appElement)
+          renderLoginContent(user)
         })
         .catch((error) => {
           handleRegistrationError(error)
         })
     }
   )
+}
+
+const createUserDefaultLists = (user) => {
+  const newContextRef = doc(collection(db, user.uid))
+
+  return setDoc(newContextRef, {
+    default: true,
+    id: newContextRef.id,
+    text: 'inbox',
+  })
+}
+
+const renderLoginContent = (user) => {
+  removeAuthentication(authContainer)
+  renderApplication(user)
+  renderLogout(logoutUser, appElement)
+}
+
+const logoutUser = () => {
+  auth.signOut().then(() => {
+    renderStartScreen(appElement)
+    createLoginForm(authContainer, loginUserAndLoadApp)
+    createRegistrationStartingPoint(authContainer, registerNewUserAndLoadApp)
+  })
 }
 
 const handleRegistrationError = (error) => {
@@ -72,16 +87,6 @@ const handleRegistrationError = (error) => {
   }
 }
 
-const createUserDefaultLists = (user) => {
-  const newContextRef = doc(collection(db, user.uid))
-
-  return setDoc(newContextRef, {
-    default: true,
-    id: newContextRef.id,
-    text: 'inbox',
-  })
-}
-
 const loginUserAndLoadApp = (ev) => {
   ev.preventDefault()
   const form = ev.target
@@ -90,11 +95,8 @@ const loginUserAndLoadApp = (ev) => {
 
   signInWithEmailAndPassword(auth, emailValue, passwordValue)
     .then((userCredential) => {
-      parentElement.remove()
-
       const user = userCredential.user
-      renderApplication(user)
-      renderLogout(logoutUser, appElement)
+      renderLoginContent(user)
     })
     .catch((error) => {
       handleLoginError(error)

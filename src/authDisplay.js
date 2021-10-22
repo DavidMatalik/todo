@@ -21,12 +21,6 @@ const createSubmitButton = (naming) => {
   return submitButton
 }
 
-const appendChildren = (parent, children) => {
-  children.forEach((child) => {
-    parent.appendChild(child)
-  })
-}
-
 const createRegistrationStartingPoint = (parentElement, registerNewUser) => {
   registerUser = registerNewUser
 
@@ -42,12 +36,6 @@ const createRegistrationStartingPoint = (parentElement, registerNewUser) => {
   errorMessage.classList.add('hide')
 
   appendChildren(parentElement, [createAccount, errorMessage])
-}
-
-const renderAuthenticationError = (errorText) => {
-  const errorElement = document.querySelector('#authentication-error')
-  errorElement.textContent = errorText
-  errorElement.classList.remove('hide')
 }
 
 const createNewUserForm = (previousElement) => {
@@ -79,6 +67,12 @@ const createLoginForm = (parentElement, loginUser) => {
   parentElement.appendChild(newUserForm)
 }
 
+const renderAuthenticationError = (errorText) => {
+  const errorElement = document.querySelector('#authentication-error')
+  errorElement.textContent = errorText
+  errorElement.classList.remove('hide')
+}
+
 const renderLogout = (logoutUser, appElement) => {
   const logoutButton = document.createElement('button')
   logoutButton.id = 'logout-button'
@@ -89,9 +83,26 @@ const renderLogout = (logoutUser, appElement) => {
   body.insertBefore(logoutButton, appElement)
 }
 
+const removeAuthentication = (authContainer) => {
+  authContainer.innerHTML = ''
+}
+
+const renderStartScreen = (appElement) => {
+  appElement.classList.add('hide')
+  document.querySelector('#logout-button').remove()
+}
+
+const appendChildren = (parent, children) => {
+  children.forEach((child) => {
+    parent.appendChild(child)
+  })
+}
+
 export {
   createLoginForm,
   createRegistrationStartingPoint,
   renderAuthenticationError,
+  removeAuthentication,
   renderLogout,
+  renderStartScreen,
 }
