@@ -23,13 +23,17 @@ const createSubmitButton = (naming) => {
 
 const createRegistrationStartingPoint = (parentElement, registerNewUser) => {
   registerUser = registerNewUser
+  let formCreated = false
 
   const createAccount = document.createElement('button')
   createAccount.id = 'createAccount'
   createAccount.textContent = 'Create new Account'
-  createAccount.addEventListener('click', () =>
-    createNewUserForm(createAccount)
-  )
+  createAccount.addEventListener('click', () => {
+    if (!formCreated) {
+      createNewUserForm(createAccount)
+      formCreated = true
+    }
+  })
 
   const errorMessage = document.createElement('div')
   errorMessage.id = 'authentication-error'
