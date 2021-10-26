@@ -26,10 +26,23 @@ let renderApplication = null
 
 const manageAuthentication = (renderApp) => {
   renderApplication = renderApp
-
-  createLoginForm(authContainer, loginUserAndLoadApp)
-  createRegistrationStartingPoint(authContainer, registerNewUserAndLoadApp)
 }
+
+auth.onAuthStateChanged((user) => {
+  // If no user is logged in
+  if (!user) {
+    createLoginForm(authContainer, loginUserAndLoadApp)
+    createRegistrationStartingPoint(authContainer, registerNewUserAndLoadApp)
+  } else {
+    // User signed in for first time
+    if (user.metadata.creationTime === user.metadata.lastSignInTime) {
+      createUserDefaultLists(user).then(() => renderLoginContent(user))
+      // User was already signed in
+    } else {
+      renderLoginContent(user)
+    }
+  }
+})
 
 const registerNewUserAndLoadApp = (ev) => {
   ev.preventDefault()
@@ -37,18 +50,11 @@ const registerNewUserAndLoadApp = (ev) => {
   const emailValue = form.querySelector('#new-user-email').value
   const passwordValue = form.querySelector('#new-user-password').value
 
-  createUserWithEmailAndPassword(auth, emailValue, passwordValue).then(
-    (userCredential) => {
-      const user = userCredential.user
-      createUserDefaultLists(user)
-        .then(() => {
-          renderLoginContent(user)
-        })
-        .catch((error) => {
-          handleRegistrationError(error)
-        })
-    }
-  )
+  createUserWithEmailAndPassword(
+    auth,
+    emailValue,
+    passwordValue
+  ).catch((error) => handleRegistrationError(error))
 }
 
 const createUserDefaultLists = (user) => {
@@ -71,8 +77,6 @@ const logoutUser = () => {
   auth.signOut().then(() => {
     clearApplicationData()
     renderStartScreen(appElement)
-    createLoginForm(authContainer, loginUserAndLoadApp)
-    createRegistrationStartingPoint(authContainer, registerNewUserAndLoadApp)
   })
 }
 
@@ -95,14 +99,9 @@ const loginUserAndLoadApp = (ev) => {
   const emailValue = form.querySelector('#login-email').value
   const passwordValue = form.querySelector('#login-password').value
 
-  signInWithEmailAndPassword(auth, emailValue, passwordValue)
-    .then((userCredential) => {
-      const user = userCredential.user
-      renderLoginContent(user)
-    })
-    .catch((error) => {
-      handleLoginError(error)
-    })
+  signInWithEmailAndPassword(auth, emailValue, passwordValue).catch((error) => {
+    handleLoginError(error)
+  })
 }
 
 const handleLoginError = (error) => {
