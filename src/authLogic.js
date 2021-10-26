@@ -65,6 +65,20 @@ const createUserDefaultLists = (user) => {
     default: true,
     id: newContextRef.id,
     text: 'inbox',
+  }).then(() => {
+    const inboxId = newContextRef.id
+
+    createDefaultTask('Double click me to edit my name', user.uid, inboxId)
+    createDefaultTask('Create a new list', user.uid, inboxId)
+    createDefaultTask('Click and hold me to drag me', user.uid, inboxId)
+  })
+}
+
+const createDefaultTask = (text, userId, contextId) => {
+  const newTaskRef = doc(collection(db, userId, contextId, 'tasks'))
+  setDoc(newTaskRef, {
+    id: newTaskRef.id,
+    text: text,
   })
 }
 
