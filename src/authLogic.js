@@ -10,6 +10,7 @@ import {
   createRegistrationStartingPoint,
   renderAuthenticationError,
   removeAuthentication,
+  renderUserInformation,
   renderLogout,
   clearApplicationData,
   renderStartScreen,
@@ -70,6 +71,7 @@ const createUserDefaultLists = (user) => {
 const renderLoginContent = (user) => {
   removeAuthentication(authContainer)
   renderApplication(user)
+  renderUserInformation(user.email)
   renderLogout(logoutUser, appElement)
 }
 

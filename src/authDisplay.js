@@ -1,4 +1,5 @@
 let registerUser = null
+const accountContainer = document.querySelector('#account-container')
 
 const createEmailField = (naming) => {
   const emailField = document.createElement('input')
@@ -83,8 +84,14 @@ const renderLogout = (logoutUser, appElement) => {
   logoutButton.textContent = 'Logout'
   logoutButton.addEventListener('click', logoutUser)
 
-  const body = document.querySelector('#container')
-  body.insertBefore(logoutButton, appElement)
+  accountContainer.appendChild(logoutButton)
+}
+
+const renderUserInformation = (email) => {
+  const userEmail = document.createElement('div')
+  userEmail.innerText = email
+
+  accountContainer.appendChild(userEmail)
 }
 
 const removeAuthentication = (authContainer) => {
@@ -101,7 +108,7 @@ const clearApplicationData = () => {
 
 const renderStartScreen = (appElement) => {
   appElement.classList.add('hide')
-  document.querySelector('#logout-button').remove()
+  accountContainer.innerHTML = ''
 }
 
 const appendChildren = (parent, children) => {
@@ -115,6 +122,7 @@ export {
   createRegistrationStartingPoint,
   renderAuthenticationError,
   removeAuthentication,
+  renderUserInformation,
   renderLogout,
   clearApplicationData,
   renderStartScreen,
