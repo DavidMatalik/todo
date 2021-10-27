@@ -1,10 +1,12 @@
 let registerUser = null
 const accountContainer = document.querySelector('#account-container')
+const authContainer = document.querySelector('#auth-container')
 
 const createEmailField = (naming) => {
   const emailField = document.createElement('input')
   emailField.id = `${naming}`
   emailField.type = 'email'
+  emailField.placeholder = 'Email: '
   return emailField
 }
 
@@ -12,23 +14,25 @@ const createPasswordField = (naming) => {
   const passwordField = document.createElement('input')
   passwordField.id = `${naming}`
   passwordField.type = 'password'
+  passwordField.placeholder = 'Password: '
   return passwordField
 }
 
-const createSubmitButton = (naming) => {
+const createSubmitButton = (id, value) => {
   const submitButton = document.createElement('input')
-  submitButton.id = `${naming}`
+  submitButton.id = id
   submitButton.type = 'submit'
+  submitButton.value = value
   return submitButton
 }
 
-const createRegistrationStartingPoint = (parentElement, registerNewUser) => {
+const createRegistrationStartingPoint = (registerNewUser) => {
   registerUser = registerNewUser
   let formCreated = false
 
   const createAccount = document.createElement('button')
-  createAccount.id = 'createAccount'
-  createAccount.textContent = 'Create new Account'
+  createAccount.id = 'create-account'
+  createAccount.textContent = 'Sign up'
   createAccount.addEventListener('click', () => {
     if (!formCreated) {
       createNewUserForm(createAccount)
@@ -37,19 +41,19 @@ const createRegistrationStartingPoint = (parentElement, registerNewUser) => {
   })
 
   const errorMessage = document.createElement('div')
-  errorMessage.id = 'authentication-error'
+  errorMessage.id = 'auth-error'
   errorMessage.classList.add('hide')
 
-  appendChildren(parentElement, [createAccount, errorMessage])
+  appendChildren(authContainer, [createAccount, errorMessage])
 }
 
 const createNewUserForm = (previousElement) => {
   const emailField = createEmailField('new-user-email')
   const passwordField = createPasswordField('new-user-password')
-  const submitButton = createSubmitButton('new-user-submit')
+  const submitButton = createSubmitButton('new-user-submit', 'Register')
 
   const newUserForm = document.createElement('form')
-  newUserForm.id = 'authentication-form'
+  newUserForm.classList.add('auth-form')
   newUserForm.addEventListener('submit', (ev) => {
     registerUser(ev)
   })
@@ -58,22 +62,23 @@ const createNewUserForm = (previousElement) => {
   previousElement.after(newUserForm)
 }
 
-const createLoginForm = (parentElement, loginUser) => {
+const createLoginForm = (loginUser) => {
   const emailField = createEmailField('login-email')
   const passwordField = createPasswordField('login-password')
-  const submitButton = createSubmitButton('login-submit')
+  const submitButton = createSubmitButton('login-submit', 'Login')
 
   const newUserForm = document.createElement('form')
+  newUserForm.classList.add('auth-form')
   newUserForm.addEventListener('submit', (ev) => {
     loginUser(ev)
   })
   appendChildren(newUserForm, [emailField, passwordField, submitButton])
 
-  parentElement.appendChild(newUserForm)
+  authContainer.appendChild(newUserForm)
 }
 
 const renderAuthenticationError = (errorText) => {
-  const errorElement = document.querySelector('#authentication-error')
+  const errorElement = document.querySelector('#auth-error')
   errorElement.textContent = errorText
   errorElement.classList.remove('hide')
 }
@@ -94,8 +99,9 @@ const renderUserInformation = (email) => {
   accountContainer.appendChild(userEmail)
 }
 
-const removeAuthentication = (authContainer) => {
+const removeAuthentication = () => {
   authContainer.innerHTML = ''
+  authContainer.classList.remove('full-view')
 }
 
 const clearApplicationData = () => {
@@ -109,6 +115,7 @@ const clearApplicationData = () => {
 const renderStartScreen = (appElement) => {
   appElement.classList.add('hide')
   accountContainer.innerHTML = ''
+  authContainer.classList.add('full-view')
 }
 
 const appendChildren = (parent, children) => {

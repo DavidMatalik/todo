@@ -21,7 +21,6 @@ const db = getFirestore(app)
 const auth = getAuth()
 
 const appElement = document.querySelector('#app-container')
-const authContainer = document.querySelector('#auth-container')
 
 let renderApplication = null
 
@@ -32,8 +31,8 @@ const manageAuthentication = (renderApp) => {
 auth.onAuthStateChanged((user) => {
   // If no user is logged in
   if (!user) {
-    createLoginForm(authContainer, loginUserAndLoadApp)
-    createRegistrationStartingPoint(authContainer, registerNewUserAndLoadApp)
+    createLoginForm(loginUserAndLoadApp)
+    createRegistrationStartingPoint(registerNewUserAndLoadApp)
   } else {
     // User signed in for first time
     if (user.metadata.creationTime === user.metadata.lastSignInTime) {
@@ -83,7 +82,7 @@ const createDefaultTask = (text, userId, contextId) => {
 }
 
 const renderLoginContent = (user) => {
-  removeAuthentication(authContainer)
+  removeAuthentication()
   renderApplication(user)
   renderUserInformation(user.email)
   renderLogout(logoutUser, appElement)
