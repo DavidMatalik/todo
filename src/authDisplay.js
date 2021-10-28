@@ -95,6 +95,7 @@ const renderLogout = (logoutUser, appElement) => {
 const renderUserInformation = (email) => {
   const userEmail = document.createElement('div')
   userEmail.innerText = email
+  userEmail.id = 'account-email'
 
   accountContainer.appendChild(userEmail)
 }
