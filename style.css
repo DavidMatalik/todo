@@ -11,6 +11,10 @@ button {
   font-family: Bronova;
 }
 
+span {
+  cursor: default;
+}
+
 #app-container {
   justify-content: center;
 }
@@ -73,9 +77,41 @@ input[type='password']::placeholder {
   background: rgb(0, 0, 0);
 }
 
+#account-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 83vw;
+  height: 4vh;
+  line-height: 4vh;
+  background-color: rgb(112, 135, 114);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#account-email {
+  color: white;
+  cursor: default;
+  margin-right: 2vw;
+  font-weight: bolder;
+  text-shadow: 0.1vw 0.1vw black;
+}
+
+#logout-button {
+  cursor: pointer;
+  margin-right: 4vw;
+  color: white;
+  font-size: 16px;
+  font-weight: bolder;
+  text-shadow: 0.1vw 0.1vw black;
+}
+
+#logout-button:hover {
+  color: palegoldenrod;
+}
+
 #context-container {
   width: 23vw;
-  height: 100vh;
+  height: 96vh;
   background-color: rgb(112, 135, 114, 0.8);
 }
 
@@ -113,7 +149,7 @@ input[type='password']::placeholder {
 
 #task-container {
   width: 60vw;
-  height: 100vh;
+  height: 96vh;
   background-color: rgb(112, 135, 114, 0.5);
   background: url('img/background-flower.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -123,6 +159,7 @@ input[type='password']::placeholder {
 }
 
 .heading-container {
+  cursor: default;
   margin: 1.5vw;
   margin-bottom: 0;
   display: inline-block;
