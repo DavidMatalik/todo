@@ -19,6 +19,11 @@ span {
   justify-content: center;
 }
 
+#startscreen-container {
+  background: url('img/background-flower.jpg') no-repeat;
+  background-size: cover;
+}
+
 #auth-container {
   display: flex;
   flex-direction: column;
@@ -78,7 +83,6 @@ input[type='password']::placeholder {
 }
 
 #account-container {
-  display: flex;
   justify-content: flex-end;
   width: 83vw;
   height: 4vh;
