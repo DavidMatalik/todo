@@ -105,6 +105,7 @@ const renderUserInformation = (email) => {
 
 const removeAuthentication = () => {
   authContainer.innerHTML = ''
+  startscreenContainer.classList.remove('show-flex')
   startscreenContainer.classList.add('hide')
 }
 
@@ -121,6 +122,7 @@ const renderStartScreen = (appElement) => {
   accountContainer.innerHTML = ''
   accountContainer.classList.add('hide')
   accountContainer.classList.add('show-flex')
+  startscreenContainer.classList.add('show-flex')
   startscreenContainer.classList.remove('hide')
 }
 
