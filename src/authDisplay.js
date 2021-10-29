@@ -1,6 +1,7 @@
 let registerUser = null
 const accountContainer = document.querySelector('#account-container')
 const authContainer = document.querySelector('#auth-container')
+const startscreenContainer = document.querySelector('#startscreen-container')
 
 const createEmailField = (naming) => {
   const emailField = document.createElement('input')
@@ -98,11 +99,13 @@ const renderUserInformation = (email) => {
   userEmail.id = 'account-email'
 
   accountContainer.appendChild(userEmail)
+  accountContainer.classList.add('show-flex')
+  accountContainer.classList.remove('hide')
 }
 
 const removeAuthentication = () => {
   authContainer.innerHTML = ''
-  authContainer.classList.remove('full-view')
+  startscreenContainer.classList.add('hide')
 }
 
 const clearApplicationData = () => {
@@ -116,7 +119,9 @@ const clearApplicationData = () => {
 const renderStartScreen = (appElement) => {
   appElement.classList.add('hide')
   accountContainer.innerHTML = ''
-  authContainer.classList.add('full-view')
+  accountContainer.classList.add('hide')
+  accountContainer.classList.add('show-flex')
+  startscreenContainer.classList.remove('hide')
 }
 
 const appendChildren = (parent, children) => {
