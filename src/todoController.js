@@ -101,6 +101,8 @@ class TodoController {
   }
 
   onClickDeleteItem(_this, event) {
+    event.stopPropagation()
+
     const elementToDelete = _this.todoDisplay.getElementToDelete(event)
     const itemToDeleteId = _this.todoDisplay.getItemId(elementToDelete)
     const className = _this.todoDisplay.getClassName(elementToDelete)
@@ -121,8 +123,11 @@ class TodoController {
       elementWithHandler
     )
     const clickedContext = _this.contextList.getContext(clickedContextElementId)
-    // Change active Context
-    await clickedContext.init(this.user)
+    if (clickedContext) {
+      // Change active Context
+      await clickedContext.init(this.user)
+    }
+
     this.contextList.setActiveContext(clickedContext)
     // Display Tasks of active Context
     const tasks = clickedContext.taskList
